@@ -3,7 +3,7 @@
  * @author stef (stefanoss1498@gmail.com)
  * @brief Distributes public functions that facilitate a simple design by
  * contract support through the std::logic_error exception hierarchy.
- * @version 0.1
+ * @version 0.2
  * @date 2021-09-08
  *
  * @copyright Copyright (c) 2021
@@ -40,7 +40,7 @@ void invariant (bool expression, const std::string &what_arg = "");
  *
  * @throws dbc::precondition_violation if the boolean expression is false
  */
-void precondition (bool expression, const std::string &what_arg = "");
+void require (bool expression, const std::string &what_arg = "");
 
 /**
  * @brief Validates a function postcondition which is abstracted with a boolean
@@ -53,7 +53,7 @@ void precondition (bool expression, const std::string &what_arg = "");
  *
  * @throws dbc::postcondition_violation if the boolean expression is false
  */
-void postcondition (bool expression, const std::string &what_arg = "");
+void ensure (bool expression, const std::string &what_arg = "");
 
 }
 
