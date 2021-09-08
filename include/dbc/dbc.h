@@ -12,6 +12,7 @@
 #ifndef DBC_H
 #define DBC_H
 
+#include "invariant_violation.h"
 #include <string>
 
 namespace dbc
