@@ -130,6 +130,25 @@ ensure_throws_postcondition_violation_if_false ()
     }
 }
 
+inline void
+ensure_throws_postcondition_violation_if_false_with_custom_msg ()
+{
+  auto what = "postcondition violation";
+  try
+    {
+      dbc::ensure (false, what);
+    }
+  catch (dbc::postcondition_violation &e)
+    {
+      DBC_ASSERT_EQ (strcmp (e.what (), what), 0);
+      DBC_SUCCEED ();
+    }
+  catch (...)
+    {
+      DBC_FAIL ();
+    }
+}
+
 }
 }
 
@@ -159,6 +178,7 @@ test_ensure ()
 {
   ensure_doesnt_throw_if_true ();
   ensure_throws_postcondition_violation_if_false ();
+  ensure_throws_postcondition_violation_if_false_with_custom_msg ();
 }
 
 }
