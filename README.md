@@ -1,7 +1,7 @@
 # Dbc
 
 Dbc is a C++ library, that facilitates a simple support for the Design By
-Contract framework.
+Contract framework through the std::logic_error exception hierarchy.
 
 
 ## Before use
