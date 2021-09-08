@@ -7,3 +7,13 @@ if (MSVC)
 else()
   add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
+
+add_library(${PROJECT_NAME} )
+
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+set(SUBDIRECTORIES include src tests)
+
+foreach(VAR ${SUBDIRECTORIES})
+	add_subdirectory(${VAR})
+endforeach()
