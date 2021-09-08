@@ -27,7 +27,7 @@ invariant_doesnt_throw_if_true ()
 }
 
 inline void
-invariant_throws_if_false ()
+invariant_throws_invariant_violation_if_false ()
 {
   try
     {
@@ -44,7 +44,7 @@ invariant_throws_if_false ()
 }
 
 inline void
-invariant_throws_if_false_with_custom_msg ()
+invariant_throws_invariant_violation_if_false_with_custom_msg ()
 {
   auto what = "invariant violation";
   try
@@ -71,7 +71,7 @@ require_doesnt_throw_if_true ()
 }
 
 inline void
-require_throws_if_false ()
+require_throws_precondition_violation_if_false ()
 {
   try
     {
@@ -88,7 +88,7 @@ require_throws_if_false ()
 }
 
 inline void
-require_throws_if_false_with_custom_msg ()
+require_throws_precondition_violation_if_false_with_custom_msg ()
 {
   auto what = "precondition violation";
   try
@@ -98,6 +98,30 @@ require_throws_if_false_with_custom_msg ()
   catch (dbc::precondition_violation &e)
     {
       DBC_ASSERT_EQ (strcmp (e.what (), what), 0);
+      DBC_SUCCEED ();
+    }
+  catch (...)
+    {
+      DBC_FAIL ();
+    }
+}
+
+inline void
+ensure_doesnt_throw_if_true ()
+{
+  dbc::ensure (true);
+  DBC_SUCCEED ();
+}
+
+inline void
+ensure_throws_postcondition_violation_if_false ()
+{
+  try
+    {
+      dbc::ensure (false);
+    }
+  catch (dbc::postcondition_violation &e)
+    {
       DBC_SUCCEED ();
     }
   catch (...)
@@ -118,16 +142,23 @@ inline void
 test_invariant ()
 {
   invariant_doesnt_throw_if_true ();
-  invariant_throws_if_false ();
-  invariant_throws_if_false_with_custom_msg ();
+  invariant_throws_invariant_violation_if_false ();
+  invariant_throws_invariant_violation_if_false_with_custom_msg ();
 }
 
 inline void
 test_require ()
 {
   require_doesnt_throw_if_true ();
-  require_throws_if_false ();
-  require_throws_if_false_with_custom_msg ();
+  require_throws_precondition_violation_if_false ();
+  require_throws_precondition_violation_if_false_with_custom_msg ();
+}
+
+inline void
+test_ensure ()
+{
+  ensure_doesnt_throw_if_true ();
+  ensure_throws_postcondition_violation_if_false ();
 }
 
 }
@@ -137,5 +168,6 @@ main ()
 {
   test_invariant ();
   test_require ();
+  test_ensure ();
   return EXIT_SUCCESS;
 }

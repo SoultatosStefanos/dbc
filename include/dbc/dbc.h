@@ -13,6 +13,7 @@
 #define DBC_H
 
 #include "invariant_violation.h"
+#include "postcondition_violation.h"
 #include "precondition_violation.h"
 #include <string>
 
@@ -20,11 +21,12 @@ namespace dbc
 {
 
 /**
- * @brief Validates a class invariant which is abstracted with a boolean
+ * @brief Validates a class/loop invariant which is abstracted with a boolean
  * expression.
  * Raises a dbc::invariant_violation if the boolean expression is false
  *
- * @param expression the boolean expression that abstracts the class invariant
+ * @param expression the boolean expression that abstracts the class/loop
+ * invariant
  * @param what_arg an explanatory error message
  *
  * @throws dbc::invariant_violation if the boolean expression is false

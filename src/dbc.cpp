@@ -10,7 +10,6 @@
  */
 
 #include "dbc/dbc.h"
-#include <stdexcept>
 
 namespace dbc
 {
@@ -27,6 +26,13 @@ require (bool expression, const std::string &what_arg)
 {
   if (!expression)
     throw precondition_violation (what_arg);
+}
+
+void
+ensure (bool expression, const std::string &what_arg)
+{
+  if (!expression)
+    throw postcondition_violation (what_arg);
 }
 
 }

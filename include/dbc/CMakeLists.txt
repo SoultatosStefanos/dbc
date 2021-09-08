@@ -1,4 +1,4 @@
-set(FILES dbc.h invariant_violation.h precondition_violation.h contract_violation.h)
+set(FILES dbc.h invariant_violation.h precondition_violation.h  postcondition_violation.h contract_violation.h)
 set(SUBDIRECTORIES )
 
 foreach(VAR ${SUBDIRECTORIES})
