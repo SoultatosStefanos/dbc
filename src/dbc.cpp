@@ -19,7 +19,14 @@ void
 invariant (bool expression, const std::string &what_arg)
 {
   if (!expression)
-    throw dbc::invariant_violation (what_arg);
+    throw invariant_violation (what_arg);
+}
+
+void
+require (bool expression, const std::string &what_arg)
+{
+  if (!expression)
+    throw precondition_violation (what_arg);
 }
 
 }

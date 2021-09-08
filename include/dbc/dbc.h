@@ -13,6 +13,7 @@
 #define DBC_H
 
 #include "invariant_violation.h"
+#include "precondition_violation.h"
 #include <string>
 
 namespace dbc
