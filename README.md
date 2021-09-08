@@ -1,6 +1,6 @@
 # Dbc
 
-Dbc is a C++ library, that facilitates a simple support for the Design By
+Dbc is a C++ library, that facilitates simple support for the Design By
 Contract framework through the std::logic_error exception hierarchy.
 
 
