@@ -17,7 +17,7 @@
 #define DBC_SUCCEED()                                                          \
   std::cout << "[ \033[1;32mPASSED \033[0m] " << __FUNCTION__ << std::endl;
 
-#define DBC__FAIL()                                                            \
+#define DBC_FAIL()                                                             \
   std::cerr << "[ \033[1;31mFAILED \033[0m] " << __FUNCTION__                  \
             << " at " __FILE__ << ", " << __LINE__ << std::endl;               \
   return;

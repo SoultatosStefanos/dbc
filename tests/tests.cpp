@@ -11,6 +11,7 @@
 
 #include "dbc/dbc.h"
 #include "dbctest.h"
+#include <string.h>
 
 namespace dbc
 {
@@ -38,7 +39,26 @@ invariant_throws_if_false ()
     }
   catch (...)
     {
-      DBC__FAIL ();
+      DBC_FAIL ();
+    }
+}
+
+inline void
+invariant_throws_if_false_with_custom_msg ()
+{
+  auto what = "invariant violation";
+  try
+    {
+      dbc::invariant (false, what);
+    }
+  catch (dbc::invariant_violation &e)
+    {
+      DBC_ASSERT_EQ (strcmp (e.what (), what), 0);
+      DBC_SUCCEED ();
+    }
+  catch (...)
+    {
+      DBC_FAIL ();
     }
 }
 
@@ -52,6 +72,7 @@ main ()
 {
   invariant_doesnt_throw_if_true ();
   invariant_throws_if_false ();
+  invariant_throws_if_false_with_custom_msg ();
 
   return EXIT_SUCCESS;
 }
