@@ -1,4 +1,4 @@
-set(FILES tests.cpp dbctest.h)
+set(FILES tests.cpp dbctest.hpp)
 set(EXECUTABLE dbc_tests)
 set(SUBDIRECTORIES )
 

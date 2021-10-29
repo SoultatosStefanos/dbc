@@ -1,15 +1,14 @@
 /**
  * @file sample2.cpp
- * @author stef (stefanoss1498@gmail.com)
+ * @author Soultatos Stefanos (stefanoss1498@gmail.com)
  * @brief Contains a code sample that makes use of the dbc library.
- * @version 0.1
- * @date 2021-09-08
+ * @version 2.0
+ * @date 2021-10-29
  *
  * @copyright Copyright (c) 2021
  *
  */
-
-#include "dbc/dbc.h"
+#include "dbc/dbc.hpp"
 
 namespace
 {

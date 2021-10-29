@@ -1,16 +1,14 @@
 /**
- * @file dbctest.h
- * @author stef (stefanoss1498@gmail.com)
+ * @file dbctest.hpp
+ * @author Soultatos Stefanos (stefanoss1498@gmail.com)
  * @brief Contains a custom unit testing framework.
- * @version 0.1
- * @date 2021-09-08
+ * @version 2.0
+ * @date 2021-10-29
  *
  * @copyright Copyright (c) 2021
  *
  */
-
-#ifndef DBCTEST_H
-#define DBCTEST_H
+#pragma once
 
 #include <iostream>
 
@@ -33,5 +31,3 @@
 #define DBC_ASSERT_EQ(lhs, rhs) DBC_ASSERT_TRUE ((lhs == rhs))
 
 #define DBC_ASSERT_NE(lhs, rhs) DBC_ASSERT_FALSE ((lhs == rhs))
-
-#endif

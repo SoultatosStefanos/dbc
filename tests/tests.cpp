@@ -1,21 +1,18 @@
 /**
  * @file tests.cpp
- * @author stef (stefanoss1498@gmail.com)
+ * @author Soultatos Stefanos (stefanoss1498@gmail.com)
  * @brief Contains a concrete test case for the dbc library.
- * @version 0.1
- * @date 2021-09-08
+ * @version 2.0
+ * @date 2021-10-29
  *
  * @copyright Copyright (c) 2021
  *
  */
-
-#include "dbc/dbc.h"
-#include "dbctest.h"
+#include "dbc/dbc.hpp"
+#include "dbctest.hpp"
 #include <string.h>
 
-namespace dbc
-{
-namespace test
+namespace dbc::test
 {
 
 inline void
@@ -150,7 +147,6 @@ ensure_throws_postcondition_violation_if_false_with_custom_msg ()
 }
 
 }
-}
 
 using namespace dbc::test;
 
@@ -183,8 +179,8 @@ test_ensure ()
 
 }
 
-int
-main ()
+auto
+main () -> int
 {
   test_invariant ();
   test_require ();
