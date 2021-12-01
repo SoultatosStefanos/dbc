@@ -1,10 +1,10 @@
 # Dbc
 
-Dbc is a C++ library, that facilitates simple support for the Design By
-Contract framework through the std::logic_error exception hierarchy.
+Dbc is a simple, header-only, C++ library, that facilitates simple support for
+the Design By Contract framework, at debug builds, through public macros.
 
 ## Before use
-Requires CMake 3.13 latest version.
+Requires C++20 and CMake 3.13 latest versions.
 
 ## Running the test cases
 

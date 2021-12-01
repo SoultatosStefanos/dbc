@@ -14,16 +14,16 @@
 namespace {
 
 //
-// Showcase of the loop invariant mechanism.
+// Showcase of a loop invariant.
 //
 //
 void dostuff_with_ordered_array(std::array<int, 5> ordered)
 {
-    auto i = 1;
-    while(i != 5) {
-        Dbc::invariant(ordered[i] > ordered[i - 1]); // loop invariant
+    for(auto i = 1; i < 5; ++i) {
+        INVARIANT(ordered[i] > ordered[i - 1]);
         // do stuff
-        Dbc::invariant(ordered[i] > ordered[i - 1]); // loop invariant
+        // ....
+        INVARIANT(ordered[i] > ordered[i - 1]);
     }
 }
 

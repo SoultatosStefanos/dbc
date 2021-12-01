@@ -17,11 +17,11 @@ namespace {
 // Precondition: the integers are non negative
 // Postcondition: the returned value is non negative
 //
-int sum_non_negative_ints(const int a, const int b)
+int sum_non_negative(int a, int b)
 {
-    Dbc::require(a >= 0 && b >= 0); // precondition
+    PRECONDITION(a >= 0 and b >= 0);
     auto sum = a + b;
-    Dbc::ensure(sum >= 0); // postcondition
+    POSTCONDITION(sum >= 0);
     return sum;
 }
 

@@ -12,86 +12,28 @@
 
 namespace {
 
-class vehicle // sample interface
-{
+// Showcase of encapsulation with dbc.
+// Class invariant: v must be positive.
+class X {
 public:
-    virtual ~vehicle() = default;
-
-    bool engine_works() const noexcept // class invariant
+    auto var() const -> int
     {
-        return true;
+        INVARIANT(v > 0);
+        return v;
     }
 
-    bool engine_running() const noexcept
+    void set_var(int _v)
     {
-        Dbc::invariant(engine_works());
-        return engine_running_impl();
+        INVARIANT(v > 0);
+        PRECONDITION(_v > 0); // same as
+        PRECONDITION(_v > 0, "found _v == " << _v); // for more debug info
+        v = _v;
+        POSTCONDITION(v == _v); // same as
+        POSTCONDITION(v == _v, "v is actually: " << _v); // for more debug info
+        INVARIANT(v > 0);
     }
-
-    //
-    // Double invariant validation because of mutator method.
-    // Ensuring and requiring through the class interface.
-    //
-    void start_engine()
-    {
-        Dbc::invariant(engine_works());
-        Dbc::require(!engine_running());
-        start_engine_impl();
-        Dbc::ensure(engine_running());
-        Dbc::invariant(engine_works());
-    }
-
-    //
-    // Double invariant validation because of mutator method.
-    // Ensuring and requiring through the class interface.
-    //
-    void stop_engine()
-    {
-        Dbc::invariant(engine_works());
-        Dbc::require(engine_running());
-        stop_engine_impl();
-        Dbc::ensure(!engine_running());
-        Dbc::invariant(engine_works());
-    }
-protected:
-    virtual bool engine_running_impl() const noexcept = 0;
-    virtual void start_engine_impl() = 0;
-    virtual void stop_engine_impl() = 0;
-};
-
-class car : public vehicle {
-public:
-    car(): engine_running_(false){};
-    ~car() = default;
-
-    bool engine_running_impl() const noexcept override
-    {
-        return engine_running_;
-    }
-
-    std::string engine_sound() const
-    {
-        Dbc::invariant(engine_works());
-        return sound;
-    }
-
-    //
-    // Postconditions may be strengthened down the inheritance chain.
-    // Preconditions shouldn't be strengthened down the inheritance chain.
-    //
-    //
-    void start_engine_impl() override
-    {
-        engine_running_ = true;
-        sound = "brumbrum";
-        Dbc::ensure(engine_sound()
-                    == "brumbrum"); // may add other postconditions
-    }
-
-    void stop_engine_impl() override { engine_running_ = false; }
 private:
-    bool engine_running_;
-    std::string sound;
+    int v{2};
 };
 
 } // namespace
