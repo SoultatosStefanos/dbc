@@ -11,24 +11,20 @@
 #include "dbc/dbc.hpp"
 #include <array>
 
-namespace
-{
+namespace {
 
 //
 // Showcase of the loop invariant mechanism.
 //
 //
-void
-dostuff_with_ordered_array (std::array<int, 5> ordered)
+void dostuff_with_ordered_array(std::array<int, 5> ordered)
 {
-
-  auto i = 1;
-  while (i != 5)
-    {
-      dbc::invariant (ordered[i] > ordered[i - 1]); // loop invariant
-      // do stuff
-      dbc::invariant (ordered[i] > ordered[i - 1]); // loop invariant
+    auto i = 1;
+    while(i != 5) {
+        Dbc::invariant(ordered[i] > ordered[i - 1]); // loop invariant
+        // do stuff
+        Dbc::invariant(ordered[i] > ordered[i - 1]); // loop invariant
     }
 }
 
-}
+} // namespace

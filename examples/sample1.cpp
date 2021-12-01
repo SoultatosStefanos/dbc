@@ -11,20 +11,18 @@
 
 #include "dbc/dbc.hpp"
 
-namespace
-{
+namespace {
 
 //
 // Precondition: the integers are non negative
 // Postcondition: the returned value is non negative
 //
-int
-sum_non_negative_ints (const int a, const int b)
+int sum_non_negative_ints(const int a, const int b)
 {
-  dbc::require (a >= 0 && b >= 0); // precondition
-  auto sum = a + b;
-  dbc::ensure (sum >= 0); // postcondition
-  return sum;
+    Dbc::require(a >= 0 && b >= 0); // precondition
+    auto sum = a + b;
+    Dbc::ensure(sum >= 0); // postcondition
+    return sum;
 }
 
-}
+} // namespace

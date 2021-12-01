@@ -1,4 +1,3 @@
-
 set(SUBDIRECTORIES dbc)
 
 foreach(VAR ${SUBDIRECTORIES})
