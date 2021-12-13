@@ -26,10 +26,10 @@ public:
     {
         INVARIANT(v > 0);
         PRECONDITION(_v > 0); // same as
-        PRECONDITION(_v > 0, "found _v == " << _v); // for more debug info
+        PRECONDITION(_v > 0, "found _v == " << var()); // for more debug info
         v = _v;
         POSTCONDITION(v == _v); // same as
-        POSTCONDITION(v == _v, "v is actually: " << _v); // for more debug info
+        POSTCONDITION(v == _v, "v is actually: " << var()); // for more  info
         INVARIANT(v > 0);
     }
 private:

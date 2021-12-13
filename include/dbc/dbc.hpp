@@ -28,29 +28,52 @@
 #else
 
 #define DBC_FAIL(context, condition, message)                                  \
-    std::cerr << context << " (" << #condition << "), "                        \
-              << "function: " << __FUNCTION__ << ", file: " << __FILE__        \
-              << ", line: " << __LINE__ << "." << '\n'                         \
-              << message << '\n',                                              \
-        std::terminate();
+    do {                                                                       \
+        std::cerr << context << " (" << #condition << "), "                    \
+                  << "function: " << __FUNCTION__ << ", file: " << __FILE__    \
+                  << ", line: " << __LINE__ << "." << '\n'                     \
+                  << message << '\n';                                          \
+        std::terminate();                                                      \
+    }                                                                          \
+    while(0)
 
 #define DBC_INVARIANT1(condition)                                              \
-    if(!(condition)) DBC_FAIL("Invariant violation:", condition, "")
+    do {                                                                       \
+        if(!(condition)) DBC_FAIL("Invariant violation:", condition, "");      \
+    }                                                                          \
+    while(0)
 
 #define DBC_INVARIANT2(condition, message)                                     \
-    if(!(condition)) DBC_FAIL("Invariant violation:", condition, message)
+    do {                                                                       \
+        if(!(condition)) DBC_FAIL("Invariant violation:", condition, message); \
+    }                                                                          \
+    while(0)
 
 #define DBC_PRECONDITION1(condition)                                           \
-    if(!(condition)) DBC_FAIL("Precondition violation:", condition, "")
+    do {                                                                       \
+        if(!(condition)) DBC_FAIL("Precondition violation:", condition, "");   \
+    }                                                                          \
+    while(0)
 
 #define DBC_PRECONDITION2(condition, message)                                  \
-    if(!(condition)) DBC_FAIL("Precondition violation:", condition, message)
+    do {                                                                       \
+        if(!(condition))                                                       \
+            DBC_FAIL("Precondition violation:", condition, message);           \
+    }                                                                          \
+    while(0)
 
 #define DBC_POSTCONDITION1(condition)                                          \
-    if(!(condition)) DBC_FAIL("Postcondition violation:", condition, "")
+    do {                                                                       \
+        if(!(condition)) DBC_FAIL("Postcondition violation:", condition, "");  \
+    }                                                                          \
+    while(0)
 
 #define DBC_POSTCONDITION2(condition, message)                                 \
-    if(!(condition)) DBC_FAIL("Postcondition violation:", condition, message)
+    do {                                                                       \
+        if(!(condition))                                                       \
+            DBC_FAIL("Postcondition violation:", condition, message);          \
+    }                                                                          \
+    while(0)
 
 #endif
 
