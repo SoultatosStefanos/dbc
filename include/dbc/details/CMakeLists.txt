@@ -1,5 +1,5 @@
-set(FILES dbc.hpp )
-set(SUBDIRECTORIES details)
+set(FILES dbc_private.hpp )
+set(SUBDIRECTORIES )
 
 foreach(VAR ${SUBDIRECTORIES})
 	add_subdirectory(${VAR})
