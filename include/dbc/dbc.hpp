@@ -14,7 +14,20 @@
 
 #include <iostream>
 
-namespace dbc::details {
+namespace dbc {
+
+/**
+ * @brief Generic contract violation exception, covers pre/post condition plus
+ * invariant violations
+ *
+ */
+class contract_violation : public std::logic_error {
+public:
+    contract_violation(const std::string& what_arg): std::logic_error(what_arg)
+    {}
+};
+
+namespace details {
 
 // debug info, concerning the location where the contract violation took
 // place
@@ -42,7 +55,9 @@ inline void log_violation_message(const violation_context& context)
     std::cerr << make_violation_message(context) << '\n';
 }
 
-} // namespace dbc::details
+} // namespace details
+
+} // namespace dbc
 
 #if defined(DBC_ABORT)
 
@@ -94,20 +109,7 @@ namespace dbc::details {
 
 #elif defined(DBC_THROW)
 
-namespace dbc {
-
-/**
- * @brief Generic contract violation exception, covers pre/post condition plus
- * invariant violations
- *
- */
-class contract_violation : public std::logic_error {
-public:
-    contract_violation(const std::string& what_arg): std::logic_error(what_arg)
-    {}
-};
-
-namespace details {
+namespace dbc ::details {
 
 // simply abstracts a throw with a context error message
 inline void raise(const violation_context& context)
@@ -115,9 +117,7 @@ inline void raise(const violation_context& context)
     throw contract_violation(make_violation_message(context));
 }
 
-} // namespace details
-
-} // namespace dbc
+} // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
     if(!(condition))                                                           \
