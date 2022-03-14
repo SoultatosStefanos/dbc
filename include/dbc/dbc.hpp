@@ -59,11 +59,20 @@ namespace dbc::details {
 } // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
-    dbc::details::abort({type, #condition, __FUNCTION__, __FILE__, __LINE__});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::abort(                                               \
+                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
+    }                                                                          \
+    while(0)
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    dbc::details::abort(                                                       \
-        {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::abort({type, #condition, __FUNCTION__, __FILE__,     \
+                                 __LINE__, message});                          \
+    }                                                                          \
+    while(0)
 
 #elif defined(DBC_TERMINATE)
 
@@ -80,12 +89,20 @@ namespace dbc::details {
 } // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
-    dbc::details::terminate(                                                   \
-        {type, #condition, __FUNCTION__, __FILE__, __LINE__});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::terminate(                                           \
+                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
+    }                                                                          \
+    while(0)
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    dbc::details::terminate(                                                   \
-        {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::terminate({type, #condition, __FUNCTION__, __FILE__, \
+                                     __LINE__, message});                      \
+    }                                                                          \
+    while(0)
 
 #elif defined(DBC_THROW)
 
@@ -115,11 +132,19 @@ inline void raise(const violation_context& context)
 } // namespace dbc
 
 #define DBC_ASSERT1(type, condition)                                           \
-    dbc::details::raise({type, #condition, __FUNCTION__, __FILE__, __LINE__});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::raise(                                               \
+                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
+    }                                                                          \
+    while(0)
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    dbc::details::raise(                                                       \
-        {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+    do {                                                                       \
+        if(!(condition))                                                       \
+            dbc::details::raise({type, #condition, __FUNCTION__, __FILE__,     \
+                                 __LINE__, message});                          \
+    }
 
 #elif defined(DBC_NOTHROW)
 
@@ -145,7 +170,7 @@ inline void raise(const violation_context& context)
 
 #define DBC_POSTCONDITION1(condition)                                          \
     DBC_ASSERT1("Postcondition violation: ", condition)
-#define DBC_POSTCONDITION1(condition, message)                                 \
+#define DBC_POSTCONDITION2(condition, message)                                 \
     DBC_ASSERT2("Postcondition violation: ", condition, message)
 
 // litle trick to emulate function overloading via preprocessing magic
