@@ -9,6 +9,7 @@
  *
  */
 #define DBC_THROW 1
+
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"

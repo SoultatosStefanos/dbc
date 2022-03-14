@@ -129,7 +129,7 @@ inline void raise(const violation_context& context)
         dbc::details::raise(                                                   \
             {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
 
-#elif defined(DBC_NOTHROW)
+#elif defined(DBC_NOOP)
 
 #define DBC_ASSERT1(type, condition)          (void(0))
 #define DBC_ASSERT2(type, condition, message) (void(0))
