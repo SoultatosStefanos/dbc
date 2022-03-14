@@ -3,7 +3,6 @@ set(TESTS_LIBS gtest gmock)
 set (TESTS
 	abort_tests
 	default_tests
-	noop_tests
 	terminate_tests
 	throw_tests
 )

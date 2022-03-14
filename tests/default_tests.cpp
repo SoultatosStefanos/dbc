@@ -23,10 +23,6 @@
 #undef DBC_TERMINATE
 #endif
 
-#ifdef DBC_NOOP
-#undef DBC_NOOP
-#endif
-
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
