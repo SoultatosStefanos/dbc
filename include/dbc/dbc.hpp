@@ -3,7 +3,7 @@
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
  * @brief Distributes public macros that facilitate a simple, developer time,
  * design by contract support, plus a generic contract violation exception.
- * @version 3.0
+ * @version 4.0
  * @date 2021-10-29S
  *
  * @copyright Copyright (c) 2021
