@@ -59,20 +59,14 @@ namespace dbc::details {
 } // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::abort(                                               \
-                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
-    }                                                                          \
-    while(0)
+    if(!(condition))                                                           \
+        dbc::details::abort(                                                   \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::abort({type, #condition, __FUNCTION__, __FILE__,     \
-                                 __LINE__, message});                          \
-    }                                                                          \
-    while(0)
+    if(!(condition))                                                           \
+        dbc::details::abort(                                                   \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
 
 #elif defined(DBC_TERMINATE)
 
@@ -89,20 +83,14 @@ namespace dbc::details {
 } // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::terminate(                                           \
-                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
-    }                                                                          \
-    while(0)
+    if(!(condition))                                                           \
+        dbc::details::terminate(                                               \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::terminate({type, #condition, __FUNCTION__, __FILE__, \
-                                     __LINE__, message});                      \
-    }                                                                          \
-    while(0)
+    if(!(condition))                                                           \
+        dbc::details::terminate(                                               \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
 
 #elif defined(DBC_THROW)
 
@@ -132,19 +120,14 @@ inline void raise(const violation_context& context)
 } // namespace dbc
 
 #define DBC_ASSERT1(type, condition)                                           \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::raise(                                               \
-                {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});     \
-    }                                                                          \
-    while(0)
+    if(!(condition))                                                           \
+        dbc::details::raise(                                                   \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
-    do {                                                                       \
-        if(!(condition))                                                       \
-            dbc::details::raise({type, #condition, __FUNCTION__, __FILE__,     \
-                                 __LINE__, message});                          \
-    }
+    if(!(condition))                                                           \
+        dbc::details::raise(                                                   \
+            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
 
 #elif defined(DBC_NOTHROW)
 
