@@ -2,7 +2,7 @@
  * @file dbc.hpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
  * @brief Distributes public macros that facilitate a simple, developer time,
- * design by contract support.
+ * design by contract support, plus a generic contract violation exception.
  * @version 3.0
  * @date 2021-10-29S
  *
@@ -12,10 +12,51 @@
 
 #pragma once
 
-#include "details/dbc_private.hpp"
 #include <iostream>
 
+namespace dbc::details {
+
+// debug info, concerning the location where the contract violation took
+// place
+struct violation_context {
+    std::string type;
+    std::string condition;
+    std::string function;
+    std::string file;
+    int line;
+    std::string message;
+};
+
+// formulate a violation context error message
+[[nodiscard]] inline auto
+make_violation_message(const violation_context& context)
+{
+    return context.type + " (" + context.condition + "), " + "function: "
+           + context.function + ", file: " + context.file + ", line: "
+           + std::to_string(context.line) + "." + '\n' + context.message;
+}
+
+// log a violation context error message to std::cerr
+inline void log_violation_message(const violation_context& context)
+{
+    std::cerr << make_violation_message(context) << '\n';
+}
+
+} // namespace dbc::details
+
 #if defined(DBC_ABORT)
+
+namespace dbc::details {
+
+// log a violation context error message and abort
+[[noreturn]] inline void abort(const violation_context& context) noexcept
+
+{
+    log_violation_message(context);
+    std::abort();
+}
+
+} // namespace dbc::details
 
 #define DBC_ASSERT1(type, condition)                                           \
     dbc::details::abort({type, #condition, __FUNCTION__, __FILE__, __LINE__});
@@ -26,6 +67,18 @@
 
 #elif defined(DBC_TERMINATE)
 
+namespace dbc::details {
+
+// log a violation context error message and terminate
+[[noreturn]] inline void terminate(const violation_context& context) noexcept
+
+{
+    log_violation_message(context);
+    std::terminate();
+}
+
+} // namespace dbc::details
+
 #define DBC_ASSERT1(type, condition)                                           \
     dbc::details::terminate(                                                   \
         {type, #condition, __FUNCTION__, __FILE__, __LINE__});
@@ -35,6 +88,31 @@
         {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
 
 #elif defined(DBC_THROW)
+
+namespace dbc {
+
+/**
+ * @brief Generic contract violation exception, covers pre/post condition plus
+ * invariant violations
+ *
+ */
+class contract_violation : public std::logic_error {
+public:
+    contract_violation(const std::string& what_arg): std::logic_error(what_arg)
+    {}
+};
+
+namespace details {
+
+// simply abstracts a throw with a context error message
+inline void raise(const violation_context& context)
+{
+    throw contract_violation(make_violation_message(context));
+}
+
+} // namespace details
+
+} // namespace dbc
 
 #define DBC_ASSERT1(type, condition)                                           \
     dbc::details::raise({type, #condition, __FUNCTION__, __FILE__, __LINE__});
