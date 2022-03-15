@@ -1,7 +1,8 @@
 /**
  * @file default_tests.cpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief
+ * @brief Contains test cases that validate the dbc assertions behavior when no
+ * macro is defined.
  * @version 0.1
  * @date 2022-03-14
  *

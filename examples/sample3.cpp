@@ -11,6 +11,8 @@
 #include "dbc/dbc.hpp"
 #include <array>
 
+#define DBC_TERMINATE 1
+
 namespace {
 
 //

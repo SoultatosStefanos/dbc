@@ -10,11 +10,17 @@
  */
 #include "dbc/dbc.hpp"
 
+#ifdef NDEBUG // throw on release builts, abort on debug
+#define DBC_THROW 1
+#else
+#define DBC_ABORT 1
+#endif
+
 namespace {
 
 // Showcase of encapsulation with dbc.
 // Class invariant: v must be positive.
-class X {
+class x {
 public:
     auto var() const -> int
     {

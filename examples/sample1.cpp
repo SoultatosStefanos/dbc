@@ -11,6 +11,10 @@
 
 #include "dbc/dbc.hpp"
 
+#ifndef NDEBUG
+#define DBC_ABORT 1 // assertion behavior
+#endif
+
 namespace {
 
 //
