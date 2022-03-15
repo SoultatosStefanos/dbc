@@ -12,7 +12,8 @@ macros.
 abort, terminate, throw, or do nothing (default).
 
 * DBC is **debug friendly**. It's assertions are overloaded, in order to provide
-human friendly error messages.
+human friendly error messages. In addition, in case of a contract violation,
+user friendly debug info is forwarded or logged.
 
 More details can be read [here](docs/assertions.md), [here](docs/classes.md) 
 and [here](docs/flags.md).
