@@ -1,7 +1,7 @@
 # Build Flags Reference
 
-This page lists the build flag macros provided by DBC for specifying contract 
-the DBC assertions behavior. To use them, include the header `dbc/dbc.h`.
+This page lists the build flag macros provided by DBC for specifying the DBC
+assertions behavior. To use them, include the header `dbc/dbc.h`.
 
 ### DBC_ABORT {#DBC_ABORT}
 
