@@ -1,7 +1,8 @@
 /**
  * @file sample4.cpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Contains a code sample that makes use of the dbc library.
+ * @brief Contains a code sample that showcases how DBC can be configured to
+ * make a call to std::terminate and take advantage of a terminate hook.
  * @version 0.1
  * @date 2022-03-15
  *
@@ -9,10 +10,10 @@
  *
  */
 
+#define DBC_TERMINATE 1
+
 #include "dbc/dbc.hpp"
 #include <string>
-
-#define DBC_TERMINATE 1
 
 // showcase of DBC working with custom handlers.
 

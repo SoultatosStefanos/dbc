@@ -1,7 +1,8 @@
 /**
  * @file sample1.cpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Contains a code sample that makes use of the dbc library.
+ * @brief Contains a code sample that emulates the assertion mechanism, while
+ * showcasing a simple use case of a function defining a pre and post condition.
  * @version 2.0
  * @date 2021-10-29
  *
@@ -9,11 +10,9 @@
  *
  */
 
-#include "dbc/dbc.hpp"
+#define DBC_ABORT 1
 
-#ifndef NDEBUG
-#define DBC_ABORT 1 // assertion behavior
-#endif
+#include "dbc/dbc.hpp"
 
 namespace {
 

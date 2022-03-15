@@ -1,17 +1,18 @@
 /**
  * @file sample3.cpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Contains a code sample that makes use of the dbc library.
+ * @brief Contains a code sample that showcases the verification of a loop
+ * invariant.
  * @version 2.0
  * @date 2021-10-29
  *
  * @copyright Copyright (c) 2021
  *
  */
+#define DBC_TERMINATE 1
+
 #include "dbc/dbc.hpp"
 #include <array>
-
-#define DBC_TERMINATE 1
 
 namespace {
 

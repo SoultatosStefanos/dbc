@@ -151,6 +151,36 @@ inline void raise(const violation_context& context)
 #define DBC_POSTCONDITION2(condition, message)                                 \
     DBC_ASSERT2("Postcondition violation: ", condition, message)
 
+#ifndef NDEBUG
+
+#define DBC_INVARIANT1_DBG(condition)                                          \
+    DBC_ASSERT1("Invariant violation: ", condition)
+#define DBC_INVARIANT2_DBG(condition, message)                                 \
+    DBC_ASSERT2("Invariant violation: ", condition, message)
+
+#define DBC_PRECONDITION1_DBG(condition)                                       \
+    DBC_ASSERT1("Precondition violation: ", condition)
+#define DBC_PRECONDITION2_DBG(condition, message)                              \
+    DBC_ASSERT2("Precondition violation: ", condition, message)
+
+#define DBC_POSTCONDITION1_DBG(condition)                                      \
+    DBC_ASSERT1("Postcondition violation: ", condition)
+#define DBC_POSTCONDITION2_DBG(condition, message)                             \
+    DBC_ASSERT2("Postcondition violation: ", condition, message)
+
+#else
+
+#define DBC_INVARIANT1_DBG(condition)              (void(0))
+#define DBC_INVARIANT2_DBG(condition, message)     (void(0))
+
+#define DBC_PRECONDITION1_DBG(condition)           (void(0))
+#define DBC_PRECONDITION2_DBG(condition, message)  (void(0))
+
+#define DBC_POSTCONDITION1_DBG(condition)          (void(0))
+#define DBC_POSTCONDITION2_DBG(condition, message) (void(0))
+
+#endif
+
 // litle trick to emulate function overloading via preprocessing magic
 #define DBC_EXPAND(x)                    x
 #define DBC_GET_MACRO(_1, _2, NAME, ...) NAME
@@ -178,3 +208,28 @@ inline void raise(const violation_context& context)
 #define POSTCONDITION(...)                                                     \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2,                  \
                              DBC_POSTCONDITION1)(__VA_ARGS__))
+
+/**
+ * @brief Macro to assert a class/loop invariant on debug builds only.
+ * Used for performance critical code.
+ *
+ */
+#define INVARIANT_DBG(...)                                                     \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2_DBG,                  \
+                             DBC_INVARIANT1_DBG)(__VA_ARGS__))
+
+/**
+ * @brief Macro to assert a precondition on debug builds only.
+ * Used for performance critical code.
+ */
+#define PRECONDITION_DBG(...)                                                  \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2_DBG,               \
+                             DBC_PRECONDITION1_DBG)(__VA_ARGS__))
+
+/**
+ * @brief Macro to assert a postcondition on debug builds only.
+ * Used for performance critical code.
+ */
+#define POSTCONDITION_DBG(...)                                                 \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG,              \
+                             DBC_POSTCONDITION1_DBG)(__VA_ARGS__))

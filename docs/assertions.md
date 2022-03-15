@@ -4,8 +4,9 @@ This page lists the assertion macros provided by DBC for verifying code
 behavior. To use them, include the header `dbc/dbc.h`.
 
 All of the macros listed below come as a pair with an overloaded, with a custom
-error message, variant. Upon failure, these assertion macros behavior varies 
-depending on the DBC build flags.
+error message, variant. In addition, each assertion comes with a debug-only 
+variant, that can be used at performance critical hot spots. Upon failure,
+these assertion macros behavior varies depending on the DBC build flags.
 
 ### INVARIANT {#INVARIANT}
 
@@ -17,11 +18,18 @@ Validates a class or loop invariant, abstracted through a boolean expression.
 The optional message overload is used, inorder to forward an explanatory error
 message to the std::cerr stream.
 
-Class/loop invariants should be checked at the entry point of both accessor and
-mutator methods, as well as at the exit point of the mutator methods/functions.
+### INVARIANT_DBG {#INVARIANT_DBG}
 
-Invariants should not be weakened across an inheritance tree, but can be
-strenghtened.
+`INVARIANT_DBG(`*`condition`*`)` \
+`INVARIANT_DBG(`*`condition`*`, `*`message`*`)`
+
+Validates a class or loop invariant, abstracted through a boolean expression.
+
+The optional message overload is used, inorder to forward an explanatory error
+message to the std::cerr stream.
+
+This variant can be used in order to assert invariants for performance critical
+code, thus it's disabled on release builds.
 
 ### PRECONDITION {#PRECONDITION}
 
@@ -34,11 +42,19 @@ expression.
 The optional message overload is used, inorder to forward an explanatory error
 message to the std::cerr stream.
 
-Function/method preconditions should be checked at the entry point of both
-accessor and mutator methods/functions.
+### PRECONDITION_DBG {#PRECONDITION_DBG}
 
-Preconditions should not be strengthened across an inheritance tree, but can be
-weakened. 
+`PRECONDITION_DBG(`*`condition`*`) ` \
+`PRECONDITION_DBG(`*`condition`*`, `*`message`*`) `
+
+Validates a function/method precondition, abstracted through a boolean
+expression. 
+
+The optional message overload is used, inorder to forward an explanatory error
+message to the std::cerr stream.
+
+This variant can be used in order to assert preconditions for performance
+critical code, thus it's disabled on release builds.
 
 ### POSTCONDITION {#POSTCONDITION}
 
@@ -51,12 +67,17 @@ expression.
 The optional message overload is used, inorder to forward an explanatory error
 message to the std::cerr stream.
 
-Function/method postconditions should be checked at the exit point of both
-accessor and mutator methods/functions.
+### POSTCONDITION_DBG {#POSTCONDITION_DBG}
 
-Postconditions should not be weakened across an inheritance tree, but can be
-strengthened.
+`POSTCONDITION_DBG(`*`condition`*`) ` \
+`POSTCONDITION_DBG(`*`condition`*`, `*`message`*`) `
 
-As a convention, functions/methods that return a non void type should store the
-result to a variable before returning it, in order to ensure the postcondition. 
+Validates a function/method postcondition, abstracted through a boolean
+expression. 
+
+The optional message overload is used, inorder to forward an explanatory error
+message to the std::cerr stream.
+
+This variant can be used in order to assert postconditions for performance
+critical code, thus it's disabled on release builds.
 

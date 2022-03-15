@@ -1,7 +1,8 @@
 /**
  * @file sample5.cpp
  * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Contains a code sample that makes use of the dbc library.
+ * @brief Contains a code sample that showcases catching DBC thrown contract
+ * violations.
  * @version 0.1
  * @date 2022-03-15
  *
@@ -9,10 +10,10 @@
  *
  */
 
+#define DBC_THROW 1
+
 #include "dbc/dbc.hpp"
 #include <iostream>
-
-#define DBC_THROW 1
 
 // showcase of DBC working with defensive programming.
 
