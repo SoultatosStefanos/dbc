@@ -15,7 +15,7 @@ these assertion macros behavior varies depending on the DBC build flags.
 
 Validates a class or loop invariant, abstracted through a boolean expression.
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 ### INVARIANT_DBG {#INVARIANT_DBG}
@@ -25,7 +25,7 @@ message to the std::cerr stream.
 
 Validates a class or loop invariant, abstracted through a boolean expression.
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 This variant can be used in order to assert invariants for performance critical
@@ -39,7 +39,7 @@ code, thus it's disabled on release builds.
 Validates a function/method precondition, abstracted through a boolean
 expression. 
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 ### PRECONDITION_DBG {#PRECONDITION_DBG}
@@ -50,7 +50,7 @@ message to the std::cerr stream.
 Validates a function/method precondition, abstracted through a boolean
 expression. 
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 This variant can be used in order to assert preconditions for performance
@@ -64,7 +64,7 @@ critical code, thus it's disabled on release builds.
 Validates a function/method postcondition, abstracted through a boolean
 expression. 
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 ### POSTCONDITION_DBG {#POSTCONDITION_DBG}
@@ -75,7 +75,7 @@ message to the std::cerr stream.
 Validates a function/method postcondition, abstracted through a boolean
 expression. 
 
-The optional message overload is used, inorder to forward an explanatory error
+The optional message overload is used, in order to forward an explanatory error
 message to the std::cerr stream.
 
 This variant can be used in order to assert postconditions for performance
