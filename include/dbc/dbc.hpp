@@ -23,10 +23,8 @@ namespace dbc {
  * invariant violations
  *
  */
-class contract_violation : public std::logic_error {
-public:
-    contract_violation(const std::string& what_arg): std::logic_error(what_arg)
-    {}
+struct contract_violation : std::logic_error {
+    using std::logic_error::logic_error;
 };
 
 namespace details {
