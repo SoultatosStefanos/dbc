@@ -32,11 +32,11 @@ on debug builds and doing nothing on release builds.
 
 ~~~~~~~~~~cpp
 
-#include "dbc/dbc.hpp"
-
 #ifndef NDEBUG
 #define DBC_ABORT 1
 #endif
+
+#include "dbc/dbc.hpp"
 
 static auto flag{4};
 
