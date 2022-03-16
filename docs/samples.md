@@ -8,8 +8,7 @@ See [dbc samples.](https://github.com/SoultatosStefanos/dbc/tree/master/examples
 *   Sample #1 shows a basic use case of a precondition and a postcondition.
 *   Sample #2 shows how a class invariant can be protected with DBC.
 *   Sample #3 shows a loop invariant verification use case.
-*   Sample #4 shows how DBC can be used to take advantage of terminate hooks to
-recover gracefully.
+*   Sample #4 shows how DBC can be used to take advantage of terminate hooks.
 *   Sample #5 shows how DBC can be used to catch contract violations to recover
 gracefully.
 *   Sample #6 shows a performance critical use case where the debug-only 

@@ -31,16 +31,21 @@ auto read_int(std::istream& in) -> int
 extern void reboot();
 extern void log(const std::string& error);
 
+void recover_gracefully(const std::string& error)
+{
+    log(error);
+    reboot();
+}
+
 auto main() -> int
 {
     try {
         const auto i = read_int(std::cin);
     }
     catch(const dbc::contract_violation& e) { // catch contract violation
-        log(e.what());
-        reboot();
+        recover_gracefully(e.what());
 
-        return EXIT_FAILURE;
+        return EXIT_SUCCESS;
     }
     catch(...) {
         std::cerr << "Unexpected error!\n";

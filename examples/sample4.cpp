@@ -24,18 +24,16 @@ void bar(const char* str)
 
 extern auto make_error_msg() -> std::string;
 extern void log_error_to_file(const std::string& msg);
-extern void recover();
 
-void recover_gracefully()
+void handle_terminate()
 {
     const auto msg = make_error_msg();
     log_error_to_file(msg);
-    recover();
 }
 
 auto main() -> int
 {
-    std::set_terminate(recover_gracefully);
+    std::set_terminate(handle_terminate);
 
     bar("ok"); // ok
     bar(nullptr); // time to recover
