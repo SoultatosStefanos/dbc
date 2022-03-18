@@ -12,9 +12,12 @@
 
 #pragma once
 
+#include <chrono>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 namespace dbc {
 
@@ -37,22 +40,48 @@ struct violation_context {
     std::string function;
     std::string file;
     int line;
+    std::thread::id thread_id;
+    int64_t timestamp;
     std::string message;
 };
+
+[[nodiscard]] inline auto to_string(const std::thread::id& id)
+{
+    std::stringstream ss;
+    ss << id;
+    return ss.str();
+}
 
 // formulate a violation context error message
 [[nodiscard]] inline auto
 make_violation_message(const violation_context& context)
 {
-    return context.type + " (" + context.condition + "), " + "function: "
-           + context.function + ", file: " + context.file + ", line: "
-           + std::to_string(context.line) + "." + '\n' + context.message;
+    return context.type + " (" + context.condition + "), "
+           + "function: " + context.function + ", file: " + context.file
+           + ", line: " + std::to_string(context.line)
+           + ", thread id: " + to_string(context.thread_id) + ", timestamp: "
+           + std::to_string(context.timestamp) + "." + '\n' + context.message;
 }
 
 // log a violation context error message to std::cerr
 inline void log_violation_message(const violation_context& context)
 {
     std::cerr << make_violation_message(context) << '\n';
+}
+
+// get this thread id
+[[nodiscard]] inline auto thread_id()
+{
+    return std::this_thread::get_id();
+}
+
+// get the timestamp since first epoch in ms
+[[nodiscard]] inline auto timestamp()
+{
+    using namespace std::chrono;
+
+    const auto now = system_clock::now();
+    return duration_cast<milliseconds>(now.time_since_epoch()).count();
 }
 
 } // namespace details
@@ -75,13 +104,15 @@ namespace dbc::details {
 
 #define DBC_ASSERT1(type, condition)                                           \
     if(!(condition))                                                           \
-        dbc::details::abort(                                                   \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
+        dbc::details::abort({type, #condition, __FUNCTION__, __FILE__,         \
+                             __LINE__, dbc::details::thread_id(),              \
+                             dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
     if(!(condition))                                                           \
-        dbc::details::abort(                                                   \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+        dbc::details::abort({type, #condition, __FUNCTION__, __FILE__,         \
+                             __LINE__, dbc::details::thread_id(),              \
+                             dbc::details::timestamp(), message});
 
 #elif defined(DBC_TERMINATE)
 
@@ -99,13 +130,15 @@ namespace dbc::details {
 
 #define DBC_ASSERT1(type, condition)                                           \
     if(!(condition))                                                           \
-        dbc::details::terminate(                                               \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
+        dbc::details::terminate({type, #condition, __FUNCTION__, __FILE__,     \
+                                 __LINE__, dbc::details::thread_id(),          \
+                                 dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
     if(!(condition))                                                           \
-        dbc::details::terminate(                                               \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+        dbc::details::terminate({type, #condition, __FUNCTION__, __FILE__,     \
+                                 __LINE__, dbc::details::thread_id(),          \
+                                 dbc::details::timestamp(), message});
 
 #elif defined(DBC_THROW)
 
@@ -121,13 +154,15 @@ inline void raise(const violation_context& context)
 
 #define DBC_ASSERT1(type, condition)                                           \
     if(!(condition))                                                           \
-        dbc::details::raise(                                                   \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, ""});
+        dbc::details::raise({type, #condition, __FUNCTION__, __FILE__,         \
+                             __LINE__, dbc::details::thread_id(),              \
+                             dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                  \
     if(!(condition))                                                           \
-        dbc::details::raise(                                                   \
-            {type, #condition, __FUNCTION__, __FILE__, __LINE__, message});
+        dbc::details::raise({type, #condition, __FUNCTION__, __FILE__,         \
+                             __LINE__, dbc::details::thread_id(),              \
+                             dbc::details::timestamp(), message});
 
 #else
 
