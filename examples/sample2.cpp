@@ -22,39 +22,34 @@
 
 #include "dbc/dbc.hpp"
 
-namespace
-{
+namespace {
 
-  // Showcase of encapsulation with dbc.
-  // Class invariant: v must be positive.
-  class x
-  {
-  public:
-    auto
-    var() const -> int
+// Showcase of encapsulation with dbc.
+// Class invariant: v must be positive.
+class x {
+public:
+    auto var() const -> int
     {
-      INVARIANT(v > 0);
-      return v;
+        INVARIANT(v > 0);
+        return v;
     }
 
-    void
-    set_var(int _v)
+    void set_var(int _v)
     {
-      INVARIANT(v > 0);
-      PRECONDITION(_v > 0); // same as
-      // for more debug info
-      PRECONDITION(_v > 0, "found _v == " + std::to_string(var()));
+        INVARIANT(v > 0);
+        PRECONDITION(_v > 0); // same as
+        // for more debug info
+        PRECONDITION(_v > 0, "found _v == " + std::to_string(var()));
 
-      v = _v;
+        v = _v;
 
-      POSTCONDITION(v == _v); // same as
-      // for more  info
-      POSTCONDITION(v == _v, "v is actually: " + std::to_string(var()));
-      INVARIANT(v > 0);
+        POSTCONDITION(v == _v); // same as
+        // for more  info
+        POSTCONDITION(v == _v, "v is actually: " + std::to_string(var()));
+        INVARIANT(v > 0);
     }
-
-  private:
-    int v{ 2 };
-  };
+private:
+    int v{2};
+};
 
 } // namespace

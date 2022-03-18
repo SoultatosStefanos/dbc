@@ -25,46 +25,40 @@
 
 // showcase of DBC working with defensive programming.
 
-auto
-read_int(std::istream& in) -> int
+auto read_int(std::istream& in) -> int
 {
-  PRECONDITION(in.good(), "Invalid input stream!");
+    PRECONDITION(in.good(), "Invalid input stream!");
 
-  auto i{ 0 };
-  in >> i;
+    auto i{0};
+    in >> i;
 
-  POSTCONDITION(in.good());
-  return i;
+    POSTCONDITION(in.good());
+    return i;
 }
 
 extern void reboot();
 extern void log(const std::string& error);
 
-void
-recover_gracefully(const std::string& error)
+void recover_gracefully(const std::string& error)
 {
-  log(error);
-  reboot();
+    log(error);
+    reboot();
 }
 
-auto
-main() -> int
+auto main() -> int
 {
-  try
-    {
-      const auto i = read_int(std::cin);
+    try {
+        const auto i = read_int(std::cin);
     }
-  catch (const dbc::contract_violation& e)
-    { // catch contract violation
-      recover_gracefully(e.what());
+    catch(const dbc::contract_violation& e) { // catch contract violation
+        recover_gracefully(e.what());
 
-      return EXIT_SUCCESS;
+        return EXIT_SUCCESS;
     }
-  catch (...)
-    {
-      std::cerr << "Unexpected error!\n";
+    catch(...) {
+        std::cerr << "Unexpected error!\n";
 
-      return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
-  return 0;
+    return 0;
 }

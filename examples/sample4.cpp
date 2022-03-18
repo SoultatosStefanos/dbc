@@ -25,29 +25,26 @@
 
 // showcase of DBC working with custom handlers.
 
-void
-bar(const char* str)
+void bar(const char* str)
 {
-  PRECONDITION(str != nullptr);
+    PRECONDITION(str != nullptr);
 }
 
 extern auto make_error_msg() -> std::string;
 extern void log_error_to_file(const std::string& msg);
 
-void
-handle_terminate()
+void handle_terminate()
 {
-  const auto msg = make_error_msg();
-  log_error_to_file(msg);
+    const auto msg = make_error_msg();
+    log_error_to_file(msg);
 }
 
-auto
-main() -> int
+auto main() -> int
 {
-  std::set_terminate(handle_terminate);
+    std::set_terminate(handle_terminate);
 
-  bar("ok");    // ok
-  bar(nullptr); // time to recover
+    bar("ok"); // ok
+    bar(nullptr); // time to recover
 
-  return 0;
+    return 0;
 }

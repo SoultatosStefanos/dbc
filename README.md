@@ -38,29 +38,27 @@ on debug builds and doing nothing on release builds.
 
 #include "dbc/dbc.hpp"
 
-static auto flag{ 4 };
+static auto flag{4};
 
 extern auto running() -> bool;
 extern void bar();
 
-void
-foo(int x, int y)
+void foo(int x, int y)
 {
-  PRECONDITION(x >= 0);
-  PRECONDITION(y == 0, "Found y: " << y);
+    PRECONDITION(x >= 0);
+    PRECONDITION(y == 0, "Found y: " << y);
 
-  flag = x + y;
+    flag = x + y;
 
-  while (running())
-    {
-      INVARIANT(running());
+    while(running()) {
+        INVARIANT(running());
 
-      bar();
+        bar();
 
-      INVARIANT(running());
+        INVARIANT(running());
     }
 
-  POSTCONDITION(flag >= 0);
+    POSTCONDITION(flag >= 0);
 }
 
 ~~~~~~~~~~
