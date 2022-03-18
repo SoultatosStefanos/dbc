@@ -22,18 +22,20 @@
 
 #include "dbc/dbc.hpp"
 
-namespace {
-
-//
-// Precondition: the integers are non negative
-// Postcondition: the returned value is non negative
-//
-int sum_non_negative(int a, int b)
+namespace
 {
+
+  //
+  // Precondition: the integers are non negative
+  // Postcondition: the returned value is non negative
+  //
+  int
+  sum_non_negative(int a, int b)
+  {
     PRECONDITION(a >= 0 and b >= 0);
     auto sum = a + b;
     POSTCONDITION(sum >= 0);
     return sum;
-}
+  }
 
 } // namespace
