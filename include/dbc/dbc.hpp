@@ -1,14 +1,22 @@
-/**
- * @file dbc.hpp
- * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Distributes public macros that facilitate a simple, developer time,
- * design by contract support, plus a generic contract violation exception.
- * @version 4.0
- * @date 2021-10-29S
- *
- * @copyright Copyright (c) 2021
- *
- */
+// Copyright (c) 2021 SoultatosStefanos
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
 
 #pragma once
 
@@ -19,11 +27,15 @@
 #include <string>
 #include <thread>
 
+/**
+ * @brief The DBC global namespace.
+ *
+ */
 namespace dbc {
 
 /**
- * @brief Generic contract violation exception, covers pre/post condition plus
- * invariant violations
+ * @brief Generic contract violation exception, covers pre/post condition
+ * plus invariant violations.
  *
  */
 struct contract_violation : std::logic_error {
@@ -45,6 +57,7 @@ struct violation_context {
     std::string message;
 };
 
+// return a string representation of a thread id
 [[nodiscard]] inline auto to_string(const std::thread::id& id)
 {
     std::stringstream ss;
@@ -70,7 +83,7 @@ inline void log_violation_message(const violation_context& context)
 }
 
 // get this thread id
-[[nodiscard]] inline auto thread_id()
+[[nodiscard]] inline auto thread_id() noexcept
 {
     return std::this_thread::get_id();
 }

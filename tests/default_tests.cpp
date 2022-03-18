@@ -1,14 +1,22 @@
-/**
- * @file default_tests.cpp
- * @author Soultatos Stefanos (stefanoss1498@gmail.com)
- * @brief Contains test cases that validate the dbc assertions behavior when no
- * macro is defined.
- * @version 0.1
- * @date 2022-03-14
- *
- * @copyright Copyright (c) 2022
- *
- */
+// Copyright (c) 2021 SoultatosStefanos
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
 
 // notice no #define here
 
@@ -28,74 +36,79 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace dbc::tests {
-
-TEST(Invariants, Will_not_terminate_or_abort)
+namespace dbc::tests
 {
+
+  TEST(Invariants, Will_not_terminate_or_abort)
+  {
     INVARIANT(true);
     INVARIANT(true, "Error message");
     INVARIANT(false);
     INVARIANT(false, "Error message");
-}
+  }
 
-TEST(Invariants, Will_not_throw)
-{
+  TEST(Invariants, Will_not_throw)
+  {
     ASSERT_NO_THROW(INVARIANT(true));
     ASSERT_NO_THROW(INVARIANT(true, ""));
     ASSERT_NO_THROW(INVARIANT(false));
     ASSERT_NO_THROW(INVARIANT(false, ""));
-}
+  }
 
-TEST(Preconditions, Will_not_terminate_or_abort)
-{
+  TEST(Preconditions, Will_not_terminate_or_abort)
+  {
     PRECONDITION(true);
     PRECONDITION(true, "Error message");
     PRECONDITION(false);
     PRECONDITION(false, "Error message");
-}
+  }
 
-TEST(Preconditions, Will_not_throw)
-{
+  TEST(Preconditions, Will_not_throw)
+  {
     PRECONDITION(INVARIANT(true));
     PRECONDITION(INVARIANT(true, ""));
     PRECONDITION(INVARIANT(false));
     PRECONDITION(INVARIANT(false, ""));
-}
+  }
 
-TEST(POSTCONDITION, Will_not_terminate_or_abort)
-{
+  TEST(POSTCONDITION, Will_not_terminate_or_abort)
+  {
     POSTCONDITION(true);
     POSTCONDITION(true, "Error message");
     POSTCONDITION(false);
     POSTCONDITION(false, "Error message");
-}
+  }
 
-TEST(POSTCONDITION, Will_not_throw)
-{
+  TEST(POSTCONDITION, Will_not_throw)
+  {
     POSTCONDITION(INVARIANT(true));
     POSTCONDITION(INVARIANT(true, ""));
     POSTCONDITION(INVARIANT(false));
     POSTCONDITION(INVARIANT(false, ""));
-}
+  }
 
 } // namespace dbc::tests
 
-auto main(int argc, char* argv[]) -> int
+auto
+main(int argc, char* argv[]) -> int
 {
-    try {
-        ::testing::InitGoogleTest(&argc, argv);
-        ::testing::InitGoogleMock(&argc, argv);
+  try
+    {
+      ::testing::InitGoogleTest(&argc, argv);
+      ::testing::InitGoogleMock(&argc, argv);
 
-        return RUN_ALL_TESTS();
+      return RUN_ALL_TESTS();
     }
-    catch(const std::exception& e) {
-        std::cerr << e.what() << '\n';
+  catch (const std::exception& e)
+    {
+      std::cerr << e.what() << '\n';
 
-        return EXIT_FAILURE;
+      return EXIT_FAILURE;
     }
-    catch(...) {
-        std::cerr << "Unexpected error!\n";
+  catch (...)
+    {
+      std::cerr << "Unexpected error!\n";
 
-        return EXIT_FAILURE;
+      return EXIT_FAILURE;
     }
 }
