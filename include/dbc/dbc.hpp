@@ -64,7 +64,7 @@ namespace dbc
     };
 
     // return a string representation of a thread id
-    [[nodiscard]] inline auto
+    inline auto
     to_string(const std::thread::id& id)
     {
       std::stringstream ss;
@@ -73,7 +73,7 @@ namespace dbc
     }
 
     // formulate a violation context error message
-    [[nodiscard]] inline auto
+    inline auto
     make_violation_message(const violation_context& context)
     {
       return context.type + " (" + context.condition + "), "
@@ -92,14 +92,14 @@ namespace dbc
     }
 
     // get this thread id
-    [[nodiscard]] inline auto
+    inline auto
     thread_id() noexcept
     {
       return std::this_thread::get_id();
     }
 
     // get the timestamp since first epoch in ms
-    [[nodiscard]] inline auto
+    inline auto
     timestamp()
     {
       using namespace std::chrono;
