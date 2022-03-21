@@ -173,7 +173,7 @@ namespace dbc ::details
 {
 
   // simply abstracts a throw with a context error message
-  inline void
+  [[noreturn]] inline void
   raise(const violation_context& context)
   {
     throw contract_violation(make_violation_message(context));
