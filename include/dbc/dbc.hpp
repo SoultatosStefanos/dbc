@@ -35,7 +35,6 @@
  */
 namespace dbc
 {
-
   /**
    * @brief Generic contract violation exception, covers pre/post condition
    * plus invariant violations.
@@ -48,7 +47,6 @@ namespace dbc
 
   namespace details
   {
-
     // debug info, concerning the location where the contract violation took
     // place
     struct violation_context
@@ -116,7 +114,6 @@ namespace dbc
 
 namespace dbc::details
 {
-
   // log a violation context error message and abort
   [[noreturn]] inline void
   abort(const violation_context& context) noexcept
@@ -143,7 +140,6 @@ namespace dbc::details
 
 namespace dbc::details
 {
-
   // log a violation context error message and terminate
   [[noreturn]] inline void
   terminate(const violation_context& context) noexcept
