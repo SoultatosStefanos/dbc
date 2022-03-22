@@ -23,7 +23,6 @@
 #pragma once
 
 #include <chrono>
-#include <gsl/gsl>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -60,7 +59,6 @@ namespace dbc {
 
         inline auto to_string(const std::thread::id& id)
         {
-            Expects(false);
             std::stringstream ss;
             ss << id;
             return ss.str();
