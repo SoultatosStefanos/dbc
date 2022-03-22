@@ -28,65 +28,58 @@
 
 namespace dbc::tests
 {
+    TEST(Invariants, Will_not_abort_if_true)
+    {
+        INVARIANT(true);
+        INVARIANT(true, "Error message");
+    }
 
-  TEST(Invariants, Will_not_abort_if_true)
-  {
-    INVARIANT(true);
-    INVARIANT(true, "Error message");
-  }
+    TEST(Invariants, Will_abort_if_false)
+    {
+        EXPECT_DEATH(INVARIANT(false), "");
+        EXPECT_DEATH(INVARIANT(false, "Error message"), "");
+    }
 
-  TEST(Invariants, Will_abort_if_false)
-  {
-    EXPECT_DEATH(INVARIANT(false), "");
-    EXPECT_DEATH(INVARIANT(false, "Error message"), "");
-  }
+    TEST(Preconditions, Will_not_abort_if_true)
+    {
+        PRECONDITION(true);
+        PRECONDITION(true, "Error message");
+    }
 
-  TEST(Preconditions, Will_not_abort_if_true)
-  {
-    PRECONDITION(true);
-    PRECONDITION(true, "Error message");
-  }
+    TEST(Preconditions, Will_abort_if_false)
+    {
+        EXPECT_DEATH(PRECONDITION(false), "");
+        EXPECT_DEATH(PRECONDITION(false, "Error message"), "");
+    }
 
-  TEST(Preconditions, Will_abort_if_false)
-  {
-    EXPECT_DEATH(PRECONDITION(false), "");
-    EXPECT_DEATH(PRECONDITION(false, "Error message"), "");
-  }
+    TEST(Postconditions, Will_not_abort_if_true)
+    {
+        POSTCONDITION(true);
+        POSTCONDITION(true, "Error message");
+    }
 
-  TEST(Postconditions, Will_not_abort_if_true)
-  {
-    POSTCONDITION(true);
-    POSTCONDITION(true, "Error message");
-  }
-
-  TEST(Postconditions, Will_abort_if_false)
-  {
-    EXPECT_DEATH(POSTCONDITION(false), "");
-    EXPECT_DEATH(POSTCONDITION(false, "Error message"), "");
-  }
+    TEST(Postconditions, Will_abort_if_false)
+    {
+        EXPECT_DEATH(POSTCONDITION(false), "");
+        EXPECT_DEATH(POSTCONDITION(false, "Error message"), "");
+    }
 
 } // namespace dbc::tests
 
-auto
-main(int argc, char* argv[]) -> int
+auto main(int argc, char* argv[]) -> int
 {
-  try
-    {
-      ::testing::InitGoogleTest(&argc, argv);
-      ::testing::InitGoogleMock(&argc, argv);
+    try {
+        ::testing::InitGoogleTest(&argc, argv);
+        ::testing::InitGoogleMock(&argc, argv);
 
-      return RUN_ALL_TESTS();
-    }
-  catch (const std::exception& e)
-    {
-      std::cerr << e.what() << '\n';
+        return RUN_ALL_TESTS();
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
 
-      return EXIT_FAILURE;
-    }
-  catch (...)
-    {
-      std::cerr << "Unexpected error!\n";
+        return EXIT_FAILURE;
+    } catch (...) {
+        std::cerr << "Unexpected error!\n";
 
-      return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
 }

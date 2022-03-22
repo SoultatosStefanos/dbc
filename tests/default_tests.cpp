@@ -40,77 +40,69 @@
 
 namespace dbc::tests
 {
+    TEST(Invariants, Will_not_terminate_or_abort)
+    {
+        INVARIANT(true);
+        INVARIANT(true, "Error message");
+        INVARIANT(false);
+        INVARIANT(false, "Error message");
+    }
 
-  TEST(Invariants, Will_not_terminate_or_abort)
-  {
-    INVARIANT(true);
-    INVARIANT(true, "Error message");
-    INVARIANT(false);
-    INVARIANT(false, "Error message");
-  }
+    TEST(Invariants, Will_not_throw)
+    {
+        ASSERT_NO_THROW(INVARIANT(true));
+        ASSERT_NO_THROW(INVARIANT(true, ""));
+        ASSERT_NO_THROW(INVARIANT(false));
+        ASSERT_NO_THROW(INVARIANT(false, ""));
+    }
 
-  TEST(Invariants, Will_not_throw)
-  {
-    ASSERT_NO_THROW(INVARIANT(true));
-    ASSERT_NO_THROW(INVARIANT(true, ""));
-    ASSERT_NO_THROW(INVARIANT(false));
-    ASSERT_NO_THROW(INVARIANT(false, ""));
-  }
+    TEST(Preconditions, Will_not_terminate_or_abort)
+    {
+        PRECONDITION(true);
+        PRECONDITION(true, "Error message");
+        PRECONDITION(false);
+        PRECONDITION(false, "Error message");
+    }
 
-  TEST(Preconditions, Will_not_terminate_or_abort)
-  {
-    PRECONDITION(true);
-    PRECONDITION(true, "Error message");
-    PRECONDITION(false);
-    PRECONDITION(false, "Error message");
-  }
+    TEST(Preconditions, Will_not_throw)
+    {
+        ASSERT_NO_THROW(PRECONDITION(true));
+        ASSERT_NO_THROW(PRECONDITION(true, ""));
+        ASSERT_NO_THROW(PRECONDITION(false));
+        ASSERT_NO_THROW(PRECONDITION(false, ""));
+    }
 
-  TEST(Preconditions, Will_not_throw)
-  {
-    ASSERT_NO_THROW(PRECONDITION(true));
-    ASSERT_NO_THROW(PRECONDITION(true, ""));
-    ASSERT_NO_THROW(PRECONDITION(false));
-    ASSERT_NO_THROW(PRECONDITION(false, ""));
-  }
+    TEST(Postconditions, Will_not_terminate_or_abort)
+    {
+        POSTCONDITION(true);
+        POSTCONDITION(true, "Error message");
+        POSTCONDITION(false);
+        POSTCONDITION(false, "Error message");
+    }
 
-  TEST(Postconditions, Will_not_terminate_or_abort)
-  {
-    POSTCONDITION(true);
-    POSTCONDITION(true, "Error message");
-    POSTCONDITION(false);
-    POSTCONDITION(false, "Error message");
-  }
-
-  TEST(Postconditions, Will_not_throw)
-  {
-    ASSERT_NO_THROW(POSTCONDITION(true));
-    ASSERT_NO_THROW(POSTCONDITION(true, ""));
-    ASSERT_NO_THROW(POSTCONDITION(false));
-    ASSERT_NO_THROW(POSTCONDITION(false, ""));
-  }
-
+    TEST(Postconditions, Will_not_throw)
+    {
+        ASSERT_NO_THROW(POSTCONDITION(true));
+        ASSERT_NO_THROW(POSTCONDITION(true, ""));
+        ASSERT_NO_THROW(POSTCONDITION(false));
+        ASSERT_NO_THROW(POSTCONDITION(false, ""));
+    }
 } // namespace dbc::tests
 
-auto
-main(int argc, char* argv[]) -> int
+auto main(int argc, char* argv[]) -> int
 {
-  try
-    {
-      ::testing::InitGoogleTest(&argc, argv);
-      ::testing::InitGoogleMock(&argc, argv);
+    try {
+        ::testing::InitGoogleTest(&argc, argv);
+        ::testing::InitGoogleMock(&argc, argv);
 
-      return RUN_ALL_TESTS();
-    }
-  catch (const std::exception& e)
-    {
-      std::cerr << e.what() << '\n';
+        return RUN_ALL_TESTS();
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
 
-      return EXIT_FAILURE;
-    }
-  catch (...)
-    {
-      std::cerr << "Unexpected error!\n";
+        return EXIT_FAILURE;
+    } catch (...) {
+        std::cerr << "Unexpected error!\n";
 
-      return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
 }

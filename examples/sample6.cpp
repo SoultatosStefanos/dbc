@@ -26,24 +26,22 @@
 #include <iostream>
 #include <string>
 
-class performance_critical_balanced_tree
-{
+class performance_critical_balanced_tree {
 public:
-  void
-  foo(const std::string& cmd)
-  {
-    INVARIANT_DBG(is_balanced());                          // O(nlog(n))
-    PRECONDITION_DBG(cmd == valid_cmd(), "Found: " + cmd); // O(n)
+    void foo(const std::string& cmd)
+    {
+        INVARIANT_DBG(is_balanced());                          // O(nlog(n))
+        PRECONDITION_DBG(cmd == valid_cmd(), "Found: " + cmd); // O(n)
 
-    // impl
+        // impl
 
-    POSTCONDITION_DBG(info() == valid_info(), "Found: " + info()); // O(n)
-    INVARIANT_DBG(is_balanced(), "What??"); // O(nlog(n))
-  }
+        POSTCONDITION_DBG(info() == valid_info(), "Found: " + info()); // O(n)
+        INVARIANT_DBG(is_balanced(), "What??"); // O(nlog(n))
+    }
 
 private:
-  auto is_balanced() const -> bool;
-  auto info() const -> std::string;
-  auto valid_cmd() const -> std::string;
-  auto valid_info() const -> std::string;
+    auto is_balanced() const -> bool;
+    auto info() const -> std::string;
+    auto valid_cmd() const -> std::string;
+    auto valid_info() const -> std::string;
 };
