@@ -26,8 +26,8 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace dbc::tests
-{
+namespace dbc::tests {
+
     TEST(Invariants, Will_not_throw_if_true)
     {
         EXPECT_NO_THROW(INVARIANT(true));
