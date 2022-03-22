@@ -44,8 +44,13 @@ namespace dbc {
         using std::logic_error::logic_error;
     };
 
+    /**
+     * @brief This DBC namespace is not intended for public use.
+     *
+     */
     namespace details {
 
+        // Debuf info including the violation type (pre/post/inv)
         struct violation_context final {
             std::string type;
             std::string condition;
@@ -57,6 +62,7 @@ namespace dbc {
             std::string message;
         };
 
+        // Returns a thread id to string
         inline auto to_string(const std::thread::id& id)
         {
             std::stringstream ss;
@@ -64,6 +70,7 @@ namespace dbc {
             return ss.str();
         }
 
+        // Formulates an error message from a violation context
         inline auto make_violation_message(const violation_context& context)
         {
             return context.type + " (" + context.condition + "), "
@@ -74,13 +81,16 @@ namespace dbc {
                    + '\n' + context.message;
         }
 
+        // Logs a violation context to std::cerr stream
         inline void log_violation_message(const violation_context& context)
         {
             std::cerr << make_violation_message(context) << '\n';
         }
 
+        // Returns this thread id
         inline auto thread_id() noexcept { return std::this_thread::get_id(); }
 
+        // Returns the current timestamp, since the first epoch, in ms
         inline auto timestamp()
         {
             using namespace std::chrono;
@@ -91,6 +101,7 @@ namespace dbc {
 
 #if defined(DBC_ABORT)
 
+        // Logs a violation message and aborts
         [[noreturn]] inline void
         abort(const violation_context& context) noexcept
         {
@@ -100,6 +111,7 @@ namespace dbc {
 
 #elif defined(DBC_TERMINATE)
 
+        // Logs a violation message and terminates
         [[noreturn]] inline void
         terminate(const violation_context& context) noexcept
 
@@ -110,6 +122,7 @@ namespace dbc {
 
 #elif defined(DBC_THROW)
 
+        // Throws a contract_violation error with a violation message
         [[noreturn]] inline void raise(const violation_context& context)
         {
             throw contract_violation(make_violation_message(context));
@@ -215,6 +228,7 @@ namespace dbc {
 
 #endif
 
+// Macro overloading via pre-processor magic
 #define DBC_EXPAND(x)                    x
 #define DBC_GET_MACRO(_1, _2, NAME, ...) NAME
 
