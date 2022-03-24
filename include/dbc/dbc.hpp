@@ -98,23 +98,35 @@ namespace dbc {
     };
 
     /**
-     * @brief Returns a string representation of a violation context.
+     * @brief Returns true if two violation contexts are equal.
      *
-     * @param context the context from which to formulate the string
-     * representation
+     * @param lhs the left hand side of the operation
+     * @param rhs the right hand side of the operation
      *
-     * @return a string representation of a violation context
+     * @return true if two violation contexts are equal
      */
-    inline auto to_string(const violation_context& context)
+    inline auto operator==(const violation_context& lhs,
+                           const violation_context& rhs)
     {
-        return std::string(to_string_view(context.type)) + " violation: ("
-               + std::string(context.condition) + "), "
-               + "function: " + std::string(context.function)
-               + ", file: " + std::string(context.file)
-               + ", line: " + std::to_string(context.line)
-               + ", thread id: " + context.thread_id
-               + ", timestamp: " + std::to_string(context.timestamp) + "."
-               + '\n' + std::string(context.message);
+        return lhs.type == rhs.type and lhs.condition == rhs.condition
+               and lhs.file == rhs.file and lhs.function == rhs.function
+               and lhs.line == rhs.line and lhs.message == rhs.message
+               and lhs.thread_id == rhs.thread_id
+               and lhs.timestamp == rhs.timestamp;
+    }
+
+    /**
+     * @brief Returns true if two violation contexts are unequal.
+     *
+     * @param lhs the left hand side of the operation
+     * @param rhs the right hand side of the operation
+     *
+     * @return true if two violation contexts are unequal
+     */
+    inline auto operator!=(const violation_context& lhs,
+                           const violation_context& rhs)
+    {
+        return !(lhs == rhs);
     }
 
     /**
@@ -135,6 +147,26 @@ namespace dbc {
                   << ", thread id: " << context.thread_id
                   << ", timestamp: " << context.timestamp << "." << '\n'
                   << context.message;
+    }
+
+    /**
+     * @brief Returns a string representation of a violation context.
+     *
+     * @param context the context from which to formulate the string
+     * representation
+     *
+     * @return a string representation of a violation context
+     */
+    inline auto to_string(const violation_context& context)
+    {
+        return std::string(to_string_view(context.type)) + " violation: ("
+               + std::string(context.condition) + "), "
+               + "function: " + std::string(context.function)
+               + ", file: " + std::string(context.file)
+               + ", line: " + std::to_string(context.line)
+               + ", thread id: " + context.thread_id
+               + ", timestamp: " + std::to_string(context.timestamp) + "."
+               + '\n' + std::string(context.message);
     }
 
     namespace details {
