@@ -370,6 +370,8 @@ namespace dbc {
 
 #endif
 
+} // namespace dbc
+
 // Macro overloading via pre-processor magic
 #define DBC_EXPAND(x)                    x
 #define DBC_GET_MACRO(_1, _2, NAME, ...) NAME
@@ -422,5 +424,3 @@ namespace dbc {
 #define POSTCONDITION_DBG(...)                                                 \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG,              \
                              DBC_POSTCONDITION1_DBG)(__VA_ARGS__))
-
-} // namespace dbc
