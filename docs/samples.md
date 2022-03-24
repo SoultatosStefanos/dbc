@@ -16,3 +16,5 @@ assertions are used.
 *   Sample #7 shows how DBC can be configured to emulate the assertion mechanism.
 *   Sample #8 shows how DBC can be configured to abort on debug builds, but
 throw on release builds.
+*   Sample #9 shows how DBC can be configured in order to install a custom 
+global contract violation handler function.

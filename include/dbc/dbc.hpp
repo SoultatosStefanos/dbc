@@ -97,14 +97,6 @@ namespace dbc {
         std::string_view message;
     };
 
-    /**
-     * @brief Returns true if two violation contexts are equal.
-     *
-     * @param lhs the left hand side of the operation
-     * @param rhs the right hand side of the operation
-     *
-     * @return true if two violation contexts are equal
-     */
     inline auto operator==(const violation_context& lhs,
                            const violation_context& rhs)
     {
@@ -115,28 +107,12 @@ namespace dbc {
                and lhs.timestamp == rhs.timestamp;
     }
 
-    /**
-     * @brief Returns true if two violation contexts are unequal.
-     *
-     * @param lhs the left hand side of the operation
-     * @param rhs the right hand side of the operation
-     *
-     * @return true if two violation contexts are unequal
-     */
     inline auto operator!=(const violation_context& lhs,
                            const violation_context& rhs)
     {
         return !(lhs == rhs);
     }
 
-    /**
-     * @brief Outputs a violation context to an out stream.
-     *
-     * @param os the output stream
-     * @param context the violation context
-     *
-     * @return the output stream
-     */
     inline auto operator<<(std::ostream& os, const violation_context& context)
         -> auto&
     {

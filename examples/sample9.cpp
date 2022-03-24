@@ -20,33 +20,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#define DBC_TERMINATE 1
+#define DBC_CUSTOM 1
 
 #include "dbc/dbc.hpp"
-#include <string>
 
-// showcase of DBC working with custom handlers.
+namespace {
 
-void bar(const char* str)
-{
-    PRECONDITION(str != nullptr);
-}
+    auto make_encoded_error_message(const dbc::violation_context& context)
+    {
+        auto str = dbc::to_string(context); // this is provided
+        // preprocessing perhaps
+        return str;
+    }
 
-extern auto make_error_msg() -> std::string;
-extern void log_error_to_file(const std::string& msg);
+    extern void show_message(const std::string& msg);
+    extern void save_remaining_data();
+    [[noreturn]] extern void urgent_exit();
 
-void handle_terminate()
-{
-    const auto msg = make_error_msg();
-    log_error_to_file(msg);
-}
+    void fatal_error(const dbc::violation_context& context)
+    {
+        const auto msg = make_encoded_error_message(context);
+        show_message(msg);
+        save_remaining_data();
+        urgent_exit(); // if this wasn't called, the program would continue,
+                       // resulting to (possibly) undefined behavior.
+    }
+
+} // namespace
 
 auto main() -> int
 {
-    std::set_terminate(handle_terminate);
+    dbc::set_violation_handler(fatal_error); // configure handler here
 
-    bar("ok");    // ok
-    bar(nullptr); // time to handle
+    PRECONDITION(false); // this will make a call to the fatal_error function
 
     return 0;
 }

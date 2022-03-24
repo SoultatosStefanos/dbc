@@ -23,3 +23,9 @@ When defined, any contract violations that are verified by the DBC macros will
 throw a dbc::contract_violation exception. All of the contract violation context
 info (file, line, function, expression, etc) can be obtained through the 
 dbc::contract_violation::what() method.
+
+### DBC_CUSTOM {#DBC_CUSTOM}
+
+When defined, any contract violations that are verified by the DBC macros will 
+be forwarded to an invokation of a global, set, contract violation handler
+function.
