@@ -22,11 +22,15 @@
 
 #pragma once
 
+#include <array>
+#include <cassert>
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <thread>
 
 /**
@@ -36,62 +40,116 @@
 namespace dbc {
 
     /**
-     * @brief Generic contract violation exception, covers pre/post condition
-     * plus invariant violations.
+     * @brief A contract type (Precondition, Postcondition, Invariant).
      *
      */
-    struct contract_violation : std::logic_error {
-        using std::logic_error::logic_error;
+    enum class contract_type { precondition = 0, postcondition, invariant };
+
+    /**
+     * @brief Returns a string view representation of a contract type.
+     *
+     * @param type the contract type from which to formulate the string view
+     *
+     * @return a string view representation of a contract type
+     */
+    constexpr auto to_string_view(contract_type type)
+    {
+        static_assert(static_cast<int>(contract_type::precondition) == 0);
+        static_assert(static_cast<int>(contract_type::postcondition) == 1);
+        static_assert(static_cast<int>(contract_type::invariant) == 2);
+
+        constexpr auto contracts{ 3 };
+        constexpr std::array<std::string_view, contracts> contract_strs{
+            "Precondition", "Postcondition", "Invariant"
+        };
+
+        return contract_strs[static_cast<int>(type)];
+    }
+
+    /**
+     * @brief Debug info, consisting of the context where a contract violation
+     * took place.
+     *
+     */
+    struct violation_context final {
+        /** @brief The type of the contract violation. (pre/post/inv) */
+        contract_type type;
+
+        /** @brief The boolean expression that failed. */
+        std::string_view condition;
+
+        /** @brief The function where the violation took place. */
+        std::string_view function;
+
+        /** @brief The file where the violation took place. */
+        std::string_view file;
+
+        /** @brief The line where the violation took place. */
+        int32_t line;
+
+        /** @brief The id of the thread that is responsible for the violation.*/
+        std::string thread_id;
+
+        /** @brief The timestamp (ms) where the violation took place. */
+        int64_t timestamp;
+
+        /** @brief An optional explanatory error message about the violation.*/
+        std::string_view message;
     };
 
     /**
-     * @brief This DBC namespace is not intended for public use.
+     * @brief Returns a string representation of a violation context.
      *
+     * @param context the context from which to formulate the string
+     * representation
+     *
+     * @return a string representation of a violation context
      */
+    inline auto to_string(const violation_context& context)
+    {
+        return std::string(to_string_view(context.type)) + " violation: ("
+               + std::string(context.condition) + "), "
+               + "function: " + std::string(context.function)
+               + ", file: " + std::string(context.file)
+               + ", line: " + std::to_string(context.line)
+               + ", thread id: " + context.thread_id
+               + ", timestamp: " + std::to_string(context.timestamp) + "."
+               + '\n' + std::string(context.message);
+    }
+
+    /**
+     * @brief Outputs a violation context to an out stream.
+     *
+     * @param os the output stream
+     * @param context the violation context
+     *
+     * @return the output stream
+     */
+    inline auto operator<<(std::ostream& os, const violation_context& context)
+        -> auto&
+    {
+        return os << to_string_view(context.type) << " violation: ("
+                  << context.condition << "), "
+                  << "function: " << context.function
+                  << ", file: " << context.file << ", line: " << context.line
+                  << ", thread id: " << context.thread_id
+                  << ", timestamp: " << context.timestamp << "." << '\n'
+                  << context.message;
+    }
+
     namespace details {
 
-        // Debuf info including the violation type (pre/post/inv)
-        struct violation_context final {
-            std::string type;
-            std::string condition;
-            std::string function;
-            std::string file;
-            int line;
-            std::thread::id thread_id;
-            int64_t timestamp; // in ms
-            std::string message;
-        };
-
-        // Returns a thread id to string
-        inline auto to_string(const std::thread::id& id)
+        // Returns this cuurent thread id
+        inline auto get_thread_id()
         {
+            const auto id = std::this_thread::get_id();
             std::stringstream ss;
             ss << id;
             return ss.str();
         }
 
-        // Formulates an error message from a violation context
-        inline auto make_violation_message(const violation_context& context)
-        {
-            return context.type + " (" + context.condition + "), "
-                   + "function: " + context.function + ", file: " + context.file
-                   + ", line: " + std::to_string(context.line)
-                   + ", thread id: " + to_string(context.thread_id)
-                   + ", timestamp: " + std::to_string(context.timestamp) + "."
-                   + '\n' + context.message;
-        }
-
-        // Logs a violation context to std::cerr stream
-        inline void log_violation_message(const violation_context& context)
-        {
-            std::cerr << make_violation_message(context) << '\n';
-        }
-
-        // Returns this thread id
-        inline auto thread_id() noexcept { return std::this_thread::get_id(); }
-
         // Returns the current timestamp, since the first epoch, in ms
-        inline auto timestamp()
+        inline auto get_timestamp()
         {
             using namespace std::chrono;
 
@@ -99,82 +157,161 @@ namespace dbc {
             return duration_cast<milliseconds>(now.time_since_epoch()).count();
         }
 
+    } // namespace details
+
 #if defined(DBC_ABORT)
 
-        // Logs a violation message and aborts
-        [[noreturn]] inline void
-        abort(const violation_context& context) noexcept
+    namespace details {
+
+        // Logs the violation info to std::cerr and aborts.
+        [[noreturn]] inline void abort_handler(const violation_context& c)
         {
-            log_violation_message(context);
+            std::cerr << to_string(c) << '\n';
             std::abort();
         }
 
+    } // namespace details
+
+#define DBC_ASSERT1(type, condition)                                           \
+    if (!(condition))                                                          \
+        dbc::details::abort_handler({ type, #condition, __FUNCTION__,          \
+                                      __FILE__, __LINE__,                      \
+                                      dbc::details::get_thread_id(),           \
+                                      dbc::details::get_timestamp(), "" });
+
+#define DBC_ASSERT2(type, condition, message)                                  \
+    if (!(condition))                                                          \
+        dbc::details::abort_handler(                                           \
+            { type, #condition, __FUNCTION__, __FILE__, __LINE__,              \
+              dbc::details::get_thread_id(), dbc::details::get_timestamp(),    \
+              message });
+
 #elif defined(DBC_TERMINATE)
 
-        // Logs a violation message and terminates
-        [[noreturn]] inline void
-        terminate(const violation_context& context) noexcept
+    namespace details {
 
+        // Logs the violation info to std::cerr and terminates.
+        [[noreturn]] inline void terminate_handler(const violation_context& c)
         {
-            log_violation_message(context);
+            std::cerr << to_string(c) << '\n';
             std::terminate();
         }
 
+    } // namespace details
+
+#define DBC_ASSERT1(type, condition)                                           \
+    if (!(condition))                                                          \
+        dbc::details::terminate_handler(                                       \
+            { type, #condition, __FUNCTION__, __FILE__, __LINE__,              \
+              dbc::details::get_thread_id(), dbc::details::get_timestamp(),    \
+              "" });
+
+#define DBC_ASSERT2(type, condition, message)                                  \
+    if (!(condition))                                                          \
+        dbc::details::terminate_handler(                                       \
+            { type, #condition, __FUNCTION__, __FILE__, __LINE__,              \
+              dbc::details::get_thread_id(), dbc::details::get_timestamp(),    \
+              message });
+
 #elif defined(DBC_THROW)
 
-        // Throws a contract_violation error with a violation message
-        [[noreturn]] inline void raise(const violation_context& context)
-        {
-            throw contract_violation(make_violation_message(context));
-        }
+    /**
+     * @brief A contract violation error.
+     *
+     */
+    class contract_violation final : public std::logic_error {
+    public:
+        /**
+         * @brief Constructs the contract violation by a context.
+         *
+         * @param context the contract violation context.
+         */
+        explicit contract_violation(const violation_context& context)
+            : logic_error(to_string(context)), m_context(context)
+        {}
 
-#endif
+        /**
+         * @brief Returns the contract violation context.
+         *
+         * @return the contract violation context
+         */
+        auto context() const -> const violation_context& { return m_context; };
+
+    private:
+        violation_context m_context;
+    };
+
+    namespace details {
+
+        // Throws a contract_violation with the violation context
+        [[noreturn]] inline void throw_handler(const violation_context& c)
+        {
+            throw contract_violation(c);
+        }
 
     } // namespace details
 
-} // namespace dbc
-
-#if defined(DBC_ABORT)
-
 #define DBC_ASSERT1(type, condition)                                           \
     if (!(condition))                                                          \
-        dbc::details::abort({ type, #condition, __FUNCTION__, __FILE__,        \
-                              __LINE__, dbc::details::thread_id(),             \
-                              dbc::details::timestamp(), "" });
+        dbc::details::throw_handler({ type, #condition, __FUNCTION__,          \
+                                      __FILE__, __LINE__,                      \
+                                      dbc::details::get_thread_id(),           \
+                                      dbc::details::get_timestamp(), "" });
 
 #define DBC_ASSERT2(type, condition, message)                                  \
     if (!(condition))                                                          \
-        dbc::details::abort({ type, #condition, __FUNCTION__, __FILE__,        \
-                              __LINE__, dbc::details::thread_id(),             \
-                              dbc::details::timestamp(), message });
+        dbc::details::throw_handler(                                           \
+            { type, #condition, __FUNCTION__, __FILE__, __LINE__,              \
+              dbc::details::get_thread_id(), dbc::details::get_timestamp(),    \
+              message });
 
-#elif defined(DBC_TERMINATE)
+#elif defined(DBC_CUSTOM)
+
+    /** @brief A violation context handler function. */
+    using violation_handler = std::function<void(const violation_context&)>;
+
+    namespace details {
+
+        // Returns the violation handler
+        inline auto get_handler() -> auto&
+        {
+            static violation_handler handler = [](const auto&) {}; // noop
+            return handler;
+        }
+
+        // Invokes the set handler with the context
+        inline void handle(const violation_context& context)
+        {
+            assert(get_handler());
+            get_handler()(context);
+        }
+
+    } // namespace details
+
+    /**
+     * @brief Sets the global contract violation handler.
+     *
+     * @param f the global contract violation handler, not empty
+     *
+     * @throws std::invalid_argument if the violation handler function is empty
+     */
+    inline void set_violation_handler(const violation_handler& f)
+    {
+        if (!f) throw std::invalid_argument("empty violation handler");
+        details::get_handler() = f;
+    }
 
 #define DBC_ASSERT1(type, condition)                                           \
     if (!(condition))                                                          \
-        dbc::details::terminate({ type, #condition, __FUNCTION__, __FILE__,    \
-                                  __LINE__, dbc::details::thread_id(),         \
-                                  dbc::details::timestamp(), "" });
+        dbc::details::handle({ type, #condition, __FUNCTION__, __FILE__,       \
+                               __LINE__, dbc::details::get_thread_id(),        \
+                               dbc::details::get_timestamp(), "" });
 
 #define DBC_ASSERT2(type, condition, message)                                  \
     if (!(condition))                                                          \
-        dbc::details::terminate({ type, #condition, __FUNCTION__, __FILE__,    \
-                                  __LINE__, dbc::details::thread_id(),         \
-                                  dbc::details::timestamp(), message });
-
-#elif defined(DBC_THROW)
-
-#define DBC_ASSERT1(type, condition)                                           \
-    if (!(condition))                                                          \
-        dbc::details::raise({ type, #condition, __FUNCTION__, __FILE__,        \
-                              __LINE__, dbc::details::thread_id(),             \
-                              dbc::details::timestamp(), "" });
-
-#define DBC_ASSERT2(type, condition, message)                                  \
-    if (!(condition))                                                          \
-        dbc::details::raise({ type, #condition, __FUNCTION__, __FILE__,        \
-                              __LINE__, dbc::details::thread_id(),             \
-                              dbc::details::timestamp(), message });
+        dbc::details::handle({ type, #condition, __FUNCTION__, __FILE__,       \
+                               __LINE__, dbc::details::get_thread_id(),        \
+                               dbc::details::get_timestamp(), message });
 
 #else
 
@@ -184,36 +321,33 @@ namespace dbc {
 #endif
 
 #define DBC_INVARIANT1(condition)                                              \
-    DBC_ASSERT1("Invariant violation: ", condition)
+    DBC_ASSERT1(dbc::contract_type::invariant, condition)
 #define DBC_INVARIANT2(condition, message)                                     \
-    DBC_ASSERT2("Invariant violation: ", condition, message)
+    DBC_ASSERT2(dbc::contract_type::invariant, condition, message)
 
 #define DBC_PRECONDITION1(condition)                                           \
-    DBC_ASSERT1("Precondition violation: ", condition)
+    DBC_ASSERT1(dbc::contract_type::precondition, condition)
 #define DBC_PRECONDITION2(condition, message)                                  \
-    DBC_ASSERT2("Precondition violation: ", condition, message)
+    DBC_ASSERT2(dbc::contract_type::precondition, condition, message)
 
 #define DBC_POSTCONDITION1(condition)                                          \
-    DBC_ASSERT1("Postcondition violation: ", condition)
+    DBC_ASSERT1(dbc::contract_type::postcondition, condition)
 #define DBC_POSTCONDITION2(condition, message)                                 \
-    DBC_ASSERT2("Postcondition violation: ", condition, message)
+    DBC_ASSERT2(dbc::contract_type::postcondition, condition, message)
 
 #ifndef NDEBUG
 
-#define DBC_INVARIANT1_DBG(condition)                                          \
-    DBC_ASSERT1("Invariant violation: ", condition)
+#define DBC_INVARIANT1_DBG(condition) DBC_INVARIANT1(condition)
 #define DBC_INVARIANT2_DBG(condition, message)                                 \
-    DBC_ASSERT2("Invariant violation: ", condition, message)
+    DBC_INVARIANT2(condition, message)
 
-#define DBC_PRECONDITION1_DBG(condition)                                       \
-    DBC_ASSERT1("Precondition violation: ", condition)
+#define DBC_PRECONDITION1_DBG(condition) DBC_PRECONDITION1(condition)
 #define DBC_PRECONDITION2_DBG(condition, message)                              \
-    DBC_ASSERT2("Precondition violation: ", condition, message)
+    DBC_PRECONDITION2(condition, message)
 
-#define DBC_POSTCONDITION1_DBG(condition)                                      \
-    DBC_ASSERT1("Postcondition violation: ", condition)
+#define DBC_POSTCONDITION1_DBG(condition) DBC_POSTCONDITION1(condition)
 #define DBC_POSTCONDITION2_DBG(condition, message)                             \
-    DBC_ASSERT2("Postcondition violation: ", condition, message)
+    DBC_POSTCONDITION2(condition, message)
 
 #else
 
@@ -280,3 +414,5 @@ namespace dbc {
 #define POSTCONDITION_DBG(...)                                                 \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG,              \
                              DBC_POSTCONDITION1_DBG)(__VA_ARGS__))
+
+} // namespace dbc
