@@ -37,7 +37,7 @@ namespace {
     extern void save_remaining_data();
     [[noreturn]] extern void urgent_exit();
 
-    void fatal_error(const dbc::violation_context& context)
+    [[noreturn]] void fatal_error(const dbc::violation_context& context)
     {
         const auto msg = make_encoded_error_message(context);
         show_message(msg);
