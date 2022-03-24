@@ -40,10 +40,12 @@ auto read_int(std::istream& in) -> int
 
 extern void reboot();
 extern void log(const std::string& error);
+extern void log(const dbc::violation_context& c);
 
-void recover_gracefully(const std::string& error)
+void recover_gracefully(const dbc::contract_violation& e)
 {
-    log(error);
+    log(e.what());
+    log(e.context()); // alternatively
     reboot();
 }
 
@@ -52,7 +54,7 @@ auto main() -> int
     try {
         const auto i = read_int(std::cin);
     } catch (const dbc::contract_violation& e) { // catch contract violation
-        recover_gracefully(e.what());
+        recover_gracefully(e);
 
         return EXIT_SUCCESS;
     } catch (...) {

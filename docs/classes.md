@@ -32,4 +32,6 @@ Effectively used, when the DBC_THROW build flag macro is defined.
 
 In order to observe the contract violation context debug info 
 (file, function, etc), the inherited, public, accessor method
-dbc::contract_violation::what() can be used.
+dbc::contract_violation::what() can be used, in order to obtain an std::string
+representation. Additionally, the violation context can be obtained with the 
+member function dbc::contract_violation::context().
