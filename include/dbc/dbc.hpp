@@ -215,7 +215,7 @@ public:
     auto context() const -> const violation_context& { return m_context; };
 
 protected:
-    auto filter(const converter& f) const -> converter
+    [[nodiscard]] static auto filter(const converter& f) -> converter
     {
         if (!f) throw std::invalid_argument("empty converter");
         return f;
