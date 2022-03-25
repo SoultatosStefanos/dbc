@@ -71,6 +71,10 @@ constexpr auto to_string_view(contract_type type)
     }
 }
 
+// violation_context
+//
+// Debug info concerning a contract violation.
+//
 struct violation_context
 {
     contract_type type;
@@ -118,7 +122,7 @@ inline auto to_string(const violation_context& context)
 
 namespace details
 {
-    inline auto get_thread_id()
+    inline auto get_thread_id() // this thread
     {
         const auto id = std::this_thread::get_id();
         std::stringstream ss;
@@ -136,6 +140,10 @@ namespace details
 } // namespace details
 
 #if defined(DBC_ABORT)
+
+#if defined(DBC_TERMINATE) || defined(DBC_THROW) || defined(DBC_CUSTOM)
+#error Definition of multiple DBC flags
+#endif
 
 namespace details
 {
@@ -160,6 +168,10 @@ namespace details
 
 #elif defined(DBC_TERMINATE)
 
+#if defined(DBC_ABORT) || defined(DBC_THROW) || defined(DBC_CUSTOM)
+#error Definition of multiple DBC flags
+#endif
+
 namespace details
 {
     [[noreturn]] inline void terminate_handler(const violation_context& c)
@@ -183,6 +195,14 @@ namespace details
 
 #elif defined(DBC_THROW)
 
+#if defined(DBC_ABORT) || defined(DBC_TERMINATE) || defined(DBC_CUSTOM)
+#error Definition of multiple DBC flags
+#endif
+
+// contract_violation
+//
+// Expresses a DBC contract (pre|post|inv) violation error.
+//
 class contract_violation : public std::logic_error
 {
 public:
@@ -226,6 +246,10 @@ namespace details
                                      message});
 
 #elif defined(DBC_CUSTOM)
+
+#if defined(DBC_ABORT) || defined(DBC_TERMINATE) || defined(DBC_THROW)
+#error Definition of multiple DBC flags
+#endif
 
 using violation_handler = std::function<void(const violation_context&)>;
 
