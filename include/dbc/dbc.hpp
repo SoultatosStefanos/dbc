@@ -80,7 +80,7 @@ namespace dbc {
      * took place.
      *
      */
-    struct violation_context final {
+    struct violation_context {
         /** @brief The type of the contract violation. (pre/post/inv) */
         contract_type type;
 
@@ -236,15 +236,23 @@ namespace dbc {
      * @brief A contract violation error.
      *
      */
-    class contract_violation final : public std::logic_error {
+    class contract_violation : public std::logic_error {
     public:
+        /** @brief Converts a contract violation to s string. */
+        using converter = std::function<std::string(const violation_context&)>;
+
         /**
          * @brief Constructs the contract violation by a context.
          *
          * @param context the contract violation context.
+         * @param f a converter function that formulates a string from the
+         * context, defaults to dbc::to_string and must not be empty
+         *
+         * @throws std::invalid_argument if the converter is empty
          */
-        explicit contract_violation(const violation_context& context)
-            : logic_error(to_string(context)), m_context(context)
+        explicit contract_violation(const violation_context& context,
+                                    const converter& f = to_string)
+            : logic_error(std::invoke(filter(f), context)), m_context(context)
         {}
 
         /**
@@ -253,6 +261,22 @@ namespace dbc {
          * @return the contract violation context
          */
         auto context() const -> const violation_context& { return m_context; };
+
+    protected:
+        /**
+         * @brief Assures that a converter function is not empty.
+         *
+         * @param f the converter function, must not be empty
+         *
+         * @return the converter function if it's not empty
+         *
+         * @throws std::invalid_argument if the converter is empty
+         */
+        auto filter(const converter& f) const -> converter
+        {
+            if (!f) throw std::invalid_argument("empty converter");
+            return f;
+        }
 
     private:
         violation_context m_context;
