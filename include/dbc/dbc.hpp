@@ -51,19 +51,28 @@ namespace dbc {
      * @param type the contract type from which to formulate the string view
      *
      * @return a string view representation of a contract type
+     *
+     * @throws std::invalid_argument if the type is non enumerated
      */
     constexpr auto to_string_view(contract_type type)
     {
-        static_assert(static_cast<int>(contract_type::precondition) == 0);
-        static_assert(static_cast<int>(contract_type::postcondition) == 1);
-        static_assert(static_cast<int>(contract_type::invariant) == 2);
+        using namespace std::literals;
+        using enum contract_type;
 
-        constexpr auto contracts{ 3 };
-        constexpr std::array<std::string_view, contracts> contract_strs{
-            "Precondition", "Postcondition", "Invariant"
-        };
+        switch (type) {
+        case precondition:
+            return "Precondition"sv;
+        case postcondition:
+            return "Postcondition"sv;
+        case invariant:
+            return "Invariant"sv;
+        default:
+            throw std::invalid_argument(
+                "unknown enum value: "
+                + std::to_string(static_cast<int>(type)));
 
-        return contract_strs[static_cast<int>(type)];
+            return ""sv;
+        }
     }
 
     /**
