@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <array>
 #include <cassert>
 #include <chrono>
 #include <functional>
@@ -67,10 +66,7 @@ namespace dbc {
         case invariant:
             return "Invariant"sv;
         default:
-            throw std::invalid_argument(
-                "unknown enum value: "
-                + std::to_string(static_cast<int>(type)));
-
+            throw std::invalid_argument("unknown enum value");
             return ""sv;
         }
     }
@@ -155,8 +151,7 @@ namespace dbc {
     }
 
     namespace details {
-
-        // Returns this cuurent thread id
+        // Returns this current thread id
         inline auto get_thread_id()
         {
             const auto id = std::this_thread::get_id();
