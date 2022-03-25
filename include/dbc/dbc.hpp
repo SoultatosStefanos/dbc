@@ -24,8 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef DBC_H
-#define DBC_H
+#pragma once
 
 #include <cassert>     // for assert
 #include <chrono>      // for system_clock, duration_cast, miliseconds
@@ -78,9 +77,9 @@ constexpr auto to_string_view(contract_type type)
     case invariant:
         return "Invariant"sv;
     default:
-        const auto to_integer = [type] { return static_cast<int>(type); };
-        const auto to_string = [type, &to_int] { return std::to_string(to_integer(type)); };
-        const auto make_error_msg = [type, &to_str] { return "unknown enum value" + to_string(); };
+        const auto to_int = [type] { return static_cast<int>(type); };
+        const auto to_str = [type, &to_int] { return std::to_string(to_int()); };
+        const auto make_error_msg = [type, &to_str] { return "unknown enum value" + to_str(); };
 
         throw std::invalid_argument(make_error_msg());
         assert(false);
@@ -161,7 +160,6 @@ inline auto to_string(const violation_context& context)
 
 namespace details
 {
-    // Returns this current thread id
     inline auto get_thread_id()
     {
         const auto id = std::this_thread::get_id();
@@ -170,7 +168,6 @@ namespace details
         return ss.str();
     }
 
-    // Returns the current timestamp, since the first epoch, in ms
     inline auto get_timestamp()
     {
         using namespace std::chrono;
@@ -178,20 +175,17 @@ namespace details
         const auto now = system_clock::now();
         return duration_cast<milliseconds>(now.time_since_epoch()).count();
     }
-
 } // namespace details
 
 #if defined(DBC_ABORT)
 
 namespace details
 {
-    // Logs the violation info to std::cerr and aborts.
     [[noreturn]] inline void abort_handler(const violation_context& c)
     {
         std::cerr << to_string(c) << '\n';
         std::abort();
     }
-
 } // namespace details
 
 #define DBC_ASSERT1(type, condition)                                                               \
@@ -210,13 +204,11 @@ namespace details
 
 namespace details
 {
-    // Logs the violation info to std::cerr and terminates.
     [[noreturn]] inline void terminate_handler(const violation_context& c)
     {
         std::cerr << to_string(c) << '\n';
         std::terminate();
     }
-
 } // namespace details
 
 #define DBC_ASSERT1(type, condition)                                                               \
@@ -285,12 +277,10 @@ private:
 
 namespace details
 {
-    // Throws a contract_violation with the violation context
     [[noreturn]] inline void throw_handler(const violation_context& c)
     {
         throw contract_violation(c);
     }
-
 } // namespace details
 
 #define DBC_ASSERT1(type, condition)                                                               \
@@ -312,20 +302,17 @@ using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
 {
-    // Returns the violation handler
     inline auto get_handler() -> auto&
     {
         static violation_handler handler = [](const auto&) {}; // noop
         return handler;
     }
 
-    // Invokes the set handler with the context
     inline void handle(const violation_context& context)
     {
         assert(get_handler());
         get_handler()(context);
     }
-
 } // namespace details
 
 /**
@@ -398,53 +385,25 @@ inline void set_violation_handler(const violation_handler& f)
 
 } // namespace dbc
 
-// Macro overloading via pre-processor magic
-#define DBC_EXPAND(x) x
-#define DBC_GET_MACRO(_1, _2, NAME, ...) NAME
+#define DBC_EXPAND(x) x                       // macro overloading via pre-processor magic
+#define DBC_GET_MACRO(_1, _2, NAME, ...) NAME // macro overloading via pre-processor magic
 
-/**
- * @brief Macro to assert a class/loop invariant.
- *
- */
 #define INVARIANT(...)                                                                             \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2, DBC_INVARIANT1)(__VA_ARGS__))
 
-/**
- * @brief Macro to assert a precondition.
- *
- */
 #define PRECONDITION(...)                                                                          \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2, DBC_PRECONDITION1)(__VA_ARGS__))
 
-/**
- * @brief Macro to assert a postcondition.
- *
- */
 #define POSTCONDITION(...)                                                                         \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2, DBC_POSTCONDITION1)(__VA_ARGS__))
 
-/**
- * @brief Macro to assert a class/loop invariant on debug builds only.
- * Used for performance critical code.
- *
- */
 #define INVARIANT_DBG(...)                                                                         \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2_DBG, DBC_INVARIANT1_DBG)(__VA_ARGS__))
 
-/**
- * @brief Macro to assert a precondition on debug builds only.
- * Used for performance critical code.
- */
 #define PRECONDITION_DBG(...)                                                                      \
     DBC_EXPAND(                                                                                    \
         DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2_DBG, DBC_PRECONDITION1_DBG)(__VA_ARGS__))
 
-/**
- * @brief Macro to assert a postcondition on debug builds only.
- * Used for performance critical code.
- */
 #define POSTCONDITION_DBG(...)                                                                     \
     DBC_EXPAND(                                                                                    \
         DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG, DBC_POSTCONDITION1_DBG)(__VA_ARGS__))
-
-#endif
