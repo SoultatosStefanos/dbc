@@ -63,7 +63,7 @@ constexpr auto to_string_view(contract_type type)
     default:
         const auto to_int = [type] { return static_cast<int>(type); };
         const auto to_str = [type, &to_int] { return std::to_string(to_int()); };
-        const auto make_error_msg = [type, &to_str] { return "unknown enum value" + to_str(); };
+        const auto make_error_msg = [type, &to_str] { return "unknown enum value: " + to_str(); };
 
         throw std::invalid_argument(make_error_msg());
         assert(false); // how did we get here?
