@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,6 +21,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_THROW 1
 
@@ -31,7 +35,7 @@ auto read_int(std::istream& in) -> int
 {
     PRECONDITION(in.good(), "Invalid input stream!");
 
-    auto i{ 0 };
+    auto i{0};
     in >> i;
 
     POSTCONDITION(in.good());
@@ -51,13 +55,16 @@ void recover_gracefully(const dbc::contract_violation& e)
 
 auto main() -> int
 {
-    try {
+    try
+    {
         const auto i = read_int(std::cin);
-    } catch (const dbc::contract_violation& e) { // catch contract violation
+    } catch (const dbc::contract_violation& e)
+    { // catch contract violation
         recover_gracefully(e);
 
         return EXIT_SUCCESS;
-    } catch (...) {
+    } catch (...)
+    {
         std::cerr << "Unexpected error!\n";
 
         return EXIT_FAILURE;

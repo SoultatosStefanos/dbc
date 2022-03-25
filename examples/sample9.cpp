@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,32 +21,35 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_CUSTOM 1
 
 #include "dbc/dbc.hpp"
 
-namespace {
+namespace
+{
 
-    auto make_encoded_error_message(const dbc::violation_context& context)
-    {
-        auto str = dbc::to_string(context); // this is provided
-        // preprocessing perhaps
-        return str;
-    }
+auto make_encoded_error_message(const dbc::violation_context& context)
+{
+    auto str = dbc::to_string(context); // this is provided
+    // preprocessing perhaps
+    return str;
+}
 
-    extern void show_message(const std::string& msg);
-    extern void save_remaining_data();
-    [[noreturn]] extern void urgent_exit();
+extern void show_message(const std::string& msg);
+extern void save_remaining_data();
+[[noreturn]] extern void urgent_exit();
 
-    [[noreturn]] void fatal_error(const dbc::violation_context& context)
-    {
-        const auto msg = make_encoded_error_message(context);
-        show_message(msg);
-        save_remaining_data();
-        urgent_exit(); // if this wasn't called, the program would continue,
-                       // resulting to (possibly) undefined behavior.
-    }
+[[noreturn]] void fatal_error(const dbc::violation_context& context)
+{
+    const auto msg = make_encoded_error_message(context);
+    show_message(msg);
+    save_remaining_data();
+    urgent_exit(); // if this wasn't called, the program would continue,
+                   // resulting to (possibly) undefined behavior.
+}
 
 } // namespace
 

@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,40 +21,44 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_ABORT 1
 
 #include "dbc/dbc.hpp"
 
-namespace {
+namespace
+{
 
-    // Showcase of encapsulation with dbc.
-    // Class invariant: v must be positive.
-    class x {
-    public:
-        auto var() const -> int
-        {
-            INVARIANT(v > 0);
-            return v;
-        }
+// Showcase of encapsulation with dbc.
+// Class invariant: v must be positive.
+class x
+{
+public:
+    auto var() const -> int
+    {
+        INVARIANT(v > 0);
+        return v;
+    }
 
-        void set_var(int _v)
-        {
-            INVARIANT(v > 0);
-            PRECONDITION(_v > 0); // same as
-            // for more debug info
-            PRECONDITION(_v > 0, "found _v == " + std::to_string(var()));
+    void set_var(int _v)
+    {
+        INVARIANT(v > 0);
+        PRECONDITION(_v > 0); // same as
+        // for more debug info
+        PRECONDITION(_v > 0, "found _v == " + std::to_string(var()));
 
-            v = _v;
+        v = _v;
 
-            POSTCONDITION(v == _v); // same as
-            // for more  info
-            POSTCONDITION(v == _v, "v is actually: " + std::to_string(var()));
-            INVARIANT(v > 0);
-        }
+        POSTCONDITION(v == _v); // same as
+        // for more  info
+        POSTCONDITION(v == _v, "v is actually: " + std::to_string(var()));
+        INVARIANT(v > 0);
+    }
 
-    private:
-        int v{ 2 };
-    };
+private:
+    int v{2};
+};
 
 } // namespace

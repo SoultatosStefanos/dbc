@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,6 +21,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_CUSTOM 1
 
@@ -27,96 +31,92 @@
 #include "gtest/gtest.h"
 #include <cassert>
 
-namespace dbc::tests {
+namespace dbc::tests
+{
 
-    TEST(Set_violation_handler,
-         Throws_an_invalid_argument_if_the_handler_is_empty)
+TEST(Set_violation_handler, Throws_an_invalid_argument_if_the_handler_is_empty)
+{
+    dbc::violation_handler h;
+    assert(!h);
+
+    ASSERT_THROW(dbc::set_violation_handler(h), std::invalid_argument);
+}
+
+class Given_a_set_custom_violation_handler : public testing::Test
+{
+public:
+    void SetUp() override { dbc::set_violation_handler(mock_handler.AsStdFunction()); }
+
+    void TearDown() override
     {
-        dbc::violation_handler h;
-        assert(!h);
-
-        ASSERT_THROW(dbc::set_violation_handler(h), std::invalid_argument);
+        dbc::set_violation_handler([](const auto&) {});
     }
 
-    class Given_a_set_custom_violation_handler : public testing::Test {
-    public:
-        void SetUp() override
-        {
-            dbc::set_violation_handler(mock_handler.AsStdFunction());
-        }
+protected:
+    testing::NiceMock<testing::MockFunction<violation_handler>> mock_handler;
+};
 
-        void TearDown() override
-        {
-            dbc::set_violation_handler([](const auto&) {});
-        }
+TEST_F(Given_a_set_custom_violation_handler, A_true_invariant_assertion_will_not_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
 
-    protected:
-        testing::NiceMock<testing::MockFunction<violation_handler>>
-            mock_handler;
-    };
+    INVARIANT(true);
+}
 
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_true_invariant_assertion_will_not_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
+TEST_F(Given_a_set_custom_violation_handler,
+       A_true_precondition_assertion_will_not_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
 
-        INVARIANT(true);
-    }
+    PRECONDITION(true);
+}
 
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_true_precondition_assertion_will_not_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
+TEST_F(Given_a_set_custom_violation_handler,
+       A_true_postcondition_assertion_will_not_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
 
-        PRECONDITION(true);
-    }
+    POSTCONDITION(true);
+}
 
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_true_postcondition_assertion_will_not_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
+TEST_F(Given_a_set_custom_violation_handler, A_false_invariant_assertion_will_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
 
-        POSTCONDITION(true);
-    }
+    INVARIANT(false);
+}
 
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_false_invariant_assertion_will_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
+TEST_F(Given_a_set_custom_violation_handler, A_false_precondition_assertion_will_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
 
-        INVARIANT(false);
-    }
+    PRECONDITION(false);
+}
 
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_false_precondition_assertion_will_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
+TEST_F(Given_a_set_custom_violation_handler, A_false_postcondition_assertion_will_call_the_handler)
+{
+    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
 
-        PRECONDITION(false);
-    }
-
-    TEST_F(Given_a_set_custom_violation_handler,
-           A_false_postcondition_assertion_will_call_the_handler)
-    {
-        EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
-
-        POSTCONDITION(false);
-    }
+    POSTCONDITION(false);
+}
 
 } // namespace dbc::tests
 
 auto main(int argc, char* argv[]) -> int
 {
-    try {
+    try
+    {
         ::testing::InitGoogleTest(&argc, argv);
         ::testing::InitGoogleMock(&argc, argv);
 
         return RUN_ALL_TESTS();
-    } catch (const std::exception& e) {
+    } catch (const std::exception& e)
+    {
         std::cerr << e.what() << '\n';
 
         return EXIT_FAILURE;
-    } catch (...) {
+    } catch (...)
+    {
         std::cerr << "Unexpected error!\n";
 
         return EXIT_FAILURE;

@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,6 +21,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_TERMINATE 1
 
@@ -27,10 +31,7 @@
 
 // showcase of DBC working with custom handlers.
 
-void bar(const char* str)
-{
-    PRECONDITION(str != nullptr);
-}
+void bar(const char* str) { PRECONDITION(str != nullptr); }
 
 extern auto make_error_msg() -> std::string;
 extern void log_error_to_file(const std::string& msg);

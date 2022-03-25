@@ -40,7 +40,7 @@ on debug builds and doing nothing on release builds.
 
 #include "dbc/dbc.hpp"
 
-static auto flag{ 4 };
+static auto flag{4};
 
 extern auto running() -> bool;
 extern void bar();
@@ -52,7 +52,8 @@ void foo(int x, int y)
 
     flag = x + y;
 
-    while (running()) {
+    while (running())
+    {
         INVARIANT(running());
 
         bar();

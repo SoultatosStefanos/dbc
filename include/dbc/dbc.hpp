@@ -24,7 +24,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef DBC_H
+#define DBC_H
 
 #include <cassert>     // for assert
 #include <chrono>      // for system_clock, duration_cast, miliseconds
@@ -36,17 +37,9 @@
 #include <string_view> // for string_view
 #include <thread>      // for get_id
 
-/**
- * @brief The DBC global namespace.
- *
- */
 namespace dbc
 {
 
-/**
- * @brief A contract type (Precondition, Postcondition, Invariant).
- *
- */
 enum class contract_type
 {
     precondition = 0,
@@ -54,15 +47,6 @@ enum class contract_type
     invariant
 };
 
-/**
- * @brief Returns a string view representation of a contract type.
- *
- * @param type the contract type from which to formulate the string view
- *
- * @return a string view representation of a contract type
- *
- * @throws std::invalid_argument if the type is non enumerated
- */
 constexpr auto to_string_view(contract_type type)
 {
     using namespace std::literals;
@@ -82,40 +66,20 @@ constexpr auto to_string_view(contract_type type)
         const auto make_error_msg = [type, &to_str] { return "unknown enum value" + to_str(); };
 
         throw std::invalid_argument(make_error_msg());
-        assert(false);
-        return ""sv;
+        assert(false); // how did we get here?
+        return ""sv;   // to please the compiler
     }
 }
 
-/**
- * @brief Debug info, consisting of the context where a contract violation
- * took place.
- *
- */
 struct violation_context
 {
-    /** @brief The type of the contract violation. (pre/post/inv) */
     contract_type type;
-
-    /** @brief The boolean expression that failed. */
     std::string_view condition;
-
-    /** @brief The function where the violation took place. */
     std::string_view function;
-
-    /** @brief The file where the violation took place. */
     std::string_view file;
-
-    /** @brief The line where the violation took place. */
     int32_t line;
-
-    /** @brief The id of the thread that is responsible for the violation.*/
     std::string thread_id;
-
-    /** @brief The timestamp (ms) where the violation took place. */
-    int64_t timestamp;
-
-    /** @brief An optional explanatory error message about the violation.*/
+    int64_t timestamp; // in ms
     std::string_view message;
 };
 
@@ -131,6 +95,7 @@ inline auto operator!=(const violation_context& lhs, const violation_context& rh
     return !(lhs == rhs);
 }
 
+// provide overload that takes advantage of the std::string_view's efficiency
 inline auto operator<<(std::ostream& os, const violation_context& context) -> auto&
 {
     return os << to_string_view(context.type) << " violation: (" << context.condition << "), "
@@ -140,14 +105,7 @@ inline auto operator<<(std::ostream& os, const violation_context& context) -> au
               << context.message;
 }
 
-/**
- * @brief Returns a string representation of a violation context.
- *
- * @param context the context from which to formulate the string
- * representation
- *
- * @return a string representation of a violation context
- */
+// a useful violation string representation
 inline auto to_string(const violation_context& context)
 {
     return std::string(to_string_view(context.type)) + " violation: (" +
@@ -168,7 +126,7 @@ namespace details
         return ss.str();
     }
 
-    inline auto get_timestamp()
+    inline auto get_timestamp() // in ms
     {
         using namespace std::chrono;
 
@@ -225,46 +183,18 @@ namespace details
 
 #elif defined(DBC_THROW)
 
-/**
- * @brief A contract violation error.
- *
- */
 class contract_violation : public std::logic_error
 {
 public:
-    /** @brief Converts a contract violation to s string. */
     using converter = std::function<std::string(const violation_context&)>;
 
-    /**
-     * @brief Constructs the contract violation by a context.
-     *
-     * @param context the contract violation context.
-     * @param f a converter function that formulates a string from the
-     * context, defaults to dbc::to_string and must not be empty
-     *
-     * @throws std::invalid_argument if the converter is empty
-     */
     explicit contract_violation(const violation_context& context, const converter& f = to_string)
         : logic_error(std::invoke(filter(f), context)), m_context(context)
     {}
 
-    /**
-     * @brief Returns the contract violation context.
-     *
-     * @return the contract violation context
-     */
     auto context() const -> const violation_context& { return m_context; };
 
 protected:
-    /**
-     * @brief Assures that a converter function is not empty.
-     *
-     * @param f the converter function, must not be empty
-     *
-     * @return the converter function if it's not empty
-     *
-     * @throws std::invalid_argument if the converter is empty
-     */
     auto filter(const converter& f) const -> converter
     {
         if (!f) throw std::invalid_argument("empty converter");
@@ -297,14 +227,13 @@ namespace details
 
 #elif defined(DBC_CUSTOM)
 
-/** @brief A violation context handler function. */
 using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
 {
     inline auto get_handler() -> auto&
     {
-        static violation_handler handler = [](const auto&) {}; // noop
+        static violation_handler handler = [](const auto&) {}; // noop default handler
         return handler;
     }
 
@@ -315,15 +244,9 @@ namespace details
     }
 } // namespace details
 
-/**
- * @brief Sets the global contract violation handler.
- *
- * @param f the global contract violation handler, not empty
- *
- * @throws std::invalid_argument if the violation handler function is empty
- */
 inline void set_violation_handler(const violation_handler& f)
 {
+    assert(details::get_handler());
     if (!f) throw std::invalid_argument("empty violation handler");
     details::get_handler() = f;
     assert(details::get_handler());
@@ -407,3 +330,5 @@ inline void set_violation_handler(const violation_handler& f)
 #define POSTCONDITION_DBG(...)                                                                     \
     DBC_EXPAND(                                                                                    \
         DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG, DBC_POSTCONDITION1_DBG)(__VA_ARGS__))
+
+#endif // DBC_H

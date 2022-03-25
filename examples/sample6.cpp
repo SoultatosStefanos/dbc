@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////
+//
 // MIT License
 //
 // Copyright (c) 2021 SoultatosStefanos
@@ -19,6 +21,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #define DBC_ABORT 1
 
@@ -26,7 +30,8 @@
 #include <iostream>
 #include <string>
 
-class performance_critical_balanced_tree {
+class performance_critical_balanced_tree
+{
 public:
     void foo(const std::string& cmd)
     {
@@ -36,7 +41,7 @@ public:
         // impl
 
         POSTCONDITION_DBG(info() == valid_info(), "Found: " + info()); // O(n)
-        INVARIANT_DBG(is_balanced(), "What??"); // O(nlog(n))
+        INVARIANT_DBG(is_balanced(), "What??");                        // O(nlog(n))
     }
 
 private:
