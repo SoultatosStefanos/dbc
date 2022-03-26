@@ -72,13 +72,13 @@ constexpr auto to_string_view(contract_type type)
 struct violation_context
 {
     contract_type type;
-    std::string_view condition;
+    std::string_view condition; // the boolean expression that was false
     std::string_view function;
     std::string_view file;
     int32_t line;
-    std::size_t thread_id; // a unique id hash
-    int64_t timestamp;     // in ms
-    std::string_view message;
+    std::size_t thread_id;    // a unique id hash
+    int64_t timestamp;        // in ms
+    std::string_view message; // an optional user defined error message
 
     constexpr auto operator==(const violation_context&) const -> bool = default;
     constexpr auto operator!=(const violation_context&) const -> bool = default;
