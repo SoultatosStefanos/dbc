@@ -5,12 +5,12 @@ header `dbc/dbc.h`.
 
 ### operator== {#operator==}
 
-`inline auto operator==(const violation_context& lhs, const violation_context& rhs)`
+`constexpr auto operator==(const violation_context& lhs, const violation_context& rhs)`
 
 
 ### operator!= {#operator!=}
 
-`inline auto operator!=(const violation_context& lhs, const violation_context& rhs)`
+`constexpr auto operator!=(const violation_context& lhs, const violation_context& rhs)`
 
 
 ### operator<< {#operator<<}

@@ -11,13 +11,6 @@ header `dbc/dbc.h`.
 Returns an std::string_view representation of a contract_type.
 
 
-### to_string {#to_string}
-
-`inline auto to_string(const violation_context& context)`
-
-Returns an std::string representation of a violation context.
-
-
 ### set_violation_handler {#set_violation_handler}
 
 `inline void set_violation_handler(const violation_handler& f)`

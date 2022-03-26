@@ -16,7 +16,7 @@ place.
 
 In particular, this structure contains: the type of the contract violation,
 (precondition, postcondition, invariant), the boolean expression that failed,
-the function, file, line, thread id and timestamp (ms), where the violation took
+the function, file, line, a hushed thread id and a timestamp (ms), where the violation took
 place, and finally, an optional user error message.
 
 
@@ -30,8 +30,5 @@ conditions.
 
 Effectively used, when the DBC_THROW build flag macro is defined. 
 
-In order to observe the contract violation context debug info 
-(file, function, etc), the inherited, public, accessor method
-dbc::contract_violation::what() can be used, in order to obtain an std::string
-representation. Additionally, the violation context can be obtained with the 
-member function dbc::contract_violation::context().
+In order to observe the contract violation context debug info (file, function, etc), the member 
+function dbc::contract_violation::context() can be used.

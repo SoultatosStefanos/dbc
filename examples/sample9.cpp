@@ -31,14 +31,8 @@
 namespace
 {
 
-auto make_encoded_error_message(const dbc::violation_context& context)
-{
-    auto str = dbc::to_string(context); // this is provided
-    // preprocessing perhaps
-    return str;
-}
-
-extern void show_message(const std::string& msg);
+extern auto make_encoded_error_message(const dbc::violation_context& context) -> std::string_view;
+extern void show_message(std::string_view msg);
 extern void save_remaining_data();
 [[noreturn]] extern void urgent_exit();
 

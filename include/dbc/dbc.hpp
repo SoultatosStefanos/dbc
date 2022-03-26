@@ -30,10 +30,8 @@
 #include <cassert>     // for assert
 #include <chrono>      // for system_clock, duration_cast, miliseconds
 #include <functional>  // for function, invoke
-#include <iostream>    // for cout
-#include <sstream>     // for stringstream
+#include <iostream>    // for cerr, ostream
 #include <stdexcept>   // for logic_error, invalid_argument
-#include <string>      // for string
 #include <string_view> // for string_view
 #include <thread>      // for get_id
 
@@ -69,7 +67,7 @@ constexpr auto to_string_view(contract_type type)
 
 // violation_context
 //
-// Debug info concerning a contract violation.
+// Debug info concerning a contract violation aggregate.
 //
 struct violation_context
 {
@@ -78,19 +76,19 @@ struct violation_context
     std::string_view function;
     std::string_view file;
     int32_t line;
-    std::string thread_id;
-    int64_t timestamp; // in ms
+    std::size_t thread_id; // a unique id hash
+    int64_t timestamp;     // in ms
     std::string_view message;
 };
 
-inline auto operator==(const violation_context& lhs, const violation_context& rhs)
+constexpr auto operator==(const violation_context& lhs, const violation_context& rhs)
 {
     return lhs.type == rhs.type and lhs.condition == rhs.condition and lhs.file == rhs.file and
            lhs.function == rhs.function and lhs.line == rhs.line and lhs.message == rhs.message and
            lhs.thread_id == rhs.thread_id and lhs.timestamp == rhs.timestamp;
 }
 
-inline auto operator!=(const violation_context& lhs, const violation_context& rhs)
+constexpr auto operator!=(const violation_context& lhs, const violation_context& rhs)
 {
     return !(lhs == rhs);
 }
@@ -101,37 +99,25 @@ inline auto operator<<(std::ostream& os, const violation_context& context) -> au
     return os << to_string_view(context.type) << " violation: (" << context.condition << "), "
               << "function: " << context.function << ", file: " << context.file
               << ", line: " << context.line << ", thread id: " << context.thread_id
-              << ", timestamp: " << context.timestamp << "." << '\n'
+              << ", timestamp (ms): " << context.timestamp << "." << '\n'
               << context.message;
-}
-
-// a useful violation string representation
-inline auto to_string(const violation_context& context)
-{
-    return std::string(to_string_view(context.type)) + " violation: (" +
-           std::string(context.condition) + "), " + "function: " + std::string(context.function) +
-           ", file: " + std::string(context.file) + ", line: " + std::to_string(context.line) +
-           ", thread id: " + context.thread_id +
-           ", timestamp: " + std::to_string(context.timestamp) + "." + '\n' +
-           std::string(context.message);
 }
 
 namespace details
 {
-    inline auto thread_id() // this thread
+    inline auto thread_id() noexcept // this thread
     {
-        const auto id = std::this_thread::get_id();
-        std::stringstream ss;
-        ss << id;
-        return ss.str();
+        using namespace std;
+
+        return hash<thread::id>()(this_thread::get_id());
     }
 
     inline auto timestamp() // in ms
     {
         using namespace std::chrono;
 
-        const auto now = system_clock::now();
-        return duration_cast<milliseconds>(now.time_since_epoch()).count();
+        const auto until_now = system_clock::now().time_since_epoch(); // since the 90's
+        return duration_cast<milliseconds>(until_now).count();
     }
 } // namespace details
 
@@ -145,7 +131,8 @@ namespace details
 {
     [[noreturn]] inline void abort_handler(const violation_context& c)
     {
-        std::cerr << to_string(c) << '\n';
+        std::cerr << c << '\n';
+        assert(std::cerr.good());
         std::abort();
     }
 } // namespace details
@@ -166,7 +153,8 @@ namespace details
 {
     [[noreturn]] inline void terminate_handler(const violation_context& c)
     {
-        std::cerr << to_string(c) << '\n';
+        std::cerr << c << '\n';
+        assert(std::cerr.good());
         std::terminate();
     }
 } // namespace details
@@ -190,10 +178,8 @@ namespace details
 class contract_violation : public std::logic_error
 {
 public:
-    using converter = std::function<std::string(const violation_context&)>;
-
-    explicit contract_violation(const violation_context& context, const converter& f = to_string)
-        : logic_error(std::invoke(filter(f), context)), m_context(context)
+    explicit contract_violation(const violation_context& context)
+        : logic_error{"DBC contract violation"}, m_context{context}
     {}
 
     // context
@@ -202,14 +188,7 @@ public:
     //
     // E.g function, thread, line, etc
     //
-    auto context() const -> const violation_context& { return m_context; };
-
-protected:
-    [[nodiscard]] static auto filter(const converter& f) -> converter
-    {
-        if (!f) throw std::invalid_argument("empty converter");
-        return f;
-    }
+    auto context() const -> const auto& { return m_context; };
 
 private:
     violation_context m_context;
@@ -249,6 +228,7 @@ namespace details
     {
         assert(handler());
         std::invoke(handler(), context);
+        assert(handler());
     }
 } // namespace details
 
