@@ -118,7 +118,7 @@ inline auto to_string(const violation_context& context)
 
 namespace details
 {
-    inline auto get_thread_id() // this thread
+    inline auto thread_id() // this thread
     {
         const auto id = std::this_thread::get_id();
         std::stringstream ss;
@@ -126,7 +126,7 @@ namespace details
         return ss.str();
     }
 
-    inline auto get_timestamp() // in ms
+    inline auto timestamp() // in ms
     {
         using namespace std::chrono;
 
@@ -153,13 +153,12 @@ namespace details
 #define DBC_ASSERT1(type, condition)                                                               \
     if (!(condition))                                                                              \
         dbc::details::abort_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::get_thread_id(), dbc::details::get_timestamp(), \
-                                     ""});
+                                     dbc::details::thread_id(), dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                                      \
     if (!(condition))                                                                              \
         dbc::details::abort_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::get_thread_id(), dbc::details::get_timestamp(), \
+                                     dbc::details::thread_id(), dbc::details::timestamp(),         \
                                      message});
 
 #elif defined(DBC_TERMINATE)
@@ -180,14 +179,14 @@ namespace details
 #define DBC_ASSERT1(type, condition)                                                               \
     if (!(condition))                                                                              \
         dbc::details::terminate_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,       \
-                                         dbc::details::get_thread_id(),                            \
-                                         dbc::details::get_timestamp(), ""});
+                                         dbc::details::thread_id(), dbc::details::timestamp(),     \
+                                         ""});
 
 #define DBC_ASSERT2(type, condition, message)                                                      \
     if (!(condition))                                                                              \
         dbc::details::terminate_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,       \
-                                         dbc::details::get_thread_id(),                            \
-                                         dbc::details::get_timestamp(), message});
+                                         dbc::details::thread_id(), dbc::details::timestamp(),     \
+                                         message});
 
 #elif defined(DBC_THROW)
 
@@ -208,6 +207,12 @@ public:
         : logic_error(std::invoke(filter(f), context)), m_context(context)
     {}
 
+    // context
+    //
+    // Returns relevant debug info concerning where/when the contract violation took place.
+    //
+    // E.g function, thread, line, etc
+    //
     auto context() const -> const violation_context& { return m_context; };
 
 protected:
@@ -232,13 +237,12 @@ namespace details
 #define DBC_ASSERT1(type, condition)                                                               \
     if (!(condition))                                                                              \
         dbc::details::throw_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::get_thread_id(), dbc::details::get_timestamp(), \
-                                     ""});
+                                     dbc::details::thread_id(), dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                                      \
     if (!(condition))                                                                              \
         dbc::details::throw_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::get_thread_id(), dbc::details::get_timestamp(), \
+                                     dbc::details::thread_id(), dbc::details::timestamp(),         \
                                      message});
 
 #elif defined(DBC_CUSTOM)
@@ -251,37 +255,36 @@ using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
 {
-    inline auto get_handler() -> auto&
+    inline auto handler() -> auto&
     {
-        static violation_handler handler = [](const auto&) {}; // noop default handler
-        return handler;
+        static violation_handler h = [](const auto&) {}; // noop default handler
+        return h;
     }
 
     inline void handle(const violation_context& context)
     {
-        assert(get_handler());
-        std::invoke(get_handler(), context);
+        assert(handler());
+        std::invoke(handler(), context);
     }
 } // namespace details
 
 inline void set_violation_handler(const violation_handler& f)
 {
-    assert(details::get_handler());
+    assert(details::handler());
     if (!f) throw std::invalid_argument("empty violation handler");
-    details::get_handler() = f;
-    assert(details::get_handler());
+    details::handler() = f;
+    assert(details::handler());
 }
 
 #define DBC_ASSERT1(type, condition)                                                               \
     if (!(condition))                                                                              \
         dbc::details::handle({type, #condition, __FUNCTION__, __FILE__, __LINE__,                  \
-                              dbc::details::get_thread_id(), dbc::details::get_timestamp(), ""});
+                              dbc::details::thread_id(), dbc::details::timestamp(), ""});
 
 #define DBC_ASSERT2(type, condition, message)                                                      \
     if (!(condition))                                                                              \
         dbc::details::handle({type, #condition, __FUNCTION__, __FILE__, __LINE__,                  \
-                              dbc::details::get_thread_id(), dbc::details::get_timestamp(),        \
-                              message});
+                              dbc::details::thread_id(), dbc::details::timestamp(), message});
 
 #else
 
