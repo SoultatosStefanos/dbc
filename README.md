@@ -9,14 +9,17 @@ macros.
 * DBC is **small** and **simple to use**. It consists of a single header file.
 
 * DBC is **flexible**. Depending on the build option, contract violations can 
-abort, terminate, throw, do nothing (default), or be runtime configured. In 
-addition, DBC includes specific assertion macros that are enabled exclusively
-at debug builds, and can be used for performance critical code.
+abort, terminate, throw, do nothing (default), or be runtime configurable.
 
 * DBC is **debug friendly**. It's assertions are overloaded, in order to provide
 human friendly error messages. In addition, in case of a contract violation,
 user friendly debug info, (including the file, function and much more) is
 forwarded.
+
+* DBC is **efficient**. It utilizes only std::string_view objects and primitive 
+types for error reporting, while its assertions can be completely turned off. In 
+addition, DBC includes specific assertion macros that are enabled exclusively
+at debug builds, and can be used for performance critical code only.
 
 More details can be read [here](docs/assertions.md), [here](docs/classes.md),
 [here](docs/flags.md), [here](docs/samples.md), [here](docs/functions.md) and 
