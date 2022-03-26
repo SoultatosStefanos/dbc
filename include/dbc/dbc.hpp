@@ -123,7 +123,6 @@ namespace details
     [[noreturn]] inline void abort_handler(const violation_context& c)
     {
         std::cerr << c << '\n';
-        assert(std::cerr.good());
         std::abort();
     }
 } // namespace details
@@ -145,7 +144,6 @@ namespace details
     [[noreturn]] inline void terminate_handler(const violation_context& c)
     {
         std::cerr << c << '\n';
-        assert(std::cerr.good());
         std::terminate();
     }
 } // namespace details

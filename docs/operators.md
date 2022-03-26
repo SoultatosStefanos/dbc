@@ -5,12 +5,12 @@ header `dbc/dbc.h`.
 
 ### operator== {#operator==}
 
-`constexpr auto operator==(const violation_context& lhs, const violation_context& rhs)`
+`constexpr auto operator==(const violation_context&) const -> bool = default`
 
 
 ### operator!= {#operator!=}
 
-`constexpr auto operator!=(const violation_context& lhs, const violation_context& rhs)`
+` constexpr auto operator!=(const violation_context&) const -> bool = default`
 
 
 ### operator<< {#operator<<}
