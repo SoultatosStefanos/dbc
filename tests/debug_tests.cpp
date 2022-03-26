@@ -33,6 +33,12 @@
 namespace dbc::tests
 {
 
+class Given_a_predicate : public testing::Test
+{
+protected:
+    testing::NiceMock<testing::MockFunction<bool()>> mock;
+};
+
 class Given_a_set_handler : public testing::Test
 {
 protected:
@@ -47,6 +53,27 @@ protected:
 };
 
 #ifdef NDEBUG // Release build test cases
+
+TEST_F(Given_a_predicate, On_release_a_debug_only_invariant_will_not_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(0);
+
+    INVARIANT_DBG(mock.Call()); // since this will inline to void(0) (noop)
+}
+
+TEST_F(Given_a_predicate, On_release_a_debug_only_precondition_will_not_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(0);
+
+    PRECONDITION_DBG(mock.Call()); // since this will inline to void(0) (noop)
+}
+
+TEST_F(Given_a_predicate, On_release_a_debug_only_postcondition_will_not_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(0);
+
+    POSTCONDITION_DBG(mock.Call()); // since this will inline to void(0) (noop)
+}
 
 TEST_F(Given_a_set_handler, On_release_a_debug_invariant_will_never_call_the_handler)
 {
@@ -72,34 +99,28 @@ TEST_F(Given_a_set_handler, On_release_a_debug_postcondition_will_never_call_the
     POSTCONDITION_DBG(false, "seriously");
 }
 
-class Given_a_predicate_on_release : public testing::Test
-{
-protected:
-    testing::NiceMock<testing::MockFunction<bool()>> mock;
-};
-
-TEST_F(Given_a_predicate_on_release, A_debug_only_invariant_will_not_call_the_predicate)
-{
-    EXPECT_CALL(mock, Call()).Times(0);
-
-    INVARIANT_DBG(mock()); // since this will inline to void(0) (noop)
-}
-
-TEST_F(Given_a_predicate_on_release, A_debug_only_precondition_will_not_call_the_predicate)
-{
-    EXPECT_CALL(mock, Call()).Times(0);
-
-    PRECONDITION_DBG(mock()); // since this will inline to void(0) (noop)
-}
-
-TEST_F(Given_a_predicate_on_release, A_debug_only_postcondition_will_not_call_the_predicate)
-{
-    EXPECT_CALL(mock, Call()).Times(0);
-
-    POSTCONDITION_DBG(mock()); // since this will inline to void(0) (noop)
-}
-
 #else // Debug build test cases
+
+TEST_F(Given_a_predicate, On_debug_a_debug_only_invariant_will_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(1);
+
+    INVARIANT_DBG(mock.Call());
+}
+
+TEST_F(Given_a_predicate, On_debug_a_debug_only_precondition_will_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(1);
+
+    PRECONDITION_DBG(mock.Call());
+}
+
+TEST_F(Given_a_predicate, On_debug_a_debug_only_postcondition_will_call_the_predicate)
+{
+    EXPECT_CALL(mock, Call()).Times(1);
+
+    POSTCONDITION_DBG(mock.Call());
+}
 
 TEST_F(Given_a_set_handler,
        On_debug_a_debug_invariant_will_call_the_handler_given_a_false_condition)
