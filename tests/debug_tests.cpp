@@ -81,6 +81,8 @@ TEST_F(Given_a_set_handler, On_release_a_debug_invariant_will_never_call_the_han
 
     INVARIANT_DBG(false);
     INVARIANT_DBG(false, "seriously");
+    INVARIANT_DBG(true);
+    INVARIANT_DBG(true, "seriously");
 }
 
 TEST_F(Given_a_set_handler, On_release_a_debug_precondition_will_never_call_the_handler)
@@ -89,6 +91,8 @@ TEST_F(Given_a_set_handler, On_release_a_debug_precondition_will_never_call_the_
 
     PRECONDITION_DBG(false);
     PRECONDITION_DBG(false, "seriously");
+    PRECONDITION_DBG(true);
+    PRECONDITION_DBG(true, "seriously");
 }
 
 TEST_F(Given_a_set_handler, On_release_a_debug_postcondition_will_never_call_the_handler)
@@ -97,6 +101,8 @@ TEST_F(Given_a_set_handler, On_release_a_debug_postcondition_will_never_call_the
 
     POSTCONDITION_DBG(false);
     POSTCONDITION_DBG(false, "seriously");
+    POSTCONDITION_DBG(true);
+    POSTCONDITION_DBG(true, "seriously");
 }
 
 #else // Debug build test cases
