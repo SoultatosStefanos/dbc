@@ -31,4 +31,5 @@ conditions.
 Effectively used, when the DBC_THROW build flag macro is defined. 
 
 In order to observe the contract violation context debug info (file, function, etc), the member 
-function dbc::contract_violation::context() can be used.
+function dbc::contract_violation::context() can be used. Additionally, the derived member function
+std::logic_error::what() can be used to observe the optional error message.

@@ -79,9 +79,6 @@ struct violation_context
     std::size_t thread_id;    // a unique id hash
     int64_t timestamp;        // in ms
     std::string_view message; // an optional user defined error message
-
-    constexpr auto operator==(const violation_context&) const -> bool = default;
-    constexpr auto operator!=(const violation_context&) const -> bool = default;
 };
 
 // provide overload that takes advantage of the std::string_view's efficiency
@@ -171,7 +168,7 @@ class contract_violation : public std::logic_error
 {
 public:
     explicit contract_violation(const violation_context& context)
-        : logic_error{"DBC contract violation"}, m_context{context}
+        : logic_error{context.message.data()}, m_context{context}
     {}
 
     // context
