@@ -79,19 +79,10 @@ struct violation_context
     std::size_t thread_id; // a unique id hash
     int64_t timestamp;     // in ms
     std::string_view message;
+
+    constexpr auto operator==(const violation_context&) const -> bool = default;
+    constexpr auto operator!=(const violation_context&) const -> bool = default;
 };
-
-constexpr auto operator==(const violation_context& lhs, const violation_context& rhs)
-{
-    return lhs.type == rhs.type and lhs.condition == rhs.condition and lhs.file == rhs.file and
-           lhs.function == rhs.function and lhs.line == rhs.line and lhs.message == rhs.message and
-           lhs.thread_id == rhs.thread_id and lhs.timestamp == rhs.timestamp;
-}
-
-constexpr auto operator!=(const violation_context& lhs, const violation_context& rhs)
-{
-    return !(lhs == rhs);
-}
 
 // provide overload that takes advantage of the std::string_view's efficiency
 inline auto operator<<(std::ostream& os, const violation_context& context) -> auto&
