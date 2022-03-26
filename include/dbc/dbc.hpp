@@ -114,6 +114,7 @@ namespace details
 
 #if defined(DBC_ABORT)
 
+// the assertions macro family behavior could be surprising if more than one flag is defined
 #if defined(DBC_TERMINATE) || defined(DBC_THROW) || defined(DBC_CUSTOM)
 #error Definition of multiple DBC flags
 #endif
@@ -135,6 +136,7 @@ namespace details
 
 #elif defined(DBC_TERMINATE)
 
+// the assertions macro family behavior could be surprising if more than one flag is defined
 #if defined(DBC_ABORT) || defined(DBC_THROW) || defined(DBC_CUSTOM)
 #error Definition of multiple DBC flags
 #endif
@@ -156,6 +158,7 @@ namespace details
 
 #elif defined(DBC_THROW)
 
+// the assertions macro family behavior could be surprising if more than one flag is defined
 #if defined(DBC_ABORT) || defined(DBC_TERMINATE) || defined(DBC_CUSTOM)
 #error Definition of multiple DBC flags
 #endif
@@ -199,6 +202,7 @@ namespace details
 
 #elif defined(DBC_CUSTOM)
 
+// the assertions macro family behavior could be surprising if more than one flag is defined
 #if defined(DBC_ABORT) || defined(DBC_TERMINATE) || defined(DBC_THROW)
 #error Definition of multiple DBC flags
 #endif
