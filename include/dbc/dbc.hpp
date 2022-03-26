@@ -150,12 +150,7 @@ namespace details
     }
 } // namespace details
 
-#define DBC_ASSERT1(type, condition)                                                               \
-    if (!(condition))                                                                              \
-        dbc::details::abort_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::thread_id(), dbc::details::timestamp(), ""});
-
-#define DBC_ASSERT2(type, condition, message)                                                      \
+#define DBC_ASSERT(type, condition, message)                                                       \
     if (!(condition))                                                                              \
         dbc::details::abort_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
                                      dbc::details::thread_id(), dbc::details::timestamp(),         \
@@ -176,13 +171,7 @@ namespace details
     }
 } // namespace details
 
-#define DBC_ASSERT1(type, condition)                                                               \
-    if (!(condition))                                                                              \
-        dbc::details::terminate_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,       \
-                                         dbc::details::thread_id(), dbc::details::timestamp(),     \
-                                         ""});
-
-#define DBC_ASSERT2(type, condition, message)                                                      \
+#define DBC_ASSERT(type, condition, message)                                                       \
     if (!(condition))                                                                              \
         dbc::details::terminate_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,       \
                                          dbc::details::thread_id(), dbc::details::timestamp(),     \
@@ -234,12 +223,7 @@ namespace details
     }
 } // namespace details
 
-#define DBC_ASSERT1(type, condition)                                                               \
-    if (!(condition))                                                                              \
-        dbc::details::throw_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::thread_id(), dbc::details::timestamp(), ""});
-
-#define DBC_ASSERT2(type, condition, message)                                                      \
+#define DBC_ASSERT(type, condition, message)                                                       \
     if (!(condition))                                                                              \
         dbc::details::throw_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
                                      dbc::details::thread_id(), dbc::details::timestamp(),         \
@@ -276,34 +260,28 @@ inline void set_violation_handler(const violation_handler& f)
     assert(details::handler());
 }
 
-#define DBC_ASSERT1(type, condition)                                                               \
-    if (!(condition))                                                                              \
-        dbc::details::handle({type, #condition, __FUNCTION__, __FILE__, __LINE__,                  \
-                              dbc::details::thread_id(), dbc::details::timestamp(), ""});
-
-#define DBC_ASSERT2(type, condition, message)                                                      \
+#define DBC_ASSERT(type, condition, message)                                                       \
     if (!(condition))                                                                              \
         dbc::details::handle({type, #condition, __FUNCTION__, __FILE__, __LINE__,                  \
                               dbc::details::thread_id(), dbc::details::timestamp(), message});
 
 #else
 
-#define DBC_ASSERT1(type, condition) (void(0))
-#define DBC_ASSERT2(type, condition, message) (void(0))
+#define DBC_ASSERT(type, condition, message) (void(0))
 
 #endif
 
-#define DBC_INVARIANT1(condition) DBC_ASSERT1(dbc::contract_type::invariant, condition)
 #define DBC_INVARIANT2(condition, message)                                                         \
-    DBC_ASSERT2(dbc::contract_type::invariant, condition, message)
+    DBC_ASSERT(dbc::contract_type::invariant, condition, message)
+#define DBC_INVARIANT1(condition) DBC_INVARIANT2(condition, "")
 
-#define DBC_PRECONDITION1(condition) DBC_ASSERT1(dbc::contract_type::precondition, condition)
 #define DBC_PRECONDITION2(condition, message)                                                      \
-    DBC_ASSERT2(dbc::contract_type::precondition, condition, message)
+    DBC_ASSERT(dbc::contract_type::precondition, condition, message)
+#define DBC_PRECONDITION1(condition) DBC_PRECONDITION2(condition, "")
 
-#define DBC_POSTCONDITION1(condition) DBC_ASSERT1(dbc::contract_type::postcondition, condition)
 #define DBC_POSTCONDITION2(condition, message)                                                     \
-    DBC_ASSERT2(dbc::contract_type::postcondition, condition, message)
+    DBC_ASSERT(dbc::contract_type::postcondition, condition, message)
+#define DBC_POSTCONDITION1(condition) DBC_POSTCONDITION2(condition, "")
 
 #ifndef NDEBUG
 
