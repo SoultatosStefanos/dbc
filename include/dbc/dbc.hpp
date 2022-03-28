@@ -180,7 +180,7 @@ public:
     //
     // E.g function, thread, line, etc
     //
-    auto context() const -> const auto& { return m_context; };
+    auto context() const noexcept -> const auto& { return m_context; };
 
 private:
     violation_context m_context;
