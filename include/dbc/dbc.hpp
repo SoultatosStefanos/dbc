@@ -110,7 +110,17 @@ namespace details
         const auto until_now = system_clock::now().time_since_epoch(); // since the 90's
         return duration_cast<milliseconds>(until_now).count();
     }
+
+    inline auto context(contract_type type, std::string_view condition, std::string_view function,
+                        std::string_view file, int32_t line, std::string_view message)
+    {
+        return dbc::violation_context{type, condition,   function,    file,
+                                      line, thread_id(), timestamp(), message};
+    }
 } // namespace details
+
+#define DBC_CONTEXT(type, condition, message)                                                      \
+    dbc::details::context(type, #condition, __FUNCTION__, __FILE__, __LINE__, message)
 
 #if defined(DBC_ABORT)
 
@@ -129,10 +139,7 @@ namespace details
 } // namespace details
 
 #define DBC_ASSERT(type, condition, message)                                                       \
-    if (!(condition))                                                                              \
-        dbc::details::abort_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::thread_id(), dbc::details::timestamp(),         \
-                                     message});
+    if (!(condition)) dbc::details::abort_handler(DBC_CONTEXT(type, condition, message));
 
 #elif defined(DBC_TERMINATE)
 
@@ -151,10 +158,7 @@ namespace details
 } // namespace details
 
 #define DBC_ASSERT(type, condition, message)                                                       \
-    if (!(condition))                                                                              \
-        dbc::details::terminate_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,       \
-                                         dbc::details::thread_id(), dbc::details::timestamp(),     \
-                                         message});
+    if (!(condition)) dbc::details::terminate_handler(DBC_CONTEXT(type, condition, message));
 
 #elif defined(DBC_THROW)
 
@@ -195,10 +199,7 @@ namespace details
 } // namespace details
 
 #define DBC_ASSERT(type, condition, message)                                                       \
-    if (!(condition))                                                                              \
-        dbc::details::throw_handler({type, #condition, __FUNCTION__, __FILE__, __LINE__,           \
-                                     dbc::details::thread_id(), dbc::details::timestamp(),         \
-                                     message});
+    if (!(condition)) dbc::details::throw_handler(DBC_CONTEXT(type, condition, message));
 
 #elif defined(DBC_CUSTOM)
 
@@ -234,9 +235,7 @@ inline void set_violation_handler(const violation_handler& f)
 }
 
 #define DBC_ASSERT(type, condition, message)                                                       \
-    if (!(condition))                                                                              \
-        dbc::details::handle({type, #condition, __FUNCTION__, __FILE__, __LINE__,                  \
-                              dbc::details::thread_id(), dbc::details::timestamp(), message});
+    if (!(condition)) dbc::details::handle(DBC_CONTEXT(type, condition, message));
 
 #else
 
