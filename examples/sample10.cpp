@@ -31,7 +31,7 @@ namespace
 {
 
 template <class T>
-void swap(T& a, T& b) noexcept
+constexpr void swap(T& a, T& b) noexcept
 {
     PRECONDITION_STATIC(std::is_copy_constructible_v<T>);
     PRECONDITION_STATIC(std::is_nothrow_copy_constructible_v<T>);
