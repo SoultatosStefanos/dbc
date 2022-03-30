@@ -45,7 +45,7 @@ enum class contract_type
     invariant
 };
 
-constexpr auto to_string_view(contract_type type)
+[[nodiscard]] constexpr auto to_string_view(contract_type type)
 {
     using namespace std::literals;
     using enum contract_type;
@@ -59,7 +59,7 @@ constexpr auto to_string_view(contract_type type)
     case invariant:
         return "Invariant"sv;
     default:
-        throw std::invalid_argument("unknown enum value");
+        throw std::invalid_argument{"unknown enum value"};
         assert(false); // how did we get here?
         return ""sv;   // to please the compiler
     }
@@ -69,7 +69,7 @@ constexpr auto to_string_view(contract_type type)
 //
 // Debug info concerning a contract violation aggregate.
 //
-struct violation_context
+struct violation_context final
 {
     contract_type type;
     std::string_view condition; // the boolean expression that was false
@@ -80,8 +80,8 @@ struct violation_context
     int64_t timestamp;        // in ms
     std::string_view message; // an optional user defined error message
 
-    constexpr auto operator==(const violation_context&) const -> bool = default;
-    constexpr auto operator!=(const violation_context&) const -> bool = default;
+    [[nodiscard]] constexpr auto operator==(const violation_context&) const -> bool = default;
+    [[nodiscard]] constexpr auto operator!=(const violation_context&) const -> bool = default;
 };
 
 // provide overload that takes advantage of the std::string_view's efficiency
@@ -96,14 +96,14 @@ inline auto operator<<(std::ostream& os, const violation_context& context) -> au
 
 namespace details
 {
-    inline auto thread_id() noexcept // this thread
+    [[nodiscard]] inline auto thread_id() noexcept // this thread
     {
         using namespace std;
 
         return hash<thread::id>()(this_thread::get_id());
     }
 
-    inline auto timestamp() // in ms
+    [[nodiscard]] inline auto timestamp() // in ms
     {
         using namespace std::chrono;
 
@@ -111,8 +111,9 @@ namespace details
         return duration_cast<milliseconds>(until_now).count();
     }
 
-    inline auto context(contract_type type, std::string_view condition, std::string_view function,
-                        std::string_view file, int32_t line, std::string_view message)
+    [[nodiscard]] inline auto context(contract_type type, std::string_view condition,
+                                      std::string_view function, std::string_view file,
+                                      int32_t line, std::string_view message)
     {
         return dbc::violation_context{type, condition,   function,    file,
                                       line, thread_id(), timestamp(), message};
@@ -171,10 +172,10 @@ namespace details
 //
 // Expresses a DBC contract (pre|post|inv) violation error.
 //
-class contract_violation : public std::logic_error
+class contract_violation final : public std::logic_error
 {
 public:
-    explicit contract_violation(const violation_context& context)
+    [[nodiscard]] explicit contract_violation(const violation_context& context)
         : logic_error{context.message.data()}, m_context{context}
     {}
 
@@ -184,7 +185,7 @@ public:
     //
     // E.g function, thread, line, etc
     //
-    auto context() const noexcept -> const auto& { return m_context; };
+    [[nodiscard]] auto context() const noexcept -> const auto& { return m_context; };
 
 private:
     violation_context m_context;
@@ -194,7 +195,7 @@ namespace details
 {
     [[noreturn]] inline void throw_handler(const violation_context& c)
     {
-        throw contract_violation(c);
+        throw contract_violation{c};
     }
 } // namespace details
 
@@ -212,7 +213,7 @@ using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
 {
-    inline auto handler() noexcept -> auto&
+    [[nodiscard]] inline auto handler() noexcept -> auto&
     {
         static violation_handler h = [](const auto&) {}; // noop default handler
         return h;
@@ -234,7 +235,7 @@ namespace details
 inline void set_violation_handler(const violation_handler& f)
 {
     assert(details::handler());
-    if (!f) throw std::invalid_argument("empty violation handler");
+    if (!f) throw std::invalid_argument{"empty violation handler"};
     details::handler() = f;
     assert(details::handler());
 }
