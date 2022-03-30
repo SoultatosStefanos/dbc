@@ -208,6 +208,7 @@ namespace details
 #error Definition of multiple DBC flags
 #endif
 
+// Contract violation handler function alias
 using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
