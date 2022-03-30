@@ -177,7 +177,7 @@ public:
     [[nodiscard]] explicit contract_violation(const violation_context& context)
         : logic_error{context.message.data()}, m_context{context}
     {
-        assert(what()); // "" is provided even if no user msg is given
+        assert(what()); // "" is provided if no user msg is given
     }
 
     // context
