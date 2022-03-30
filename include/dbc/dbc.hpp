@@ -212,7 +212,7 @@ using violation_handler = std::function<void(const violation_context&)>;
 
 namespace details
 {
-    inline auto handler() -> auto&
+    inline auto handler() noexcept -> auto&
     {
         static violation_handler h = [](const auto&) {}; // noop default handler
         return h;
@@ -226,6 +226,11 @@ namespace details
     }
 } // namespace details
 
+// set_violation_handler
+//
+// Installs the global contract violation handler function.
+// Throws an std::invalid_argument if the handler is empty.
+//
 inline void set_violation_handler(const violation_handler& f)
 {
     assert(details::handler());
