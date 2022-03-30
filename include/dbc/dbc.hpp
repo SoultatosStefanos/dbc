@@ -84,7 +84,6 @@ struct violation_context final
     [[nodiscard]] constexpr auto operator!=(const violation_context&) const -> bool = default;
 };
 
-// provide overload that takes advantage of the std::string_view's efficiency
 inline auto operator<<(std::ostream& os, const violation_context& context) -> auto&
 {
     return os << to_string_view(context.type) << " violation: (" << context.condition << "), "
