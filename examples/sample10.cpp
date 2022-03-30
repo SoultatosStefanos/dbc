@@ -24,29 +24,22 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ABORT 1
-
 #include "dbc/dbc.hpp"
-#include <iostream>
-#include <string>
+#include <type_traits>
 
-class performance_critical_balanced_tree
+namespace
 {
-public:
-    void foo(const std::string& cmd)
-    {
-        INVARIANT_DEBUG(is_balanced());                          // O(nlog(n))
-        PRECONDITION_DEBUG(cmd == valid_cmd(), "Found: " + cmd); // O(n)
 
-        // impl
+template <class T>
+void swap(T& a, T& b) noexcept
+{
+    PRECONDITION_STATIC(std::is_copy_constructible_v<T>);
+    PRECONDITION_STATIC(std::is_nothrow_copy_constructible_v<T>);
+    PRECONDITION_STATIC(std::is_nothrow_copy_assignable_v<T>);
 
-        POSTCONDITION_DEBUG(info() == valid_info(), "Found: " + info()); // O(n)
-        INVARIANT_DEBUG(is_balanced(), "What??");                        // O(nlog(n))
-    }
+    auto c = b;
+    b = a;
+    a = c;
+}
 
-private:
-    auto is_balanced() const -> bool;
-    auto info() const -> std::string;
-    auto valid_cmd() const -> std::string;
-    auto valid_info() const -> std::string;
-};
+} // namespace

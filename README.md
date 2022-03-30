@@ -21,6 +21,10 @@ types for error reporting, while its assertions can be completely turned off. In
 addition, DBC includes specific assertion macros that are enabled exclusively
 at debug builds, and can be used for performance critical code only.
 
+* DBC is **multi-purpose**. It supports static Design By Contract assertions
+for template meta-programming.
+
+
 More details can be read [here](docs/assertions.md), [here](docs/classes.md),
 [here](docs/flags.md), [here](docs/samples.md), [here](docs/functions.md) and 
 [here](docs/operators.md).

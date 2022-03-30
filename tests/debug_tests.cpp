@@ -58,51 +58,51 @@ TEST_F(Given_a_predicate, On_release_a_debug_only_invariant_will_not_call_the_pr
 {
     EXPECT_CALL(mock, Call()).Times(0);
 
-    INVARIANT_DBG(mock.Call()); // since this will inline to void(0) (noop)
+    INVARIANT_DEBUG(mock.Call()); // since this will inline to void(0) (noop)
 }
 
 TEST_F(Given_a_predicate, On_release_a_debug_only_precondition_will_not_call_the_predicate)
 {
     EXPECT_CALL(mock, Call()).Times(0);
 
-    PRECONDITION_DBG(mock.Call()); // since this will inline to void(0) (noop)
+    PRECONDITION_DEBUG(mock.Call()); // since this will inline to void(0) (noop)
 }
 
 TEST_F(Given_a_predicate, On_release_a_debug_only_postcondition_will_not_call_the_predicate)
 {
     EXPECT_CALL(mock, Call()).Times(0);
 
-    POSTCONDITION_DBG(mock.Call()); // since this will inline to void(0) (noop)
+    POSTCONDITION_DEBUG(mock.Call()); // since this will inline to void(0) (noop)
 }
 
 TEST_F(Given_a_set_handler, On_release_a_debug_invariant_will_never_call_the_handler)
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    INVARIANT_DBG(false);
-    INVARIANT_DBG(false, "seriously");
-    INVARIANT_DBG(true);
-    INVARIANT_DBG(true, "seriously");
+    INVARIANT_DEBUG(false);
+    INVARIANT_DEBUG(false, "seriously");
+    INVARIANT_DEBUG(true);
+    INVARIANT_DEBUG(true, "seriously");
 }
 
 TEST_F(Given_a_set_handler, On_release_a_debug_precondition_will_never_call_the_handler)
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    PRECONDITION_DBG(false);
-    PRECONDITION_DBG(false, "seriously");
-    PRECONDITION_DBG(true);
-    PRECONDITION_DBG(true, "seriously");
+    PRECONDITION_DEBUG(false);
+    PRECONDITION_DEBUG(false, "seriously");
+    PRECONDITION_DEBUG(true);
+    PRECONDITION_DEBUG(true, "seriously");
 }
 
 TEST_F(Given_a_set_handler, On_release_a_debug_postcondition_will_never_call_the_handler)
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    POSTCONDITION_DBG(false);
-    POSTCONDITION_DBG(false, "seriously");
-    POSTCONDITION_DBG(true);
-    POSTCONDITION_DBG(true, "seriously");
+    POSTCONDITION_DEBUG(false);
+    POSTCONDITION_DEBUG(false, "seriously");
+    POSTCONDITION_DEBUG(true);
+    POSTCONDITION_DEBUG(true, "seriously");
 }
 
 #else // Debug build test cases
@@ -111,21 +111,21 @@ TEST_F(Given_a_predicate, On_debug_a_debug_only_invariant_will_call_the_predicat
 {
     EXPECT_CALL(mock, Call()).Times(1);
 
-    INVARIANT_DBG(mock.Call());
+    INVARIANT_DEBUG(mock.Call());
 }
 
 TEST_F(Given_a_predicate, On_debug_a_debug_only_precondition_will_call_the_predicate)
 {
     EXPECT_CALL(mock, Call()).Times(1);
 
-    PRECONDITION_DBG(mock.Call());
+    PRECONDITION_DEBUG(mock.Call());
 }
 
 TEST_F(Given_a_predicate, On_debug_a_debug_only_postcondition_will_call_the_predicate)
 {
     EXPECT_CALL(mock, Call()).Times(1);
 
-    POSTCONDITION_DBG(mock.Call());
+    POSTCONDITION_DEBUG(mock.Call());
 }
 
 TEST_F(Given_a_set_handler,
@@ -133,7 +133,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(1);
 
-    INVARIANT_DBG(false);
+    INVARIANT_DEBUG(false);
 }
 
 TEST_F(Given_a_set_handler,
@@ -141,7 +141,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    INVARIANT_DBG(true);
+    INVARIANT_DEBUG(true);
 }
 
 TEST_F(Given_a_set_handler,
@@ -149,7 +149,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(1);
 
-    PRECONDITION_DBG(false);
+    PRECONDITION_DEBUG(false);
 }
 
 TEST_F(Given_a_set_handler,
@@ -157,7 +157,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    PRECONDITION_DBG(true);
+    PRECONDITION_DEBUG(true);
 }
 
 TEST_F(Given_a_set_handler,
@@ -165,7 +165,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(1);
 
-    POSTCONDITION_DBG(false);
+    POSTCONDITION_DEBUG(false);
 }
 
 TEST_F(Given_a_set_handler,
@@ -173,7 +173,7 @@ TEST_F(Given_a_set_handler,
 {
     EXPECT_CALL(mock, Call(testing::_)).Times(0);
 
-    POSTCONDITION_DBG(true);
+    POSTCONDITION_DEBUG(true);
 }
 
 #endif

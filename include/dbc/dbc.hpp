@@ -248,6 +248,8 @@ inline void set_violation_handler(const violation_handler& f)
 
 #endif
 
+#define DBC_ASSERT_STATIC(condition, message) static_assert(condition, message)
+
 #define DBC_INVARIANT2(condition, message)                                                         \
     DBC_ASSERT(dbc::contract_type::invariant, condition, message)
 #define DBC_INVARIANT1(condition) DBC_INVARIANT2(condition, "")
@@ -260,27 +262,36 @@ inline void set_violation_handler(const violation_handler& f)
     DBC_ASSERT(dbc::contract_type::postcondition, condition, message)
 #define DBC_POSTCONDITION1(condition) DBC_POSTCONDITION2(condition, "")
 
+#define DBC_INVARIANT2_STATIC(condition, message) DBC_ASSERT_STATIC(condition, message)
+#define DBC_INVARIANT1_STATIC(condition) DBC_INVARIANT2_STATIC(condition, "")
+
+#define DBC_PRECONDITION2_STATIC(condition, message) DBC_ASSERT_STATIC(condition, message)
+#define DBC_PRECONDITION1_STATIC(condition) DBC_PRECONDITION2_STATIC(condition, "")
+
+#define DBC_POSTCONDITION2_STATIC(condition, message) DBC_ASSERT_STATIC(condition, message)
+#define DBC_POSTCONDITION1_STATIC(condition) DBC_POSTCONDITION2_STATIC(condition, "")
+
 #ifndef NDEBUG
 
-#define DBC_INVARIANT1_DBG(condition) DBC_INVARIANT1(condition)
-#define DBC_INVARIANT2_DBG(condition, message) DBC_INVARIANT2(condition, message)
+#define DBC_INVARIANT1_DEBUG(condition) DBC_INVARIANT1(condition)
+#define DBC_INVARIANT2_DEBUG(condition, message) DBC_INVARIANT2(condition, message)
 
-#define DBC_PRECONDITION1_DBG(condition) DBC_PRECONDITION1(condition)
-#define DBC_PRECONDITION2_DBG(condition, message) DBC_PRECONDITION2(condition, message)
+#define DBC_PRECONDITION1_DEBUG(condition) DBC_PRECONDITION1(condition)
+#define DBC_PRECONDITION2_DEBUG(condition, message) DBC_PRECONDITION2(condition, message)
 
-#define DBC_POSTCONDITION1_DBG(condition) DBC_POSTCONDITION1(condition)
-#define DBC_POSTCONDITION2_DBG(condition, message) DBC_POSTCONDITION2(condition, message)
+#define DBC_POSTCONDITION1_DEBUG(condition) DBC_POSTCONDITION1(condition)
+#define DBC_POSTCONDITION2_DEBUG(condition, message) DBC_POSTCONDITION2(condition, message)
 
 #else
 
-#define DBC_INVARIANT1_DBG(condition) (void(0))
-#define DBC_INVARIANT2_DBG(condition, message) (void(0))
+#define DBC_INVARIANT1_DEBUG(condition) (void(0))
+#define DBC_INVARIANT2_DEBUG(condition, message) (void(0))
 
-#define DBC_PRECONDITION1_DBG(condition) (void(0))
-#define DBC_PRECONDITION2_DBG(condition, message) (void(0))
+#define DBC_PRECONDITION1_DEBUG(condition) (void(0))
+#define DBC_PRECONDITION2_DEBUG(condition, message) (void(0))
 
-#define DBC_POSTCONDITION1_DBG(condition) (void(0))
-#define DBC_POSTCONDITION2_DBG(condition, message) (void(0))
+#define DBC_POSTCONDITION1_DEBUG(condition) (void(0))
+#define DBC_POSTCONDITION2_DEBUG(condition, message) (void(0))
 
 #endif
 
@@ -298,15 +309,27 @@ inline void set_violation_handler(const violation_handler& f)
 #define POSTCONDITION(...)                                                                         \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2, DBC_POSTCONDITION1)(__VA_ARGS__))
 
-#define INVARIANT_DBG(...)                                                                         \
-    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2_DBG, DBC_INVARIANT1_DBG)(__VA_ARGS__))
+#define INVARIANT_DEBUG(...)                                                                       \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2_DEBUG, DBC_INVARIANT1_DEBUG)(__VA_ARGS__))
 
-#define PRECONDITION_DBG(...)                                                                      \
+#define PRECONDITION_DEBUG(...)                                                                    \
     DBC_EXPAND(                                                                                    \
-        DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2_DBG, DBC_PRECONDITION1_DBG)(__VA_ARGS__))
+        DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2_DEBUG, DBC_PRECONDITION1_DEBUG)(__VA_ARGS__))
 
-#define POSTCONDITION_DBG(...)                                                                     \
+#define POSTCONDITION_DEBUG(...)                                                                   \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DEBUG,                                \
+                             DBC_POSTCONDITION1_DEBUG)(__VA_ARGS__))
+
+#define INVARIANT_STATIC(...)                                                                      \
     DBC_EXPAND(                                                                                    \
-        DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_DBG, DBC_POSTCONDITION1_DBG)(__VA_ARGS__))
+        DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2_STATIC, DBC_INVARIANT1_STATIC)(__VA_ARGS__))
+
+#define PRECONDITION_STATIC(...)                                                                   \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_PRECONDITION2_STATIC,                                \
+                             DBC_PRECONDITION1_STATIC)(__VA_ARGS__))
+
+#define POSTCONDITION_STATIC(...)                                                                  \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_POSTCONDITION2_STATIC,                               \
+                             DBC_POSTCONDITION1_STATIC)(__VA_ARGS__))
 
 #endif // DBC_H

@@ -18,3 +18,5 @@ assertions are used.
 throw on release builds.
 *   Sample #9 shows how DBC can be configured in order to install a custom 
 global contract violation handler function.
+*   Sample #10 shows how DBC can be used to assert assumptions at compile time
+with its static asserts. 
