@@ -84,6 +84,15 @@ struct violation_context
     constexpr auto operator!=(const violation_context&) const -> bool = default;
 };
 
+/**
+ * @brief Operator << overload for a dbc::violation_context.
+ *
+ * Example output:
+ *
+ * 'Invariant violation: (false), function: my_func, file: path/my_file.cpp, line: 10, thread id:
+ * 2583751165195653633, timestamp (ms): 1649421780602.
+ * Error message!'
+ */
 auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&;
 
 namespace details
