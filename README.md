@@ -1,5 +1,6 @@
 # A simple Design By Contract C++ framework
 
+
 ## Introduction
 
 DBC is a simple, flexible, C++ library, that facilitates support for a defensive variation of the
@@ -34,6 +35,7 @@ on debug builds and doing nothing on release builds.
 #endif
 
 #include "dbc/dbc.hpp"
+#include <string>
 
 static auto flag{4};
 
@@ -43,7 +45,7 @@ extern void bar();
 void foo(int x, int y)
 {
     REQUIRE(x >= 0);
-    REQUIRE(y == 0, "Found y: " << y);
+    REQUIRE(y == 0, "Found y: " + std::to_string(y));
 
     flag = x + y;
 
