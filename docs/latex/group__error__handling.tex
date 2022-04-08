@@ -1,0 +1,97 @@
+\hypertarget{group__error__handling}{}\doxysection{Error Handling}
+\label{group__error__handling}\index{Error Handling@{Error Handling}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classdbc_1_1contract__violation}{dbc\+::contract\+\_\+violation}}
+\begin{DoxyCompactList}\small\item\em A generic contract violation exception. Encapsulates preconditions, postconditions and invariants violations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}\label{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}} 
+using \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{dbc\+::violation\+\_\+handler}} = std\+::function$<$ void(const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&)$>$
+\begin{DoxyCompactList}\small\item\em A violation context, error handler, function alias. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}{dbc\+::set\+\_\+violation\+\_\+handler}} (const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&handler)
+\begin{DoxyCompactList}\small\item\em Sets the global violation error handler function. Any reported contract violations will be handled from this function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__error__handling_gadb4f614120a233a2a450e24991055cc0}\label{group__error__handling_gadb4f614120a233a2a450e24991055cc0}} 
+{\bfseries dbc\+::contract\+\_\+violation\+::contract\+\_\+violation} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&\mbox{\hyperlink{group__error__handling_ga73decc07cc430b9d69434d3ef6c99c45}{context}})
+\item 
+auto \mbox{\hyperlink{group__error__handling_ga73decc07cc430b9d69434d3ef6c99c45}{dbc\+::contract\+\_\+violation\+::context}} () const noexcept -\/$>$ const auto \&
+\begin{DoxyCompactList}\small\item\em Returns a read access to the violation context that was handled from this instance. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__error__handling_ga13bd65f3b8a1a207b5f54656ea2a5ffb}{dbc\+::abort\+\_\+handler}} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&context)
+\begin{DoxyCompactList}\small\item\em Handles a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}} by aborting. Logs the violation to std\+::cerr. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__error__handling_gaefd993125ae87d0ed1d16a1be978e6fb}{dbc\+::throw\+\_\+handler}} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&context)
+\begin{DoxyCompactList}\small\item\em Handles a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}} by throwing a \mbox{\hyperlink{classdbc_1_1contract__violation}{dbc\+::contract\+\_\+violation}} error. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__error__handling_gac61376cdb508b7583e598361195c49dd}\label{group__error__handling_gac61376cdb508b7583e598361195c49dd}} 
+void {\bfseries dbc\+::details\+::handle} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&context)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__error__handling_ga13bd65f3b8a1a207b5f54656ea2a5ffb}\label{group__error__handling_ga13bd65f3b8a1a207b5f54656ea2a5ffb}} 
+\index{Error Handling@{Error Handling}!abort\_handler@{abort\_handler}}
+\index{abort\_handler@{abort\_handler}!Error Handling@{Error Handling}}
+\doxysubsubsection{\texorpdfstring{abort\_handler()}{abort\_handler()}}
+{\footnotesize\ttfamily void dbc\+::abort\+\_\+handler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&}]{context }\end{DoxyParamCaption})}
+
+
+
+Handles a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}} by aborting. Logs the violation to std\+::cerr. 
+
+\begin{DoxyNote}{Note}
+This is the default error handler.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em context} & the violation context to handle \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__error__handling_ga73decc07cc430b9d69434d3ef6c99c45}\label{group__error__handling_ga73decc07cc430b9d69434d3ef6c99c45}} 
+\index{Error Handling@{Error Handling}!context@{context}}
+\index{context@{context}!Error Handling@{Error Handling}}
+\doxysubsubsection{\texorpdfstring{context()}{context()}}
+{\footnotesize\ttfamily auto dbc\+::contract\+\_\+violation\+::context (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const auto\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a read access to the violation context that was handled from this instance. 
+
+\begin{DoxyReturn}{Returns}
+a read access to the violation context that was handled from this instance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}\label{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}} 
+\index{Error Handling@{Error Handling}!set\_violation\_handler@{set\_violation\_handler}}
+\index{set\_violation\_handler@{set\_violation\_handler}!Error Handling@{Error Handling}}
+\doxysubsubsection{\texorpdfstring{set\_violation\_handler()}{set\_violation\_handler()}}
+{\footnotesize\ttfamily void dbc\+::set\+\_\+violation\+\_\+handler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&}]{handler }\end{DoxyParamCaption})}
+
+
+
+Sets the global violation error handler function. Any reported contract violations will be handled from this function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handler} & the violation handler function \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__error__handling_gaefd993125ae87d0ed1d16a1be978e6fb}\label{group__error__handling_gaefd993125ae87d0ed1d16a1be978e6fb}} 
+\index{Error Handling@{Error Handling}!throw\_handler@{throw\_handler}}
+\index{throw\_handler@{throw\_handler}!Error Handling@{Error Handling}}
+\doxysubsubsection{\texorpdfstring{throw\_handler()}{throw\_handler()}}
+{\footnotesize\ttfamily void dbc\+::throw\+\_\+handler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&}]{context }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Handles a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}} by throwing a \mbox{\hyperlink{classdbc_1_1contract__violation}{dbc\+::contract\+\_\+violation}} error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & the violation context to handle \\
+\hline
+\end{DoxyParams}

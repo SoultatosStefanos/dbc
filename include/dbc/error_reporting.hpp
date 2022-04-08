@@ -34,6 +34,10 @@
 namespace dbc
 {
 
+/** @defgroup error_reporting Error Reporting
+ *  @{
+ */
+
 /**
  * @brief A Design By Contract contract enumeration.
  *
@@ -108,5 +112,7 @@ namespace details
 
 #define DBC_GET_CONTEXT(type, condition, message)                                                  \
     dbc::details::make_context(type, #condition, __FUNCTION__, __FILE__, __LINE__, message)
+
+/** @} */
 
 #endif // DBC_ERROR_REPORTING_H

@@ -1,0 +1,79 @@
+\hypertarget{group__error__reporting}{}\doxysection{Error Reporting}
+\label{group__error__reporting}\index{Error Reporting@{Error Reporting}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}
+\begin{DoxyCompactList}\small\item\em An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}\label{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}} 
+enum class \mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{dbc\+::contract}} \{ {\bfseries precondition} = 0
+, {\bfseries postcondition}
+, {\bfseries invariant}
+ \}
+\begin{DoxyCompactList}\small\item\em A Design By Contract contract enumeration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga1a91eb8235a93e24d66f8c1d4f297311}\label{group__error__reporting_ga1a91eb8235a93e24d66f8c1d4f297311}} 
+constexpr auto {\bfseries dbc\+::to\+\_\+string\+\_\+view} (\mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{contract}} type)
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga5bdbbab340f7abebf7c86b3e6c651b0e}\label{group__error__reporting_ga5bdbbab340f7abebf7c86b3e6c651b0e}} 
+constexpr auto {\bfseries dbc\+::violation\+\_\+context\+::operator==} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const -\/$>$ bool=default
+\item 
+\mbox{\Hypertarget{group__error__reporting_gae01a3d92320ba7647f1accb9b68c62d7}\label{group__error__reporting_gae01a3d92320ba7647f1accb9b68c62d7}} 
+constexpr auto {\bfseries dbc\+::violation\+\_\+context\+::operator!=} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const -\/$>$ bool=default
+\item 
+auto \mbox{\hyperlink{group__error__reporting_ga2bb10c5d751d9455eb6369a73ec3b53e}{dbc\+::operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&context) -\/$>$ std\+::ostream \&
+\begin{DoxyCompactList}\small\item\em Operator $<$$<$ overload for a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__error__reporting_gab30722e9e6e356bbf45195195789383d}\label{group__error__reporting_gab30722e9e6e356bbf45195195789383d}} 
+auto {\bfseries dbc\+::details\+::make\+\_\+context} (\mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{contract}} type, std\+::string\+\_\+view condition, std\+::string\+\_\+view function, std\+::string\+\_\+view file, int32\+\_\+t line, std\+::string\+\_\+view message) -\/$>$ \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga81345011a2185715b74ec0f0c7d1227b}\label{group__error__reporting_ga81345011a2185715b74ec0f0c7d1227b}} 
+\mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{contract}} {\bfseries dbc\+::violation\+\_\+context\+::type}
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga3deb0433e925d59d4d9fadaecce6ea83}\label{group__error__reporting_ga3deb0433e925d59d4d9fadaecce6ea83}} 
+std\+::string\+\_\+view {\bfseries dbc\+::violation\+\_\+context\+::condition}
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga1ee6846eac1da0f012642ef48e52a029}\label{group__error__reporting_ga1ee6846eac1da0f012642ef48e52a029}} 
+std\+::string\+\_\+view {\bfseries dbc\+::violation\+\_\+context\+::function}
+\item 
+\mbox{\Hypertarget{group__error__reporting_gab8c177315eca7209f3bf007a42e4c9a6}\label{group__error__reporting_gab8c177315eca7209f3bf007a42e4c9a6}} 
+std\+::string\+\_\+view {\bfseries dbc\+::violation\+\_\+context\+::file}
+\item 
+\mbox{\Hypertarget{group__error__reporting_ga705f572f2c6573dc1ff0fa3442a2cc73}\label{group__error__reporting_ga705f572f2c6573dc1ff0fa3442a2cc73}} 
+int32\+\_\+t {\bfseries dbc\+::violation\+\_\+context\+::line}
+\item 
+\mbox{\Hypertarget{group__error__reporting_gafa1aefd0add32fd2584bd76f030f4530}\label{group__error__reporting_gafa1aefd0add32fd2584bd76f030f4530}} 
+std\+::size\+\_\+t {\bfseries dbc\+::violation\+\_\+context\+::thread\+\_\+id}
+\item 
+\mbox{\Hypertarget{group__error__reporting_gaab3a801c5ecc35155a5df268edf4e5e5}\label{group__error__reporting_gaab3a801c5ecc35155a5df268edf4e5e5}} 
+int64\+\_\+t {\bfseries dbc\+::violation\+\_\+context\+::timestamp}
+\item 
+\mbox{\Hypertarget{group__error__reporting_gac17ec42b9efa8b082dec467e629213bf}\label{group__error__reporting_gac17ec42b9efa8b082dec467e629213bf}} 
+std\+::string\+\_\+view {\bfseries dbc\+::violation\+\_\+context\+::message}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__error__reporting_ga2bb10c5d751d9455eb6369a73ec3b53e}\label{group__error__reporting_ga2bb10c5d751d9455eb6369a73ec3b53e}} 
+\index{Error Reporting@{Error Reporting}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Error Reporting@{Error Reporting}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily auto dbc\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&}]{context }\end{DoxyParamCaption}) -\/$>$  std\+::ostream \&}
+
+
+
+Operator $<$$<$ overload for a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}. 
+
+Example output\+:
+
+\textquotesingle{}Invariant violation\+: (false), function\+: my\+\_\+func, file\+: path/my\+\_\+file.\+cpp, line\+: 10, thread id\+: 2583751165195653633, timestamp (ms)\+: 1649421780602. Error message!\textquotesingle{} 

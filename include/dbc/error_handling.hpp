@@ -34,6 +34,10 @@
 namespace dbc
 {
 
+/** @defgroup error_handling Error Handling
+ *  @{
+ */
+
 /**
  * @brief A violation context, error handler, function alias.
  *
@@ -98,5 +102,7 @@ namespace details
 } // namespace details
 
 } // namespace dbc
+
+/** @} */
 
 #endif // DBC_ERROR_HANDLING_H

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['context_5',['context',['../classdbc_1_1contract__violation.html#a73decc07cc430b9d69434d3ef6c99c45',1,'dbc::contract_violation']]]
+  ['abort_5fhandler_13',['abort_handler',['../group__error__handling.html#ga13bd65f3b8a1a207b5f54656ea2a5ffb',1,'dbc']]]
 ];
