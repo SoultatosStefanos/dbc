@@ -24,70 +24,51 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ABORT 1
+#include "dbc/error_reporting.hpp"
+#include <chrono>
+#include <thread>
 
-#include "dbc/dbc.hpp"
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-
-namespace dbc::tests
+namespace dbc
 {
 
-TEST(Invariants, Will_not_abort_if_true)
+auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&
 {
-    INVARIANT(true);
-    INVARIANT(true, "Error message");
+    return os << to_string_view(context.type) << " violation: (" << context.condition << "), "
+              << "function: " << context.function << ", file: " << context.file
+              << ", line: " << context.line << ", thread id: " << context.thread_id
+              << ", timestamp (ms): " << context.timestamp << "." << '\n'
+              << context.message;
 }
 
-TEST(Invariants, Will_abort_if_false)
+namespace
 {
-    EXPECT_DEATH(INVARIANT(false), "");
-    EXPECT_DEATH(INVARIANT(false, "Error message"), "");
-}
-
-TEST(Preconditions, Will_not_abort_if_true)
-{
-    PRECONDITION(true);
-    PRECONDITION(true, "Error message");
-}
-
-TEST(Preconditions, Will_abort_if_false)
-{
-    EXPECT_DEATH(PRECONDITION(false), "");
-    EXPECT_DEATH(PRECONDITION(false, "Error message"), "");
-}
-
-TEST(Postconditions, Will_not_abort_if_true)
-{
-    POSTCONDITION(true);
-    POSTCONDITION(true, "Error message");
-}
-
-TEST(Postconditions, Will_abort_if_false)
-{
-    EXPECT_DEATH(POSTCONDITION(false), "");
-    EXPECT_DEATH(POSTCONDITION(false, "Error message"), "");
-}
-
-} // namespace dbc::tests
-
-auto main(int argc, char* argv[]) -> int
-{
-    try
+    auto thread_id()
     {
-        ::testing::InitGoogleTest(&argc, argv);
-        ::testing::InitGoogleMock(&argc, argv);
+        using namespace std;
 
-        return RUN_ALL_TESTS();
-    } catch (const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-
-        return EXIT_FAILURE;
-    } catch (...)
-    {
-        std::cerr << "Unexpected error!\n";
-
-        return EXIT_FAILURE;
+        return hash<thread::id>()(this_thread::get_id());
     }
-}
+
+    auto timestamp()
+    {
+        using namespace std::chrono;
+
+        const auto until_now = system_clock::now().time_since_epoch();
+        return duration_cast<milliseconds>(until_now).count();
+    }
+} // namespace
+
+namespace details
+{
+
+    auto make_context(contract type, std::string_view condition, std::string_view function,
+                      std::string_view file, int32_t line, std::string_view message)
+        -> violation_context
+    {
+        return violation_context{type, condition,   function,    file,
+                                 line, thread_id(), timestamp(), message};
+    }
+
+} // namespace details
+
+} // namespace dbc

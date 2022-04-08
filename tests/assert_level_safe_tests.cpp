@@ -24,52 +24,82 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_THROW 1
+#define DBC_ASSERT_LEVEL_SAFE
 
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace dbc::tests
+namespace
 {
 
-TEST(Invariants, Will_not_throw_if_true)
+class Given_a_set_handler : public testing::Test
 {
-    EXPECT_NO_THROW(INVARIANT(true));
-    EXPECT_NO_THROW(INVARIANT(true, "Error message"));
+protected:
+    void SetUp() override { dbc::set_violation_handler(handler.AsStdFunction()); }
+    void TearDown() override { dbc::set_violation_handler(noop); }
+
+    using mock_handler = testing::NiceMock<testing::MockFunction<dbc::violation_handler>>;
+
+    mock_handler handler;
+    dbc::violation_handler noop;
+};
+
+TEST_F(Given_a_set_handler, Critical_asserts_dont_call_the_handler_if_true)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT_CRITICAL(true);
+    REQUIRE_CRITICAL(true);
+    ENSURE_CRITICAL(true);
 }
 
-TEST(Invariants, Will_throw_a_contract_violation_if_false)
+TEST_F(Given_a_set_handler, Critical_asserts_call_the_handler_if_false)
 {
-    EXPECT_THROW(INVARIANT(false), dbc::contract_violation);
-    EXPECT_THROW(INVARIANT(false, "Error!"), dbc::contract_violation);
+    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+
+    INVARIANT_CRITICAL(false);
+    REQUIRE_CRITICAL(false);
+    ENSURE_CRITICAL(false);
 }
 
-TEST(Preconditions, Will_not_throw_if_true)
+TEST_F(Given_a_set_handler, Regular_asserts_dont_call_the_handler_if_true)
 {
-    EXPECT_NO_THROW(PRECONDITION(true));
-    EXPECT_NO_THROW(PRECONDITION(true, "Error message"));
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT(true);
+    REQUIRE(true);
+    ENSURE(true);
 }
 
-TEST(Preconditions, Will_throw_a_contract_violation_if_false)
+TEST_F(Given_a_set_handler, Regular_asserts_call_the_handler_if_false)
 {
-    EXPECT_THROW(PRECONDITION(false), dbc::contract_violation);
-    EXPECT_THROW(PRECONDITION(false, "Error!"), dbc::contract_violation);
+    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+
+    INVARIANT(false);
+    REQUIRE(false);
+    ENSURE(false);
 }
 
-TEST(Postconditions, Will_not_throw_if_true)
+TEST_F(Given_a_set_handler, Safe_asserts_dont_call_the_handler_if_true)
 {
-    EXPECT_NO_THROW(POSTCONDITION(true));
-    EXPECT_NO_THROW(POSTCONDITION(true, "Error message"));
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT_SAFE(true);
+    REQUIRE_SAFE(true);
+    ENSURE_SAFE(true);
 }
 
-TEST(Postconditions, Will_throw_a_contract_violation_if_false)
+TEST_F(Given_a_set_handler, Safe_asserts_call_the_handler_if_false)
 {
-    EXPECT_THROW(POSTCONDITION(false), dbc::contract_violation);
-    EXPECT_THROW(POSTCONDITION(false, "Error!"), dbc::contract_violation);
+    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+
+    INVARIANT_SAFE(false);
+    REQUIRE_SAFE(false);
+    ENSURE_SAFE(false);
 }
 
-} // namespace dbc::tests
+} // namespace
 
 auto main(int argc, char* argv[]) -> int
 {

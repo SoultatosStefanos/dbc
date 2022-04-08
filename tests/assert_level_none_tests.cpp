@@ -24,83 +24,64 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_CUSTOM 1
+#define DBC_ASSERT_LEVEL_NONE
 
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include <cassert>
 
-namespace dbc::tests
+namespace
 {
 
-TEST(Set_violation_handler, Throws_an_invalid_argument_if_the_handler_is_empty)
+class Given_a_set_handler : public testing::Test
 {
-    dbc::violation_handler h;
-    assert(!h);
-
-    ASSERT_THROW(dbc::set_violation_handler(h), std::invalid_argument);
-}
-
-class Given_a_set_custom_violation_handler : public testing::Test
-{
-public:
-    void SetUp() override { dbc::set_violation_handler(mock_handler.AsStdFunction()); }
-
-    void TearDown() override
-    {
-        dbc::set_violation_handler([](const auto&) {});
-    }
-
 protected:
-    testing::NiceMock<testing::MockFunction<violation_handler>> mock_handler;
+    void SetUp() override { dbc::set_violation_handler(handler.AsStdFunction()); }
+    void TearDown() override { dbc::set_violation_handler(noop); }
+
+    using mock_handler = testing::NiceMock<testing::MockFunction<dbc::violation_handler>>;
+
+    mock_handler handler;
+    dbc::violation_handler noop;
 };
 
-TEST_F(Given_a_set_custom_violation_handler, A_true_invariant_assertion_will_not_call_the_handler)
+TEST_F(Given_a_set_handler, Critical_asserts_never_fire)
 {
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT_CRITICAL(true);
+    INVARIANT_CRITICAL(false, "");
+    REQUIRE_CRITICAL(true);
+    REQUIRE_CRITICAL(false, "");
+    ENSURE_CRITICAL(true);
+    ENSURE_CRITICAL(false, "");
+}
+
+TEST_F(Given_a_set_handler, Regular_asserts_never_fire)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
     INVARIANT(true);
+    INVARIANT(false, "");
+    REQUIRE(true);
+    REQUIRE(false, "");
+    ENSURE(true);
+    ENSURE(false, "");
 }
 
-TEST_F(Given_a_set_custom_violation_handler,
-       A_true_precondition_assertion_will_not_call_the_handler)
+TEST_F(Given_a_set_handler, Safe_asserts_never_fire)
 {
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    PRECONDITION(true);
+    INVARIANT_SAFE(true);
+    INVARIANT_SAFE(false, "");
+    REQUIRE_SAFE(true);
+    REQUIRE_SAFE(false, "");
+    ENSURE_SAFE(true);
+    ENSURE_SAFE(false, "");
 }
 
-TEST_F(Given_a_set_custom_violation_handler,
-       A_true_postcondition_assertion_will_not_call_the_handler)
-{
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(0);
-
-    POSTCONDITION(true);
-}
-
-TEST_F(Given_a_set_custom_violation_handler, A_false_invariant_assertion_will_call_the_handler)
-{
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
-
-    INVARIANT(false);
-}
-
-TEST_F(Given_a_set_custom_violation_handler, A_false_precondition_assertion_will_call_the_handler)
-{
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
-
-    PRECONDITION(false);
-}
-
-TEST_F(Given_a_set_custom_violation_handler, A_false_postcondition_assertion_will_call_the_handler)
-{
-    EXPECT_CALL(mock_handler, Call(testing::_)).Times(1);
-
-    POSTCONDITION(false);
-}
-
-} // namespace dbc::tests
+} // namespace
 
 auto main(int argc, char* argv[]) -> int
 {

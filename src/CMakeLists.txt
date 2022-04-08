@@ -1,4 +1,7 @@
-set(FILES dbc.cpp)
+set(FILES 
+	error_handling.cpp
+	error_reporting.cpp
+)
 set(SUBDIRECTORIES )
 
 foreach(VAR ${SUBDIRECTORIES})

@@ -24,75 +24,76 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// notice no #define here
-
-#ifdef DBC_ABORT
-#undef DBC_ABORT
-#endif
-
-#ifdef DBC_THROW
-#undef DBC_THROW
-#endif
-
-#ifdef DBC_TERMINATE
-#undef DBC_TERMINATE
-#endif
+#define DBC_ASSERT_LEVEL_ASSERT
 
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace dbc::tests
+namespace
 {
 
-TEST(Invariants, Will_not_terminate_or_abort)
+class Given_a_set_handler : public testing::Test
 {
+protected:
+    void SetUp() override { dbc::set_violation_handler(handler.AsStdFunction()); }
+    void TearDown() override { dbc::set_violation_handler(noop); }
+
+    using mock_handler = testing::NiceMock<testing::MockFunction<dbc::violation_handler>>;
+
+    mock_handler handler;
+    dbc::violation_handler noop;
+};
+
+TEST_F(Given_a_set_handler, Critical_asserts_dont_call_the_handler_if_true)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT_CRITICAL(true);
+    REQUIRE_CRITICAL(true);
+    ENSURE_CRITICAL(true);
+}
+
+TEST_F(Given_a_set_handler, Critical_asserts_call_the_handler_if_false)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+
+    INVARIANT_CRITICAL(false);
+    REQUIRE_CRITICAL(false);
+    ENSURE_CRITICAL(false);
+}
+
+TEST_F(Given_a_set_handler, Regular_asserts_dont_call_the_handler_if_true)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
     INVARIANT(true);
-    INVARIANT(true, "Error message");
+    REQUIRE(true);
+    ENSURE(true);
+}
+
+TEST_F(Given_a_set_handler, Regular_asserts_call_the_handler_if_false)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+
     INVARIANT(false);
-    INVARIANT(false, "Error message");
+    REQUIRE(false);
+    ENSURE(false);
 }
 
-TEST(Invariants, Will_not_throw)
+TEST_F(Given_a_set_handler, Safe_asserts_never_fire)
 {
-    ASSERT_NO_THROW(INVARIANT(true));
-    ASSERT_NO_THROW(INVARIANT(true, ""));
-    ASSERT_NO_THROW(INVARIANT(false));
-    ASSERT_NO_THROW(INVARIANT(false, ""));
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    INVARIANT_SAFE(true);
+    INVARIANT_SAFE(false, "");
+    REQUIRE_SAFE(true);
+    REQUIRE_SAFE(false, "");
+    ENSURE_SAFE(true);
+    ENSURE_SAFE(false, "");
 }
 
-TEST(Preconditions, Will_not_terminate_or_abort)
-{
-    PRECONDITION(true);
-    PRECONDITION(true, "Error message");
-    PRECONDITION(false);
-    PRECONDITION(false, "Error message");
-}
-
-TEST(Preconditions, Will_not_throw)
-{
-    ASSERT_NO_THROW(PRECONDITION(true));
-    ASSERT_NO_THROW(PRECONDITION(true, ""));
-    ASSERT_NO_THROW(PRECONDITION(false));
-    ASSERT_NO_THROW(PRECONDITION(false, ""));
-}
-
-TEST(Postconditions, Will_not_terminate_or_abort)
-{
-    POSTCONDITION(true);
-    POSTCONDITION(true, "Error message");
-    POSTCONDITION(false);
-    POSTCONDITION(false, "Error message");
-}
-
-TEST(Postconditions, Will_not_throw)
-{
-    ASSERT_NO_THROW(POSTCONDITION(true));
-    ASSERT_NO_THROW(POSTCONDITION(true, ""));
-    ASSERT_NO_THROW(POSTCONDITION(false));
-    ASSERT_NO_THROW(POSTCONDITION(false, ""));
-}
-} // namespace dbc::tests
+} // namespace
 
 auto main(int argc, char* argv[]) -> int
 {

@@ -1,12 +1,10 @@
 set(TESTS_LIBS gtest gmock)
 
 set (TESTS
-	abort_tests
-	custom_tests
-	debug_tests
-	default_tests
-	terminate_tests
-	throw_tests
+	assert_level_assert_tests
+	assert_level_critical_tests
+	assert_level_none_tests
+	assert_level_safe_tests
 )
 
 foreach(TEST ${TESTS})

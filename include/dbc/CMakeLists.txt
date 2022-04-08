@@ -1,4 +1,9 @@
-set(FILES dbc.hpp )
+set(FILES 
+	dbc.hpp 
+	error_checking.hpp
+	error_handling.hpp
+	error_reporting.hpp
+)
 set(SUBDIRECTORIES )
 
 foreach(VAR ${SUBDIRECTORIES})
