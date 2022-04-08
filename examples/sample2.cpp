@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ABORT 1
+#define DBC_ASSERT_LEVEL_ASSERT
 
 #include "dbc/dbc.hpp"
 
@@ -45,15 +45,15 @@ public:
     void set_var(int _v)
     {
         INVARIANT(v > 0);
-        PRECONDITION(_v > 0); // same as
+        REQUIRE(_v > 0); // same as
         // for more debug info
-        PRECONDITION(_v > 0, "found _v == " + std::to_string(var()));
+        REQUIRE(_v > 0, "found _v == " + std::to_string(var()));
 
         v = _v;
 
-        POSTCONDITION(v == _v); // same as
+        ENSURE(v == _v); // same as
         // for more  info
-        POSTCONDITION(v == _v, "v is actually: " + std::to_string(var()));
+        ENSURE(v == _v, "v is actually: " + std::to_string(var()));
         INVARIANT(v > 0);
     }
 

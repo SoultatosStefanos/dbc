@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ABORT 1
+#define DBC_ASSERT_LEVEL_SAFE
 
 #include "dbc/dbc.hpp"
 #include <iostream>
@@ -35,13 +35,13 @@ class performance_critical_balanced_tree
 public:
     void foo(const std::string& cmd)
     {
-        INVARIANT_DEBUG(is_balanced());                          // O(nlog(n))
-        PRECONDITION_DEBUG(cmd == valid_cmd(), "Found: " + cmd); // O(n)
+        INVARIANT_SAFE(is_balanced());                     // O(nlog(n))
+        REQUIRE_SAFE(cmd == valid_cmd(), "Found: " + cmd); // O(n)
 
         // impl
 
-        POSTCONDITION_DEBUG(info() == valid_info(), "Found: " + info()); // O(n)
-        INVARIANT_DEBUG(is_balanced(), "What??");                        // O(nlog(n))
+        ENSURE_SAFE(info() == valid_info(), "Found: " + info()); // O(n)
+        INVARIANT_SAFE(is_balanced(), "What??");                 // O(nlog(n))
     }
 
 private:

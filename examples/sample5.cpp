@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_THROW 1
+#define DBC_ASSERT_LEVEL_ASSERT
 
 #include "dbc/dbc.hpp"
 #include <iostream>
@@ -33,41 +33,29 @@
 
 auto read_int(std::istream& in) -> int
 {
-    PRECONDITION(in.good(), "Invalid input stream!");
+    REQUIRE(in.good(), "Invalid input stream!");
 
     auto i{0};
     in >> i;
 
-    POSTCONDITION(in.good());
+    ENSURE(in.good());
     return i;
 }
 
 extern void reboot();
-extern void log(const std::string& error);
 extern void log(const dbc::violation_context& c);
 
-void recover_gracefully(const dbc::contract_violation& e)
+void recover_gracefully(const dbc::violation_context& e)
 {
-    log(e.what());
-    log(e.context()); // alternatively
+    log(e);
     reboot();
 }
 
 auto main() -> int
 {
-    try
-    {
-        const auto i = read_int(std::cin);
-    } catch (const dbc::contract_violation& e)
-    { // catch contract violation
-        recover_gracefully(e);
+    dbc::set_violation_handler(recover_gracefully);
 
-        return EXIT_SUCCESS;
-    } catch (...)
-    {
-        std::cerr << "Unexpected error!\n";
+    read_int(std::cin);
 
-        return EXIT_FAILURE;
-    }
     return 0;
 }

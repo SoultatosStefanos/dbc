@@ -2,14 +2,13 @@
 
 ## Introduction
 
-DBC is a simple, flexible, header-only, C++ library, that facilitates support
-for the Design By Contract framework, by making use of public assertion
-macros.
+DBC is a simple, flexible, C++ library, that facilitates support for a defensive variation of the
+Design By Contract framework, by making use of public assertion macros.
 
-* DBC is **small** and **simple to use**. It consists of a single header file.
-
-* DBC is **flexible**. Depending on the build option, contract violations can 
-abort, terminate, throw, do nothing (default), or be runtime configurable.
+* DBC is **flexible**. Depending on the build option, (DBC_ASSERT_LEVEL_NONE, 
+DBC_ASSERT_LEVEL_CRITICAL, DBC_ASSERT_LEVEL_ASSERT, DBC_ASSERT_LEVEL_SAFE), client code can choose
+what types of assertions to evaluate. In addition, the error handling mechanism can be configured
+at runtime.
 
 * DBC is **debug friendly**. It's assertions are overloaded, in order to provide
 human friendly error messages. In addition, in case of a contract violation,
@@ -17,23 +16,10 @@ user friendly debug info, (including the file, function and much more) is
 forwarded.
 
 * DBC is **efficient**. It utilizes only std::string_view objects and primitive 
-types for error reporting, while its assertions can be completely turned off. In 
-addition, DBC includes specific assertion macros that are enabled exclusively
-at debug builds, and can be used for performance critical code only.
-
-* DBC is **multi-purpose**. It supports static Design By Contract assertions
-for template meta-programming.
-
-
-More details can be read [here](docs/assertions.md), [here](docs/classes.md),
-[here](docs/flags.md), [here](docs/samples.md), [here](docs/functions.md) and 
-[here](docs/operators.md).
+types for error reporting, while its assertions can be completely turned off.
 
 
 ## Usage at a glance
-
-DBC can be as simple to use, as copying and pasting the header file found at: 
-dbc/dbc.hpp to your project.
 
 This example illustrates how the public dbc assertions can be used. It 
 configures the dbc environment to emulate the assertion mechanism, by aborting
@@ -42,7 +28,9 @@ on debug builds and doing nothing on release builds.
 ~~~~~~~~~~cpp
 
 #ifndef NDEBUG
-#define DBC_ABORT 1
+#define DBC_ASSERT_LEVEL_ASSERT
+#else
+#define DBC_ASSERT_LEVEL_NONE
 #endif
 
 #include "dbc/dbc.hpp"
@@ -54,8 +42,8 @@ extern void bar();
 
 void foo(int x, int y)
 {
-    PRECONDITION(x >= 0);
-    PRECONDITION(y == 0, "Found y: " << y);
+    REQUIRE(x >= 0);
+    REQUIRE(y == 0, "Found y: " << y);
 
     flag = x + y;
 
@@ -68,7 +56,11 @@ void foo(int x, int y)
         INVARIANT(running());
     }
 
-    POSTCONDITION(flag >= 0);
+    ENSURE(flag >= 0);
+}
+
+int main() {
+    dbc::set_violation_handler(dbc::abort_handler); // no need fot this line, as the default handler is the dbc::abort_handler.
 }
 
 ~~~~~~~~~~

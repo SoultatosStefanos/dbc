@@ -24,8 +24,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef NDEBUG
-#define DBC_ABORT 1 // abort on debug builds, else do nothing
-#endif
+#define DBC_ASSERT_LEVEL_CRITICAL
 
 #include "dbc/dbc.hpp"
+
+extern bool ready_for_war();
+
+void set_nuclears()
+{
+    REQUIRE_CRITICAL(ready_for_war());
+    //
+}

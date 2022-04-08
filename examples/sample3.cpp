@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_TERMINATE 1
+#define DBC_ASSERT_LEVEL_ASSERT
 
 #include "dbc/dbc.hpp"
 #include <array>

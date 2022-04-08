@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ABORT 1
+#define DBC_ASSERT_LEVEL_ASSERT
 
 #include "dbc/dbc.hpp"
 
@@ -37,9 +37,9 @@ namespace
 //
 int sum_non_negative(int a, int b)
 {
-    PRECONDITION(a >= 0 and b >= 0);
+    REQUIRE(a >= 0 and b >= 0);
     auto sum = a + b;
-    POSTCONDITION(sum >= 0);
+    ENSURE(sum >= 0);
     return sum;
 }
 
