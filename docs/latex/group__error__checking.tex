@@ -1,0 +1,16 @@
+\hypertarget{group__error__checking}{}\doxysection{Error Checking}
+\label{group__error__checking}\index{Error Checking@{Error Checking}}
+@ \{
+
+Each DBC assertion comes in three variants.
+
+\begin{DoxyParagraph}{Critical variant}
+Used for critical assumptions that must always be verified. Most applications do not benefit from this variant. E.\+g INVARIANT\+\_\+\+CRITICAL, REQUIRE\+\_\+\+CRITICAL, ENSURE\+\_\+\+CRITICAL.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Regular variant}
+Most assertions fall in this category. Regular assumptions, whose complexity is constant should be verified like this. E.\+g INVARIANT, REQUIRE, ENSURE.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Safe variant}
+This variant should be used to assert for complex assumptions, that can slow down an application. Typically useful for inline functions and checks of linear, or greater, complexities. E.\+g INVARIANT\+\_\+\+SAFE, REQUIRE\+\_\+\+SAFE, ENSURE\+\_\+\+SAFE.
+\end{DoxyParagraph}
+Additionally each DBC assertion is overloaded, in order to provide a developer friendly error message. 

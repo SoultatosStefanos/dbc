@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>DBC: Modules</title>
+<title>DBC: Error Checking</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,16 +63,15 @@ $(function() {
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Modules</div>  </div>
+<div class="title">Error Checking</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all modules:</div><div class="directory">
-<table class="directory">
-<tr id="row_0_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="group__error__checking.html" target="_self">Error Checking</a></td><td class="desc"></td></tr>
-<tr id="row_1_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="group__error__handling.html" target="_self">Error Handling</a></td><td class="desc"></td></tr>
-<tr id="row_2_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="group__error__reporting.html" target="_self">Error Reporting</a></td><td class="desc"></td></tr>
-</table>
-</div><!-- directory -->
+<p>@ {</p>
+<p>Each DBC assertion comes in three variants.</p>
+<dl class="section user"><dt>Critical variant</dt><dd>Used for critical assumptions that must always be verified. Most applications do not benefit from this variant. E.g INVARIANT_CRITICAL, REQUIRE_CRITICAL, ENSURE_CRITICAL.</dd></dl>
+<dl class="section user"><dt>Regular variant</dt><dd>Most assertions fall in this category. Regular assumptions, whose complexity is constant should be verified like this. E.g INVARIANT, REQUIRE, ENSURE.</dd></dl>
+<dl class="section user"><dt>Safe variant</dt><dd>This variant should be used to assert for complex assumptions, that can slow down an application. Typically useful for inline functions and checks of linear, or greater, complexities. E.g INVARIANT_SAFE, REQUIRE_SAFE, ENSURE_SAFE.</dd></dl>
+<p>Additionally each DBC assertion is overloaded, in order to provide a developer friendly error message. </p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

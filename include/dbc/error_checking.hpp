@@ -31,7 +31,10 @@
 #include "error_reporting.hpp"
 
 /**
- * @brief Each DBC assertion comes in three variants.
+ * @defgroup error_checking Error Checking
+ * @ {
+ *
+ * Each DBC assertion comes in three variants.
  *
  * @par Critical variant
  *  Used for critical assumptions that must always be verified. Most applications do not benefit
@@ -159,5 +162,7 @@
 
 #define ENSURE_SAFE(...)                                                                           \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_ENSURE_SAFE2, DBC_ENSURE_SAFE1)(__VA_ARGS__))
+
+/** @} */
 
 #endif // DBC_ERROR_CHECKING_H
