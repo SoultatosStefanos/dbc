@@ -30,7 +30,7 @@
 
 extern bool ready_for_war();
 
-void set_nuclears()
+void send_nuclears()
 {
     REQUIRE_CRITICAL(ready_for_war());
     //
