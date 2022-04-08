@@ -1,0 +1,55 @@
+\hypertarget{structdbc_1_1violation__context}{}\doxysection{dbc\+::violation\+\_\+context Struct Reference}
+\label{structdbc_1_1violation__context}\index{dbc::violation\_context@{dbc::violation\_context}}
+
+
+An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message.  
+
+
+
+
+{\ttfamily \#include $<$error\+\_\+reporting.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_a5bdbbab340f7abebf7c86b3e6c651b0e}\label{structdbc_1_1violation__context_a5bdbbab340f7abebf7c86b3e6c651b0e}} 
+constexpr auto {\bfseries operator==} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const -\/$>$ bool=default
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_ae01a3d92320ba7647f1accb9b68c62d7}\label{structdbc_1_1violation__context_ae01a3d92320ba7647f1accb9b68c62d7}} 
+constexpr auto {\bfseries operator!=} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const -\/$>$ bool=default
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_a81345011a2185715b74ec0f0c7d1227b}\label{structdbc_1_1violation__context_a81345011a2185715b74ec0f0c7d1227b}} 
+contract {\bfseries type}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_a3deb0433e925d59d4d9fadaecce6ea83}\label{structdbc_1_1violation__context_a3deb0433e925d59d4d9fadaecce6ea83}} 
+std\+::string\+\_\+view {\bfseries condition}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_a1ee6846eac1da0f012642ef48e52a029}\label{structdbc_1_1violation__context_a1ee6846eac1da0f012642ef48e52a029}} 
+std\+::string\+\_\+view {\bfseries function}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_ab8c177315eca7209f3bf007a42e4c9a6}\label{structdbc_1_1violation__context_ab8c177315eca7209f3bf007a42e4c9a6}} 
+std\+::string\+\_\+view {\bfseries file}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_a705f572f2c6573dc1ff0fa3442a2cc73}\label{structdbc_1_1violation__context_a705f572f2c6573dc1ff0fa3442a2cc73}} 
+int32\+\_\+t {\bfseries line}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_afa1aefd0add32fd2584bd76f030f4530}\label{structdbc_1_1violation__context_afa1aefd0add32fd2584bd76f030f4530}} 
+std\+::size\+\_\+t {\bfseries thread\+\_\+id}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_aab3a801c5ecc35155a5df268edf4e5e5}\label{structdbc_1_1violation__context_aab3a801c5ecc35155a5df268edf4e5e5}} 
+int64\+\_\+t {\bfseries timestamp}
+\item 
+\mbox{\Hypertarget{structdbc_1_1violation__context_ac17ec42b9efa8b082dec467e629213bf}\label{structdbc_1_1violation__context_ac17ec42b9efa8b082dec467e629213bf}} 
+std\+::string\+\_\+view {\bfseries message}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/stef/\+Documents/\+Projects/dbc/include/dbc/error\+\_\+reporting.\+hpp\end{DoxyCompactItemize}
