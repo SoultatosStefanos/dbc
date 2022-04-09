@@ -89,15 +89,15 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1a91eb8235a93e24d66f8c1d4f297311"><td class="memItemLeft" align="right" valign="top"><a id="ga1a91eb8235a93e24d66f8c1d4f297311"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::to_string_view</b> (<a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a> type)</td></tr>
-<tr class="separator:ga1a91eb8235a93e24d66f8c1d4f297311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5bdbbab340f7abebf7c86b3e6c651b0e"><td class="memItemLeft" align="right" valign="top"><a id="ga5bdbbab340f7abebf7c86b3e6c651b0e"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator==</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const -&gt; bool=default</td></tr>
-<tr class="separator:ga5bdbbab340f7abebf7c86b3e6c651b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae01a3d92320ba7647f1accb9b68c62d7"><td class="memItemLeft" align="right" valign="top"><a id="gae01a3d92320ba7647f1accb9b68c62d7"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator!=</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const -&gt; bool=default</td></tr>
-<tr class="separator:gae01a3d92320ba7647f1accb9b68c62d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga50e2d3f289ff17ebfd01057cd2060741"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error__reporting.html#ga50e2d3f289ff17ebfd01057cd2060741">dbc::to_string_view</a> (<a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a> type) noexcept</td></tr>
+<tr class="memdesc:ga50e2d3f289ff17ebfd01057cd2060741"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an std::string_view representation of a dbc::contract.  <a href="group__error__reporting.html#ga50e2d3f289ff17ebfd01057cd2060741">More...</a><br /></td></tr>
+<tr class="separator:ga50e2d3f289ff17ebfd01057cd2060741"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9809991b93c18a00d84dc0bb9371e1e4"><td class="memItemLeft" align="right" valign="top"><a id="ga9809991b93c18a00d84dc0bb9371e1e4"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator==</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
+<tr class="separator:ga9809991b93c18a00d84dc0bb9371e1e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf5cdc0c675c21eef71c00d90a1e312ea"><td class="memItemLeft" align="right" valign="top"><a id="gaf5cdc0c675c21eef71c00d90a1e312ea"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator!=</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
+<tr class="separator:gaf5cdc0c675c21eef71c00d90a1e312ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error__reporting.html#ga2bb10c5d751d9455eb6369a73ec3b53e">dbc::operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;context) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operator &lt;&lt; overload for a <a class="el" href="structdbc_1_1violation__context.html" title="An aggregate containing the context of a contract violation. Provides useful debug info concerning th...">dbc::violation_context</a>.  <a href="group__error__reporting.html#ga2bb10c5d751d9455eb6369a73ec3b53e">More...</a><br /></td></tr>
 <tr class="separator:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +163,41 @@ std::string_view&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::viol
 <p>Operator &lt;&lt; overload for a <a class="el" href="structdbc_1_1violation__context.html" title="An aggregate containing the context of a contract violation. Provides useful debug info concerning th...">dbc::violation_context</a>. </p>
 <p>Example output:</p>
 <p>'Invariant violation: (false), function: my_func, file: path/my_file.cpp, line: 10, thread id: 2583751165195653633, timestamp (ms): 1649421780602. Error message!' </p>
+
+</div>
+</div>
+<a id="ga50e2d3f289ff17ebfd01057cd2060741"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga50e2d3f289ff17ebfd01057cd2060741">&#9670;&nbsp;</a></span>to_string_view()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto dbc::to_string_view </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an std::string_view representation of a dbc::contract. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>the contract</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an std::string_view representation of a dbc::contract, or an empty string literal if the contract type is not enumerated to a dbc pre/post condition or invariant </dd></dl>
 
 </div>
 </div>

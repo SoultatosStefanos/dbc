@@ -50,7 +50,7 @@ using violation_handler = std::function<void(const violation_context&)>;
  *
  * @param handler the violation handler function
  */
-void set_violation_handler(const violation_handler& handler);
+void set_violation_handler(const violation_handler& handler) noexcept;
 
 /**
  * @brief A generic contract violation exception.

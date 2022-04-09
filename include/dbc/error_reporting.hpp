@@ -49,7 +49,15 @@ enum class contract
     invariant
 };
 
-constexpr auto to_string_view(contract type)
+/**
+ * @brief Returns an std::string_view representation of a dbc::contract.
+ *
+ * @param type the contract
+ *
+ * @return an std::string_view representation of a dbc::contract, or an empty string literal if the
+ * contract type is not enumerated to a dbc pre/post condition or invariant
+ */
+constexpr auto to_string_view(contract type) noexcept
 {
     using namespace std::literals;
     using enum contract;
@@ -84,8 +92,8 @@ struct violation_context
     int64_t timestamp;
     std::string_view message;
 
-    constexpr auto operator==(const violation_context&) const -> bool = default;
-    constexpr auto operator!=(const violation_context&) const -> bool = default;
+    constexpr auto operator==(const violation_context&) const noexcept -> bool = default;
+    constexpr auto operator!=(const violation_context&) const noexcept -> bool = default;
 };
 
 /**
@@ -110,6 +118,7 @@ namespace details
 
 } // namespace dbc
 
+// Utility macro to obtain __FUNCTION__, __FILE__ and __LINE__
 #define DBC_GET_CONTEXT(type, condition, message)                                                  \
     dbc::details::make_context(type, #condition, __FUNCTION__, __FILE__, __LINE__, message)
 

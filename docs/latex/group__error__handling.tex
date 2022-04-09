@@ -14,7 +14,7 @@ using \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}{dbc\+::set\+\_\+violation\+\_\+handler}} (const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&handler)
+void \mbox{\hyperlink{group__error__handling_gaf7cc482a6fab92e183d9ca1f057e3ef2}{dbc\+::set\+\_\+violation\+\_\+handler}} (const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&handler) noexcept
 \begin{DoxyCompactList}\small\item\em Sets the global violation error handler function. Any reported contract violations will be handled from this function. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{group__error__handling_gadb4f614120a233a2a450e24991055cc0}\label{group__error__handling_gadb4f614120a233a2a450e24991055cc0}} 
 {\bfseries dbc\+::contract\+\_\+violation\+::contract\+\_\+violation} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&\mbox{\hyperlink{group__error__handling_ga73decc07cc430b9d69434d3ef6c99c45}{context}})
@@ -65,11 +65,11 @@ Returns a read access to the violation context that was handled from this instan
 \begin{DoxyReturn}{Returns}
 a read access to the violation context that was handled from this instance 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}\label{group__error__handling_ga0846c4c594d0c880489918b5f7dba7d7}} 
+\mbox{\Hypertarget{group__error__handling_gaf7cc482a6fab92e183d9ca1f057e3ef2}\label{group__error__handling_gaf7cc482a6fab92e183d9ca1f057e3ef2}} 
 \index{Error Handling@{Error Handling}!set\_violation\_handler@{set\_violation\_handler}}
 \index{set\_violation\_handler@{set\_violation\_handler}!Error Handling@{Error Handling}}
 \doxysubsubsection{\texorpdfstring{set\_violation\_handler()}{set\_violation\_handler()}}
-{\footnotesize\ttfamily void dbc\+::set\+\_\+violation\+\_\+handler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&}]{handler }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void dbc\+::set\+\_\+violation\+\_\+handler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{group__error__handling_ga7c24e1c4ffeca257a874893d5ce53443}{violation\+\_\+handler}} \&}]{handler }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
 
 
 

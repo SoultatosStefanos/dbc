@@ -42,7 +42,7 @@ auto operator<<(std::ostream& os, const violation_context& context) -> std::ostr
 
 namespace
 {
-    auto thread_id()
+    auto thread_id() noexcept
     {
         using namespace std;
 
