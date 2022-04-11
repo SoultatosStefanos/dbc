@@ -29,7 +29,7 @@ on debug builds and doing nothing on release builds.
 ~~~~~~~~~~cpp
 
 #ifndef NDEBUG
-#define DBC_ASSERT_LEVEL_ASSERT
+#define DBC_ASSERT_LEVEL_INVARIANTS
 #else
 #define DBC_ASSERT_LEVEL_NONE
 #endif
@@ -62,7 +62,7 @@ void foo(int x, int y)
 }
 
 int main() {
-    dbc::set_violation_handler(dbc::abort_handler); // no need fot this line, as the default handler is the dbc::abort_handler.
+    dbc::set_violation_handler(dbc::abort_handler);
 }
 
 ~~~~~~~~~~
