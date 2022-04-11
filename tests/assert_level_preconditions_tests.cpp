@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ASSERT_LEVEL_SAFE
+#define DBC_ASSERT_LEVEL_PRECONDITIONS
 
 #include "dbc/dbc.hpp"
 #include "gmock/gmock.h"
@@ -45,58 +45,34 @@ protected:
     dbc::violation_handler noop;
 };
 
-TEST_F(Given_a_set_handler, Critical_asserts_dont_call_the_handler_if_true)
+TEST_F(Given_a_set_handler, Precondition_asserts_dont_call_the_handler_if_true)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    INVARIANT_CRITICAL(true);
-    REQUIRE_CRITICAL(true);
-    ENSURE_CRITICAL(true);
+    REQUIRE(true);
 }
 
-TEST_F(Given_a_set_handler, Critical_asserts_call_the_handler_if_false)
+TEST_F(Given_a_set_handler, Precondition_asserts_call_the_handler_if_false)
 {
-    EXPECT_CALL(handler, Call(testing::_)).Times(3);
+    EXPECT_CALL(handler, Call(testing::_)).Times(1);
 
-    INVARIANT_CRITICAL(false);
-    REQUIRE_CRITICAL(false);
-    ENSURE_CRITICAL(false);
+    REQUIRE(false);
 }
 
-TEST_F(Given_a_set_handler, Regular_asserts_dont_call_the_handler_if_true)
+TEST_F(Given_a_set_handler, Postcondition_asserts_never_fire)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    ENSURE(true);
+    ENSURE(false, "");
+}
+
+TEST_F(Given_a_set_handler, Invariant_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
     INVARIANT(true);
-    REQUIRE(true);
-    ENSURE(true);
-}
-
-TEST_F(Given_a_set_handler, Regular_asserts_call_the_handler_if_false)
-{
-    EXPECT_CALL(handler, Call(testing::_)).Times(3);
-
-    INVARIANT(false);
-    REQUIRE(false);
-    ENSURE(false);
-}
-
-TEST_F(Given_a_set_handler, Safe_asserts_dont_call_the_handler_if_true)
-{
-    EXPECT_CALL(handler, Call(testing::_)).Times(0);
-
-    INVARIANT_SAFE(true);
-    REQUIRE_SAFE(true);
-    ENSURE_SAFE(true);
-}
-
-TEST_F(Given_a_set_handler, Safe_asserts_call_the_handler_if_false)
-{
-    EXPECT_CALL(handler, Call(testing::_)).Times(3);
-
-    INVARIANT_SAFE(false);
-    REQUIRE_SAFE(false);
-    ENSURE_SAFE(false);
+    INVARIANT(false, "");
 }
 
 } // namespace

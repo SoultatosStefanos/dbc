@@ -2,15 +2,18 @@
 \label{group__error__checking}\index{Error Checking@{Error Checking}}
 @ \{
 
-Each DBC assertion comes in three variants.
+DBC comes with certain compilation options to configure its assertions accross the different contracts.
 
-\begin{DoxyParagraph}{Critical variant}
-Used for critical assumptions that must always be verified. Most applications do not benefit from this variant. E.\+g INVARIANT\+\_\+\+CRITICAL, REQUIRE\+\_\+\+CRITICAL, ENSURE\+\_\+\+CRITICAL.
+\begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+NONE}
+All assertions have no runtime effect. Precondtion, postcondition and invariants checks are turned to noops.
 \end{DoxyParagraph}
-\begin{DoxyParagraph}{Regular variant}
-Most assertions fall in this category. Regular assumptions, whose complexity is constant should be verified like this. E.\+g INVARIANT, REQUIRE, ENSURE.
+\begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+PRECONDITIONS}
+Only precondition checks are monitored. Hence, the REQUIRE checker is the only checker that is not turned to a noop.
 \end{DoxyParagraph}
-\begin{DoxyParagraph}{Safe variant}
-This variant should be used to assert for complex assumptions, that can slow down an application. Typically useful for inline functions and checks of linear, or greater, complexities. E.\+g INVARIANT\+\_\+\+SAFE, REQUIRE\+\_\+\+SAFE, ENSURE\+\_\+\+SAFE.
+\begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+POSTCONDITIONS}
+Both preconditions and postconditions, validated with the REQUIRE and ENSURE macros, are monitored. Invariant checks are turned to noops.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+INVARIANTS}
+All assertions are monitored.
 \end{DoxyParagraph}
 Additionally each DBC assertion is overloaded, in order to provide a developer friendly error message. 

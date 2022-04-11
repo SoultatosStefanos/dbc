@@ -45,40 +45,28 @@ protected:
     dbc::violation_handler noop;
 };
 
-TEST_F(Given_a_set_handler, Critical_asserts_never_fire)
+TEST_F(Given_a_set_handler, Precondition_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    INVARIANT_CRITICAL(true);
-    INVARIANT_CRITICAL(false, "");
-    REQUIRE_CRITICAL(true);
-    REQUIRE_CRITICAL(false, "");
-    ENSURE_CRITICAL(true);
-    ENSURE_CRITICAL(false, "");
+    REQUIRE(true);
+    REQUIRE(false, "");
 }
 
-TEST_F(Given_a_set_handler, Regular_asserts_never_fire)
+TEST_F(Given_a_set_handler, Postcondition_asserts_never_fire)
+{
+    EXPECT_CALL(handler, Call(testing::_)).Times(0);
+
+    ENSURE(true);
+    ENSURE(false, "");
+}
+
+TEST_F(Given_a_set_handler, Invariant_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
     INVARIANT(true);
     INVARIANT(false, "");
-    REQUIRE(true);
-    REQUIRE(false, "");
-    ENSURE(true);
-    ENSURE(false, "");
-}
-
-TEST_F(Given_a_set_handler, Safe_asserts_never_fire)
-{
-    EXPECT_CALL(handler, Call(testing::_)).Times(0);
-
-    INVARIANT_SAFE(true);
-    INVARIANT_SAFE(false, "");
-    REQUIRE_SAFE(true);
-    REQUIRE_SAFE(false, "");
-    ENSURE_SAFE(true);
-    ENSURE_SAFE(false, "");
 }
 
 } // namespace

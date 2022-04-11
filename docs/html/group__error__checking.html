@@ -67,10 +67,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <p>@ {</p>
-<p>Each DBC assertion comes in three variants.</p>
-<dl class="section user"><dt>Critical variant</dt><dd>Used for critical assumptions that must always be verified. Most applications do not benefit from this variant. E.g INVARIANT_CRITICAL, REQUIRE_CRITICAL, ENSURE_CRITICAL.</dd></dl>
-<dl class="section user"><dt>Regular variant</dt><dd>Most assertions fall in this category. Regular assumptions, whose complexity is constant should be verified like this. E.g INVARIANT, REQUIRE, ENSURE.</dd></dl>
-<dl class="section user"><dt>Safe variant</dt><dd>This variant should be used to assert for complex assumptions, that can slow down an application. Typically useful for inline functions and checks of linear, or greater, complexities. E.g INVARIANT_SAFE, REQUIRE_SAFE, ENSURE_SAFE.</dd></dl>
+<p>DBC comes with certain compilation options to configure its assertions accross the different contracts.</p>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_NONE</dt><dd>All assertions have no runtime effect. Precondtion, postcondition and invariants checks are turned to noops.</dd></dl>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_PRECONDITIONS</dt><dd>Only precondition checks are monitored. Hence, the REQUIRE checker is the only checker that is not turned to a noop.</dd></dl>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_POSTCONDITIONS</dt><dd>Both preconditions and postconditions, validated with the REQUIRE and ENSURE macros, are monitored. Invariant checks are turned to noops.</dd></dl>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_INVARIANTS</dt><dd>All assertions are monitored.</dd></dl>
 <p>Additionally each DBC assertion is overloaded, in order to provide a developer friendly error message. </p>
 </div><!-- contents -->
 <!-- start footer part -->

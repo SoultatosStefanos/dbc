@@ -24,7 +24,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define DBC_ASSERT_LEVEL_ASSERT
+#define DBC_ASSERT_LEVEL_POSTCONDITIONS
 
 #include "dbc/dbc.hpp"
 #include <iostream>

@@ -1,10 +1,10 @@
 set(TESTS_LIBS gtest gmock)
 
 set (TESTS
-	assert_level_assert_tests
-	assert_level_critical_tests
+	assert_level_invariants_tests
 	assert_level_none_tests
-	assert_level_safe_tests
+	assert_level_postconditions_tests
+	assert_level_preconditions_tests
 )
 
 foreach(TEST ${TESTS})
