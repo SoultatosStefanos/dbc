@@ -25,11 +25,15 @@ assertions are used for their semantic value, thus no runtime overhead is suffer
 
 Given the following DBC assertion:
 
-`INVARIANT(x == 0, "What");`
+`INVARIANT(x == 0, "Update your current version!");`
 
 If the condition `x == 0` is evaluated as false, the following can be output:
 
 ![](data/screenshots/output.png)
+
+Colored output is only supported on linux platforms.
+The output can be configured to be colorless with the flag: DBC_COLORLESS_OUTPUT.
+
 
 ## Usage at a glance
 

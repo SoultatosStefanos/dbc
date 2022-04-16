@@ -28,18 +28,62 @@
 #include <chrono>
 #include <thread>
 
+#if defined(_WIN32) || defined(WIN32) || defined(DBC_COLORLESS_OUTPUT)
+
+#define RESET ""
+#define BLACK ""
+#define RED ""
+#define GREEN ""
+#define YELLOW ""
+#define BLUE ""
+#define MAGENTA ""
+#define CYAN ""
+#define WHITE ""
+#define BOLDBLACK ""
+#define BOLDRED ""
+#define BOLDGREEN ""
+#define BOLDYELLOW ""
+#define BOLDBLUE ""
+#define BOLDMAGENTA ""
+#define BOLDCYAN ""
+#define BOLDWHITE ""
+
+#else
+
+#define RESET "\033[0m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
+#define BOLDBLACK "\033[1m\033[30m"
+#define BOLDRED "\033[1m\033[31m"
+#define BOLDGREEN "\033[1m\033[32m"
+#define BOLDYELLOW "\033[1m\033[33m"
+#define BOLDBLUE "\033[1m\033[34m"
+#define BOLDMAGENTA "\033[1m\033[35m"
+#define BOLDCYAN "\033[1m\033[36m"
+#define BOLDWHITE "\033[1m\033[37m"
+
+#endif
+
 namespace dbc
 {
 
 auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&
 {
-    return os << "Design By Contract VIOLATION:\n"
-              << to_string_view(context.type) << ":\n  " << context.condition
-              << "\nwith expansion:\n  " << context.decomposition
-              << "\nFunction: " << context.function << ", file: " << context.file
-              << ", line: " << context.line << "\nThread id: " << context.thread_id
-              << ", timestamp(ms): " << context.timestamp << '\n'
-              << context.message << '\n';
+    return os << "Design By Contract " << RED << "VIOLATION:\n"
+              << RESET << to_string_view(context.type) << ":\n  " << CYAN << context.condition
+              << RESET << "\nwith expansion:\n  " << YELLOW << context.decomposition << RESET
+              << "\nFunction: " << MAGENTA << context.function << RESET << ", file: " << MAGENTA
+              << context.file << RESET << ", line: " << MAGENTA << context.line << RESET
+              << "\nThread id: " << MAGENTA << context.thread_id << RESET
+              << ", timestamp(ms): " << MAGENTA << context.timestamp << '\n'
+              << RED << context.message << '\n'
+              << RESET;
 }
 
 namespace
