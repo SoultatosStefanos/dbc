@@ -30,6 +30,5 @@
 #include "error_checking.hpp"
 #include "error_handling.hpp"
 #include "error_reporting.hpp"
-#include "expr_decomposition.hpp"
 
 #endif // DBC_H

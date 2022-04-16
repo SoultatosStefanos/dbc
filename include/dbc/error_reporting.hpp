@@ -29,6 +29,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <sstream>
 #include <string_view>
 
 namespace dbc
@@ -85,6 +86,7 @@ struct violation_context // TODO add lhs and rhs operands and decompose
 {
     contract type;
     std::string_view condition; // a boolean expression string_view representation, always false
+    std::string decomposition;  // the decomposition of the boolean expression
     std::string_view function;
     std::string_view file;
     int32_t line;
@@ -92,8 +94,8 @@ struct violation_context // TODO add lhs and rhs operands and decompose
     int64_t timestamp;
     std::string_view message;
 
-    constexpr auto operator==(const violation_context&) const noexcept -> bool = default;
-    constexpr auto operator!=(const violation_context&) const noexcept -> bool = default;
+    auto operator==(const violation_context&) const noexcept -> bool = default;
+    auto operator!=(const violation_context&) const noexcept -> bool = default;
 };
 
 /**
@@ -111,17 +113,96 @@ auto operator<<(std::ostream& os, const violation_context& context) -> std::ostr
 namespace details
 {
     // Produces a violation context.
-    auto make_context(contract type, std::string_view condition, std::string_view function,
-                      std::string_view file, int32_t line, std::string_view message)
-        -> violation_context;
+    auto make_context(contract type, std::string_view condition, const std::string& decomposition,
+                      std::string_view function, std::string_view file, int32_t line,
+                      std::string_view message) -> violation_context;
+
+    struct lhs_decomposer; // fwd declaration
+
+    // Decomposes a boolean expression, given its left hand side operand
+    // Makes use of the operator overloads to deduce the right hand operand and the operation.
+
+    class rhs_decomposer
+    {
+    public:
+        template <typename T>
+        explicit rhs_decomposer(const T& lhs)
+        {
+            ss << lhs;
+        }
+
+        template <typename T>
+        auto operator==(const T& rhs) -> const auto&
+        {
+            ss << " == " << rhs;
+            return *this;
+        }
+
+        template <typename T>
+        auto operator!=(const T& rhs) -> const auto&
+        {
+            ss << " != " << rhs;
+            return *this;
+        }
+
+        template <typename T>
+        auto operator<(const T& rhs) -> const auto&
+        {
+            ss << " < " << rhs;
+            return *this;
+        }
+
+        template <typename T>
+        auto operator>(const T& rhs) -> const auto&
+        {
+            ss << " > " << rhs;
+            return *this;
+        }
+
+        template <typename T>
+        auto operator<=(const T& rhs) -> const auto&
+        {
+            ss << " <= " << rhs;
+            return *this;
+        }
+
+        template <typename T>
+        auto operator>=(const T& rhs) -> const auto&
+        {
+            ss << " >= " << rhs;
+            return *this;
+        }
+
+        // Returns an std::string decomposition of the boolean expression, of the form:
+        //"'lhs' 'operation' 'rhs'""
+        auto decomposition() const -> auto { return ss.str(); }
+
+    private:
+        std::stringstream ss;
+    };
+
+    // Hepler struct, forwards a left hand side opperand to a right hand side decomposer
+    struct lhs_decomposer
+    {
+        template <typename T>
+        auto operator->*(const T& lhs) const -> auto
+        {
+            return rhs_decomposer{lhs};
+        }
+    };
 
 } // namespace details
 
 } // namespace dbc
 
+// Utility macro to obtain an std::string decomposition of a boolean expression
+#define DBC_DECOMPOSE(expr)                                                                        \
+    ([]() -> dbc::details::lhs_decomposer { return {}; }()->*expr).decomposition()
+
 // Utility macro to obtain __FUNCTION__, __FILE__ and __LINE__
 #define DBC_GET_CONTEXT(type, condition, message)                                                  \
-    dbc::details::make_context(type, #condition, __FUNCTION__, __FILE__, __LINE__, message)
+    dbc::details::make_context(type, #condition, DBC_DECOMPOSE(condition), __FUNCTION__, __FILE__, \
+                               __LINE__, message)
 
 /** @} */
 
