@@ -124,6 +124,10 @@ namespace details
                       std::string_view function, std::string_view file, int32_t line,
                       std::string_view message) -> violation_context;
 
+    //
+    // Credits to: https://theheisenbugblog.wordpress.com/2014/09/06/c-expression-decomposition/
+    //
+
     struct lhs_decomposer; // fwd declaration
 
     // Decomposes a boolean expression, given its left hand side operand
