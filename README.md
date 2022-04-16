@@ -21,6 +21,10 @@ operands of a false boolean expression.
 types for error reporting, while its assertions can be completely turned off. The DBC style 
 assertions are used for their semantic value, thus no runtime overhead is suffered.
 
+## Example Output 
+
+![](data/screenshots/output.png)
+
 ## Usage at a glance
 
 This example illustrates how the public dbc assertions can be used. It 
