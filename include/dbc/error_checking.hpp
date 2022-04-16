@@ -61,8 +61,8 @@
 
 #if defined(DBC_ASSERT_LEVEL_NONE) // assertions have no run-time effect.
 
-#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                       \
-    defined(DBC_ASSERT_LEVEL_INVARIANT)
+#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||         \
+    defined(DBC_ASSERT_LEVEL_INVARIANTS)
 #error "Multiple DBC assert levels defined"
 #endif
 
@@ -77,8 +77,8 @@
 
 #elif defined(DBC_ASSERT_LEVEL_PRECONDITIONS) // monitor preconditions only
 
-#if defined(DBC_ASSERT_LEVEL_NONE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                          \
-    defined(DBC_ASSERT_LEVEL_INVARIANT)
+#if defined(DBC_ASSERT_LEVEL_NONE) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||                  \
+    defined(DBC_ASSERT_LEVEL_INVARIANTS)
 #error "Multiple DBC assert levels defined"
 #endif
 
@@ -93,8 +93,8 @@
 
 #elif defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) // monitor preconditions and postconditions
 
-#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_NONE) ||                         \
-    defined(DBC_ASSERT_LEVEL_INVARIANT)
+#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_NONE) ||                   \
+    defined(DBC_ASSERT_LEVEL_INVARIANTS)
 #error "Multiple DBC assert levels defined"
 #endif
 
@@ -109,7 +109,7 @@
 
 #elif defined(DBC_ASSERT_LEVEL_INVARIANTS) // monitor preconditions, postconditions and invariants
 
-#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                       \
+#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||         \
     defined(DBC_ASSERT_LEVEL_NONE)
 #error "Multiple DBC assert levels defined"
 #endif

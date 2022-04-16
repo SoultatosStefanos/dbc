@@ -46,14 +46,10 @@ public:
     {
         INVARIANT(v > 0);
         REQUIRE(_v > 0); // same as
-        // for more debug info
-        REQUIRE(_v > 0, "found _v == " + std::to_string(var()));
 
         v = _v;
 
         ENSURE(v == _v); // same as
-        // for more  info
-        ENSURE(v == _v, "v is actually: " + std::to_string(var()));
         INVARIANT(v > 0);
     }
 

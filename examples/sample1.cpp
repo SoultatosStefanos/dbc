@@ -37,7 +37,8 @@ namespace
 //
 int sum_non_negative(int a, int b)
 {
-    REQUIRE(a >= 0 and b >= 0);
+    REQUIRE(a >= 0);
+    REQUIRE(b >= 0);
     auto sum = a + b;
     ENSURE(sum >= 0);
     return sum;

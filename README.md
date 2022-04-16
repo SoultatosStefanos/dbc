@@ -7,16 +7,17 @@ DBC is a simple, flexible, C++ library, that facilitates support for a defensive
 Design By Contract framework, by making use of public assertion macros.
 
 * DBC is **flexible**. Depending on the build option, (DBC_ASSERT_LEVEL_NONE, 
-DBC_ASSERT_LEVEL_CRITICAL, DBC_ASSERT_LEVEL_ASSERT, DBC_ASSERT_LEVEL_SAFE), client code can choose
-what types of assertions to evaluate. In addition, the error handling mechanism can be configured
-at runtime.
+DBC_ASSERT_LEVEL_PRECONDITIONS, DBC_ASSERT_LEVEL_POSTCONDITIONS, DBC_ASSERT_LEVEL_INVARIANTS), 
+client code can choose what types of contracts to evaluate. In addition, the error handling 
+mechanism can be configured at runtime.
 
 * DBC is **debug friendly**. It's assertions are overloaded, in order to provide
 human friendly error messages. In addition, in case of a contract violation,
 user friendly debug info, (including the file, function and much more) is
-forwarded.
+forwarded, plus it features boolean expression decomposition, in order to automatically output the
+operands of a false boolean expression.
 
-* DBC is **efficient**. It utilizes only std::string_view objects and primitive 
+* DBC is **efficient**. It utilizes mostly std::string_view objects and primitive 
 types for error reporting, while its assertions can be completely turned off.
 
 
@@ -45,7 +46,7 @@ extern void bar();
 void foo(int x, int y)
 {
     REQUIRE(x >= 0);
-    REQUIRE(y == 0, "Found y: " + std::to_string(y));
+    REQUIRE(y == 0);
 
     flag = x + y;
 
