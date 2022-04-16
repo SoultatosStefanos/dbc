@@ -34,10 +34,10 @@
 namespace
 {
 
-template <typename Iterator>
+template <typename Iterator, typename T>
 auto has_duplicate(Iterator first, Iterator last) -> bool
 {
-    std::set<int> s{first, last};
+    std::set<T> s{first, last};
     return v.size() - s.size();
 }
 
@@ -50,7 +50,7 @@ public:
 
     auto get(const Tag& tag) const -> const Resource&
     {
-        INVARIANT(!has_duplicate(std::begin(registry), std::end(registry)));
+        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
         REQUIRE(contains(tag), "Did not find tag: " + std::to_string(tag));
         ENSURE(registry.at(tag));
         return *registry.at(tag);
@@ -63,11 +63,11 @@ public:
 
     void insert(const Tag& tag)
     {
-        INVARIANT(!has_duplicate(std::begin(registry), std::end(registry)));
+        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
         REQUIRE(!contains(tag));
         registry[tag] = factory(tag);
         ENSURE(contains(tag));
-        INVARIANT(!has_duplicate(std::begin(registry), std::end(registry)));
+        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
     }
 
 private:
