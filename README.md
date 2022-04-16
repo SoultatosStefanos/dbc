@@ -23,6 +23,12 @@ assertions are used for their semantic value, thus no runtime overhead is suffer
 
 ## Example Output 
 
+Given the following DBC assertion:
+
+`INVARIANT(x == 0, "What");`
+
+If the condition `x == 0` is evaluated as false, the following can be output:
+
 ![](data/screenshots/output.png)
 
 ## Usage at a glance
