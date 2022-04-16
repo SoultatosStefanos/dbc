@@ -77,6 +77,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdbc_1_1violation__context.html">dbc::violation_context</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message.  <a href="structdbc_1_1violation__context.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdbc_1_1details_1_1rhs__decomposer.html">dbc::details::rhs_decomposer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdbc_1_1details_1_1lhs__decomposer.html">dbc::details::lhs_decomposer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -92,18 +96,53 @@ Functions</h2></td></tr>
 <tr class="memitem:ga50e2d3f289ff17ebfd01057cd2060741"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error__reporting.html#ga50e2d3f289ff17ebfd01057cd2060741">dbc::to_string_view</a> (<a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a> type) noexcept</td></tr>
 <tr class="memdesc:ga50e2d3f289ff17ebfd01057cd2060741"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an std::string_view representation of a dbc::contract.  <a href="group__error__reporting.html#ga50e2d3f289ff17ebfd01057cd2060741">More...</a><br /></td></tr>
 <tr class="separator:ga50e2d3f289ff17ebfd01057cd2060741"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9809991b93c18a00d84dc0bb9371e1e4"><td class="memItemLeft" align="right" valign="top"><a id="ga9809991b93c18a00d84dc0bb9371e1e4"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator==</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
-<tr class="separator:ga9809991b93c18a00d84dc0bb9371e1e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf5cdc0c675c21eef71c00d90a1e312ea"><td class="memItemLeft" align="right" valign="top"><a id="gaf5cdc0c675c21eef71c00d90a1e312ea"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator!=</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
-<tr class="separator:gaf5cdc0c675c21eef71c00d90a1e312ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga267f7086f614cf7be19467c758df575f"><td class="memItemLeft" align="right" valign="top"><a id="ga267f7086f614cf7be19467c758df575f"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator==</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
+<tr class="separator:ga267f7086f614cf7be19467c758df575f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga023ca4d26196cf03d7ed4922f6d19b3e"><td class="memItemLeft" align="right" valign="top"><a id="ga023ca4d26196cf03d7ed4922f6d19b3e"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::operator!=</b> (const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;) const noexcept -&gt; bool=default</td></tr>
+<tr class="separator:ga023ca4d26196cf03d7ed4922f6d19b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error__reporting.html#ga2bb10c5d751d9455eb6369a73ec3b53e">dbc::operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="structdbc_1_1violation__context.html">violation_context</a> &amp;context) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operator &lt;&lt; overload for a <a class="el" href="structdbc_1_1violation__context.html" title="An aggregate containing the context of a contract violation. Provides useful debug info concerning th...">dbc::violation_context</a>.  <a href="group__error__reporting.html#ga2bb10c5d751d9455eb6369a73ec3b53e">More...</a><br /></td></tr>
 <tr class="separator:ga2bb10c5d751d9455eb6369a73ec3b53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab30722e9e6e356bbf45195195789383d"><td class="memItemLeft" align="right" valign="top"><a id="gab30722e9e6e356bbf45195195789383d"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::details::make_context</b> (<a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a> type, std::string_view condition, std::string_view function, std::string_view file, int32_t line, std::string_view message) -&gt; <a class="el" href="structdbc_1_1violation__context.html">violation_context</a></td></tr>
-<tr class="separator:gab30722e9e6e356bbf45195195789383d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82aac2f36addb3e87185898989447d2e"><td class="memItemLeft" align="right" valign="top"><a id="ga82aac2f36addb3e87185898989447d2e"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::details::make_context</b> (<a class="el" href="group__error__reporting.html#gaa0efa60436efa5fe05a0ca695bbaeba4">contract</a> type, std::string_view condition, const std::string &amp;decomposition, std::string_view function, std::string_view file, int32_t line, std::string_view message) -&gt; <a class="el" href="structdbc_1_1violation__context.html">violation_context</a></td></tr>
+<tr class="separator:ga82aac2f36addb3e87185898989447d2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf66085a67d6c8d593696f163984453c9"><td class="memTemplParams" colspan="2"><a id="gaf66085a67d6c8d593696f163984453c9"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaf66085a67d6c8d593696f163984453c9"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::rhs_decomposer</b> (const T &amp;lhs)</td></tr>
+<tr class="separator:gaf66085a67d6c8d593696f163984453c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78c53daa12305a4d8edd196b23039113"><td class="memTemplParams" colspan="2"><a id="ga78c53daa12305a4d8edd196b23039113"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga78c53daa12305a4d8edd196b23039113"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator==</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:ga78c53daa12305a4d8edd196b23039113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea6cddda03e53be9f52d31848f906cdd"><td class="memTemplParams" colspan="2"><a id="gaea6cddda03e53be9f52d31848f906cdd"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaea6cddda03e53be9f52d31848f906cdd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator!=</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:gaea6cddda03e53be9f52d31848f906cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1a50e79827a1546a3b4ab5c9fca27ca"><td class="memTemplParams" colspan="2"><a id="gac1a50e79827a1546a3b4ab5c9fca27ca"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gac1a50e79827a1546a3b4ab5c9fca27ca"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator&lt;</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:gac1a50e79827a1546a3b4ab5c9fca27ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3804adb7081cff541f90cb34486ff468"><td class="memTemplParams" colspan="2"><a id="ga3804adb7081cff541f90cb34486ff468"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga3804adb7081cff541f90cb34486ff468"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator&gt;</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:ga3804adb7081cff541f90cb34486ff468"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga04a9bd11e1f4c94788772c9cd7437a1b"><td class="memTemplParams" colspan="2"><a id="ga04a9bd11e1f4c94788772c9cd7437a1b"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga04a9bd11e1f4c94788772c9cd7437a1b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator&lt;=</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:ga04a9bd11e1f4c94788772c9cd7437a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabc3a9c315d4d2b3940ed3a8df648af44"><td class="memTemplParams" colspan="2"><a id="gabc3a9c315d4d2b3940ed3a8df648af44"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gabc3a9c315d4d2b3940ed3a8df648af44"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::operator&gt;=</b> (const T &amp;rhs) -&gt; const auto &amp;</td></tr>
+<tr class="separator:gabc3a9c315d4d2b3940ed3a8df648af44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9fe95009fcb5a89820998a59d9524d7d"><td class="memItemLeft" align="right" valign="top"><a id="ga9fe95009fcb5a89820998a59d9524d7d"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::details::rhs_decomposer::decomposition</b> () const -&gt; auto</td></tr>
+<tr class="separator:ga9fe95009fcb5a89820998a59d9524d7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7eabbeeefbbb920fb7480c929c3c40f"><td class="memTemplParams" colspan="2"><a id="gab7eabbeeefbbb920fb7480c929c3c40f"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gab7eabbeeefbbb920fb7480c929c3c40f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>dbc::details::lhs_decomposer::operator-&gt;*</b> (const T &amp;lhs) const -&gt; auto</td></tr>
+<tr class="separator:gab7eabbeeefbbb920fb7480c929c3c40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -113,6 +152,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ga3deb0433e925d59d4d9fadaecce6ea83"><td class="memItemLeft" align="right" valign="top"><a id="ga3deb0433e925d59d4d9fadaecce6ea83"></a>
 std::string_view&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::condition</b></td></tr>
 <tr class="separator:ga3deb0433e925d59d4d9fadaecce6ea83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9cea3a92c7b4156f2ec0fbd22b5fd8d8"><td class="memItemLeft" align="right" valign="top"><a id="ga9cea3a92c7b4156f2ec0fbd22b5fd8d8"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::decomposition</b></td></tr>
+<tr class="separator:ga9cea3a92c7b4156f2ec0fbd22b5fd8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1ee6846eac1da0f012642ef48e52a029"><td class="memItemLeft" align="right" valign="top"><a id="ga1ee6846eac1da0f012642ef48e52a029"></a>
 std::string_view&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::violation_context::function</b></td></tr>
 <tr class="separator:ga1ee6846eac1da0f012642ef48e52a029"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,8 +204,14 @@ std::string_view&#160;</td><td class="memItemRight" valign="bottom"><b>dbc::viol
 
 <p>Operator &lt;&lt; overload for a <a class="el" href="structdbc_1_1violation__context.html" title="An aggregate containing the context of a contract violation. Provides useful debug info concerning th...">dbc::violation_context</a>. </p>
 <p>Example output:</p>
-<p>'Invariant violation: (false), function: my_func, file: path/my_file.cpp, line: 10, thread id: 2583751165195653633, timestamp (ms): 1649421780602. Error message!' </p>
-
+<pre class="fragment">* Design By Contract VIOLATION:
+* Invariant:
+*   8 == x
+* with expansion:
+*   8 == 99
+* Function: main, file: path_to_buzz/buzz.cpp, line: 100
+* Thread id: 1659603145605012203, timestamp(ms): 1650122348195
+* </pre> 
 </div>
 </div>
 <a id="ga50e2d3f289ff17ebfd01057cd2060741"></a>

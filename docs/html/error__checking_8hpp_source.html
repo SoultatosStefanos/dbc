@@ -105,8 +105,8 @@ $(function() {
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_NONE) </span><span class="comment">// assertions have no run-time effect.</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                       \</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANT)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||         \</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANTS)</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#error &quot;Multiple DBC assert levels defined&quot;</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
@@ -121,8 +121,8 @@ $(function() {
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#elif defined(DBC_ASSERT_LEVEL_PRECONDITIONS) </span><span class="comment">// monitor preconditions only</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_NONE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                          \</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANT)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_NONE) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||                  \</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANTS)</span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#error &quot;Multiple DBC assert levels defined&quot;</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
@@ -137,8 +137,8 @@ $(function() {
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#elif defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) </span><span class="comment">// monitor preconditions and postconditions</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_NONE) ||                         \</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANT)</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_NONE) ||                   \</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_INVARIANTS)</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#error &quot;Multiple DBC assert levels defined&quot;</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
@@ -153,7 +153,7 @@ $(function() {
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#elif defined(DBC_ASSERT_LEVEL_INVARIANTS) </span><span class="comment">// monitor preconditions, postconditions and invariants</span></div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_REQUIRE) || defined(DBC_ASSERT_LEVEL_ENSURE) ||                       \</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#if defined(DBC_ASSERT_LEVEL_PRECONDITIONS) || defined(DBC_ASSERT_LEVEL_POSTCONDITIONS) ||         \</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">    defined(DBC_ASSERT_LEVEL_NONE)</span></div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#error &quot;Multiple DBC assert levels defined&quot;</span></div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif</span></div>

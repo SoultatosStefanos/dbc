@@ -12,9 +12,9 @@ An aggregate containing the context of a contract violation. Provides useful deb
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-constexpr auto {\bfseries operator==} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const noexcept -\/$>$ bool=default
+auto {\bfseries operator==} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const noexcept -\/$>$ bool=default
 \item 
-constexpr auto {\bfseries operator!=} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const noexcept -\/$>$ bool=default
+auto {\bfseries operator!=} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const noexcept -\/$>$ bool=default
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -22,6 +22,8 @@ constexpr auto {\bfseries operator!=} (const \mbox{\hyperlink{structdbc_1_1viola
 \mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{contract}} {\bfseries type}
 \item 
 std\+::string\+\_\+view {\bfseries condition}
+\item 
+std\+::string {\bfseries decomposition}
 \item 
 std\+::string\+\_\+view {\bfseries function}
 \item 

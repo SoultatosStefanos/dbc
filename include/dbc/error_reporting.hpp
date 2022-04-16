@@ -103,9 +103,16 @@ struct violation_context // TODO add lhs and rhs operands and decompose
  *
  * Example output:
  *
- * 'Invariant violation: (false), function: my_func, file: path/my_file.cpp, line: 10, thread id:
- * 2583751165195653633, timestamp (ms): 1649421780602.
- * Error message!'
+ * \verbatim
+ * Design By Contract VIOLATION:
+ * Invariant:
+ *   8 == x
+ * with expansion:
+ *   8 == 99
+ * Function: main, file: path_to_buzz/buzz.cpp, line: 100
+ * Thread id: 1659603145605012203, timestamp(ms): 1650122348195
+ * \endverbatim
+ *
  */
 auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&;
 // TODO Colors!

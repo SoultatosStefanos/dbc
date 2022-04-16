@@ -33,13 +33,13 @@ namespace dbc
 
 auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&
 {
-    return os << to_string_view(context.type) << " violation: (" << context.condition
-              << "), with expansion: "
-              << "(" << context.decomposition << ") "
-              << "function: " << context.function << ", file: " << context.file
-              << ", line: " << context.line << ", thread id: " << context.thread_id
-              << ", timestamp (ms): " << context.timestamp << "." << '\n'
-              << context.message;
+    return os << "Design By Contract VIOLATION:\n"
+              << to_string_view(context.type) << ":\n  " << context.condition
+              << "\nwith expansion:\n  " << context.decomposition
+              << "\nFunction: " << context.function << ", file: " << context.file
+              << ", line: " << context.line << "\nThread id: " << context.thread_id
+              << ", timestamp(ms): " << context.timestamp << '\n'
+              << context.message << '\n';
 }
 
 namespace
