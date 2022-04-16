@@ -132,7 +132,6 @@ namespace details
 
     // Decomposes a boolean expression, given its left hand side operand
     // Makes use of the operator overloads to deduce the right hand operand and the operation.
-
     class rhs_decomposer
     {
     public:
