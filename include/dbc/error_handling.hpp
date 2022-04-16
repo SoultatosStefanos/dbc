@@ -99,6 +99,7 @@ private:
 namespace details
 {
     // Forwards the reported violation to the set violation handler.
+    /// @private
     void handle(const violation_context& context);
 
 } // namespace details

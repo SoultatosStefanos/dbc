@@ -120,6 +120,7 @@ auto operator<<(std::ostream& os, const violation_context& context) -> std::ostr
 namespace details
 {
     // Produces a violation context.
+    /// @private
     auto make_context(contract type, std::string_view condition, const std::string& decomposition,
                       std::string_view function, std::string_view file, int32_t line,
                       std::string_view message) -> violation_context;

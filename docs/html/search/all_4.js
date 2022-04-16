@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3c_3c_8',['operator&lt;&lt;',['../group__error__reporting.html#ga2bb10c5d751d9455eb6369a73ec3b53e',1,'dbc']]]
+  ['set_5fviolation_5fhandler_8',['set_violation_handler',['../group__error__handling.html#gaf7cc482a6fab92e183d9ca1f057e3ef2',1,'dbc']]]
 ];

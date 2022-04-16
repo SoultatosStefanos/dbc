@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lhs_5fdecomposer_16',['lhs_decomposer',['../structdbc_1_1details_1_1lhs__decomposer.html',1,'dbc::details']]]
+  ['violation_5fcontext_14',['violation_context',['../structdbc_1_1violation__context.html',1,'dbc']]]
 ];

@@ -4,11 +4,7 @@
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}
-\begin{DoxyCompactList}\small\item\em An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{classdbc_1_1details_1_1rhs__decomposer}{dbc\+::details\+::rhs\+\_\+decomposer}}
-\item 
-struct \mbox{\hyperlink{structdbc_1_1details_1_1lhs__decomposer}{dbc\+::details\+::lhs\+\_\+decomposer}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em An aggregate containing the context of a contract violation. Provides useful debug info concerning the contract type, the reported failed condition, the function, file, line, thread, timestamp and an optional, developer friendly, error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,37 +26,7 @@ auto {\bfseries dbc\+::violation\+\_\+context\+::operator==} (const \mbox{\hyper
 auto {\bfseries dbc\+::violation\+\_\+context\+::operator!=} (const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&) const noexcept -\/$>$ bool=default
 \item 
 auto \mbox{\hyperlink{group__error__reporting_ga2bb10c5d751d9455eb6369a73ec3b53e}{dbc\+::operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}} \&context) -\/$>$ std\+::ostream \&
-\begin{DoxyCompactList}\small\item\em Operator $<$$<$ overload for a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{group__error__reporting_ga82aac2f36addb3e87185898989447d2e}\label{group__error__reporting_ga82aac2f36addb3e87185898989447d2e}} 
-auto {\bfseries dbc\+::details\+::make\+\_\+context} (\mbox{\hyperlink{group__error__reporting_gaa0efa60436efa5fe05a0ca695bbaeba4}{contract}} type, std\+::string\+\_\+view condition, const std\+::string \&decomposition, std\+::string\+\_\+view function, std\+::string\+\_\+view file, int32\+\_\+t line, std\+::string\+\_\+view message) -\/$>$ \mbox{\hyperlink{structdbc_1_1violation__context}{violation\+\_\+context}}
-\item 
-\mbox{\Hypertarget{group__error__reporting_gaf66085a67d6c8d593696f163984453c9}\label{group__error__reporting_gaf66085a67d6c8d593696f163984453c9}} 
-{\footnotesize template$<$typename T $>$ }\\{\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::rhs\+\_\+decomposer} (const T \&lhs)
-\item 
-\mbox{\Hypertarget{group__error__reporting_ga78c53daa12305a4d8edd196b23039113}\label{group__error__reporting_ga78c53daa12305a4d8edd196b23039113}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator==} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_gaea6cddda03e53be9f52d31848f906cdd}\label{group__error__reporting_gaea6cddda03e53be9f52d31848f906cdd}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator!=} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_gac1a50e79827a1546a3b4ab5c9fca27ca}\label{group__error__reporting_gac1a50e79827a1546a3b4ab5c9fca27ca}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator$<$} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_ga3804adb7081cff541f90cb34486ff468}\label{group__error__reporting_ga3804adb7081cff541f90cb34486ff468}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator$>$} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_ga04a9bd11e1f4c94788772c9cd7437a1b}\label{group__error__reporting_ga04a9bd11e1f4c94788772c9cd7437a1b}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator$<$=} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_gabc3a9c315d4d2b3940ed3a8df648af44}\label{group__error__reporting_gabc3a9c315d4d2b3940ed3a8df648af44}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::operator$>$=} (const T \&rhs) -\/$>$ const auto \&
-\item 
-\mbox{\Hypertarget{group__error__reporting_ga9fe95009fcb5a89820998a59d9524d7d}\label{group__error__reporting_ga9fe95009fcb5a89820998a59d9524d7d}} 
-auto {\bfseries dbc\+::details\+::rhs\+\_\+decomposer\+::decomposition} () const -\/$>$ auto
-\item 
-\mbox{\Hypertarget{group__error__reporting_gab7eabbeeefbbb920fb7480c929c3c40f}\label{group__error__reporting_gab7eabbeeefbbb920fb7480c929c3c40f}} 
-{\footnotesize template$<$typename T $>$ }\\auto {\bfseries dbc\+::details\+::lhs\+\_\+decomposer\+::operator-\/$>$$\ast$} (const T \&lhs) const -\/$>$ auto
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Operator $<$$<$ overload for a \mbox{\hyperlink{structdbc_1_1violation__context}{dbc\+::violation\+\_\+context}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
