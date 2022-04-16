@@ -18,8 +18,8 @@ forwarded, plus it features boolean expression decomposition, in order to automa
 operands of a false boolean expression.
 
 * DBC is **efficient**. It utilizes mostly std::string_view objects and primitive 
-types for error reporting, while its assertions can be completely turned off.
-
+types for error reporting, while its assertions can be completely turned off. The DBC style 
+assertions are used for their semantic value, thus no runtime overhead is suffered.
 
 ## Usage at a glance
 
