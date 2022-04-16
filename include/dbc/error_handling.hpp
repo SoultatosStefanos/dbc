@@ -75,8 +75,6 @@ private:
     violation_context m_context;
 };
 
-// TODO Add stack trace printer
-
 /**
  * @brief Handles a dbc::violation_context by aborting. Logs the violation to std::cerr.
  *

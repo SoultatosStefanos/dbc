@@ -82,7 +82,7 @@ constexpr auto to_string_view(contract type) noexcept
  * function, file, line, thread, timestamp and an optional, developer friendly, error message.
  *
  */
-struct violation_context // TODO add lhs and rhs operands and decompose
+struct violation_context
 {
     contract type;
     std::string_view condition; // a boolean expression string_view representation, always false
@@ -115,7 +115,6 @@ struct violation_context // TODO add lhs and rhs operands and decompose
  *
  */
 auto operator<<(std::ostream& os, const violation_context& context) -> std::ostream&;
-// TODO Colors!
 
 namespace details
 {
