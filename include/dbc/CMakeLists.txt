@@ -3,6 +3,7 @@ set(FILES
 	error_checking.hpp
 	error_handling.hpp
 	error_reporting.hpp
+	expr_decomposition.hpp
 )
 set(SUBDIRECTORIES )
 
