@@ -38,8 +38,8 @@ auto operator<<(std::ostream& os, const violation_context& context) -> std::ostr
               << "\nwith expansion:\n  " << context.decomposition
               << "\nFunction: " << context.function << ", file: " << context.file
               << ", line: " << context.line << "\nThread id: " << context.thread_id
-              << ", timestamp(ms): " << context.timestamp << '\n'
-              << context.message << '\n';
+              << ", timestamp(ms): " << context.timestamp << "\nMessage:\n  " << context.message
+              << '\n';
 }
 
 namespace
