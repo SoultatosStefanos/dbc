@@ -40,10 +40,10 @@ void dostuff_with_ordered_array(std::array<int, 5> ordered)
 {
     for (auto i = 1; i < 5; ++i)
     {
-        INVARIANT(ordered[i] > ordered[i - 1]);
+        DBC_INVARIANT(ordered[i] > ordered[i - 1]);
         // do stuff
         // ....
-        INVARIANT(ordered[i] > ordered[i - 1]);
+        DBC_INVARIANT(ordered[i] > ordered[i - 1]);
     }
 }
 

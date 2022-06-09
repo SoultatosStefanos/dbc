@@ -69,8 +69,8 @@ $(function() {
 <p>@ {</p>
 <p>DBC comes with certain compilation options to configure its assertions accross the different contracts.</p>
 <dl class="section user"><dt>DBC_ASSERT_LEVEL_NONE</dt><dd>All assertions have no runtime effect. Precondtion, postcondition and invariants checks are turned to noops.</dd></dl>
-<dl class="section user"><dt>DBC_ASSERT_LEVEL_PRECONDITIONS</dt><dd>Only precondition checks are monitored. Hence, the REQUIRE checker is the only checker that is not turned to a noop.</dd></dl>
-<dl class="section user"><dt>DBC_ASSERT_LEVEL_POSTCONDITIONS</dt><dd>Both preconditions and postconditions, validated with the REQUIRE and ENSURE macros, are monitored. Invariant checks are turned to noops.</dd></dl>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_PRECONDITIONS</dt><dd>Only precondition checks are monitored. Hence, the DBC_REQUIRE checker is the only checker that is not turned to a noop.</dd></dl>
+<dl class="section user"><dt>DBC_ASSERT_LEVEL_POSTCONDITIONS</dt><dd>Both preconditions and postconditions, validated with the DBC_REQUIRE and DBC_ENSURE macros, are monitored. Invariant checks are turned to noops.</dd></dl>
 <dl class="section user"><dt>DBC_ASSERT_LEVEL_INVARIANTS</dt><dd>All assertions are monitored.</dd></dl>
 <p>Additionally each DBC assertion is overloaded, in order to provide a developer friendly error message. </p>
 </div><!-- contents -->

@@ -49,36 +49,36 @@ TEST_F(Given_a_set_handler, Precondition_asserts_dont_call_the_handler_if_true)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    REQUIRE(true);
+    DBC_REQUIRE(true);
 }
 
 TEST_F(Given_a_set_handler, Precondition_asserts_call_the_handler_if_false)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(1);
 
-    REQUIRE(false);
+    DBC_REQUIRE(false);
 }
 
 TEST_F(Given_a_set_handler, Postcondition_asserts_dont_call_the_handler_if_true)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    ENSURE(true);
+    DBC_ENSURE(true);
 }
 
 TEST_F(Given_a_set_handler, Postcondition_asserts_call_the_handler_if_false)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(1);
 
-    ENSURE(false);
+    DBC_ENSURE(false);
 }
 
 TEST_F(Given_a_set_handler, Invariant_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    INVARIANT(true);
-    INVARIANT(false, "");
+    DBC_INVARIANT(true);
+    DBC_INVARIANT(false, "");
 }
 
 } // namespace

@@ -42,11 +42,11 @@
  *  turned to noops.
  *
  * @par DBC_ASSERT_LEVEL_PRECONDITIONS
- *  Only precondition checks are monitored. Hence, the REQUIRE checker is the only checker that is
- *  not turned to a noop.
+ *  Only precondition checks are monitored. Hence, the DBC_REQUIRE checker is the only checker that
+ * is not turned to a noop.
  *
  * @par DBC_ASSERT_LEVEL_POSTCONDITIONS
- *  Both preconditions and postconditions, validated with the REQUIRE and ENSURE macros, are
+ *  Both preconditions and postconditions, validated with the DBC_REQUIRE and DBC_ENSURE macros, are
  *  monitored. Invariant checks are turned to noops.
  *
  * @par DBC_ASSERT_LEVEL_INVARIANTS
@@ -128,11 +128,13 @@
 #define DBC_EXPAND(x) x                       // MSVC workaround
 #define DBC_GET_MACRO(_1, _2, NAME, ...) NAME // Macro overloading trick
 
-#define REQUIRE(...) DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_REQUIRE2, DBC_REQUIRE1)(__VA_ARGS__))
+#define DBC_REQUIRE(...)                                                                           \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_REQUIRE2, DBC_REQUIRE1)(__VA_ARGS__))
 
-#define ENSURE(...) DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_ENSURE2, DBC_ENSURE1)(__VA_ARGS__))
+#define DBC_ENSURE(...)                                                                            \
+    DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_ENSURE2, DBC_ENSURE1)(__VA_ARGS__))
 
-#define INVARIANT(...)                                                                             \
+#define DBC_INVARIANT(...)                                                                         \
     DBC_EXPAND(DBC_GET_MACRO(__VA_ARGS__, DBC_INVARIANT2, DBC_INVARIANT1)(__VA_ARGS__))
 
 /** @} */
