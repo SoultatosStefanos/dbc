@@ -1,9 +1,9 @@
-# A simple Design By Contract C++ framework
+# A Design By Contract C++ framework
 
 
 ## Introduction
 
-DBC is a simple, flexible, C++ library, that facilitates support for a defensive variation of the
+DBC is a simple, header-only, C++ library, that facilitates support for a defensive variation of the
 Design By Contract framework, by making use of public assertion macros.
 
 * DBC is **flexible**. Depending on the build option, (DBC_ASSERT_LEVEL_NONE, 
@@ -33,6 +33,7 @@ If the condition `x == 0` is evaluated as false, the following can be output:
 
 ## Usage at a glance
 
+Using DBC can be as simple as copying the dbc.hpp header to your project.
 This example illustrates how the public dbc assertions can be used. It 
 configures the dbc environment to emulate the assertion mechanism, by aborting
 on debug builds and doing nothing on release builds.

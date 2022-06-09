@@ -24,34 +24,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "dbc/error_handling.hpp"
-#include <iostream>
+#include "dbc/dbc.hpp"
 
-namespace dbc
-{
-
-namespace
-{
-    auto handler() noexcept -> auto&
-    {
-        static violation_handler handler = abort_handler;
-        return handler;
-    }
-} // namespace
-
-void set_violation_handler(const violation_handler& f) noexcept { handler() = f; }
-
-[[noreturn]] void abort_handler(const violation_context& context)
-{
-    std::cerr << context << '\n';
-    std::abort();
-}
-
-namespace details
-{
-
-    void handle(const violation_context& context) { handler()(context); }
-
-} // namespace details
-
-} // namespace dbc
+// IGNORE .cpp file for linking purposes.

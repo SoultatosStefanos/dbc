@@ -1,6 +1,5 @@
 set(FILES 
-	error_handling.cpp
-	error_reporting.cpp
+	link.cpp
 )
 set(SUBDIRECTORIES )
 
