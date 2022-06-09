@@ -25,7 +25,7 @@ assertions are used for their semantic value, thus no runtime overhead is suffer
 
 Given the following DBC assertion:
 
-`INVARIANT(x == 0, "What");`
+`DBC_INVARIANT(x == 0, "What");`
 
 If the condition `x == 0` is evaluated as false, the following can be output:
 
@@ -55,21 +55,21 @@ extern void bar();
 
 void foo(int x, int y)
 {
-    REQUIRE(x >= 0);
-    REQUIRE(y == 0);
+    DBC_REQUIRE(x >= 0);
+    DBC_REQUIRE(y == 0);
 
     flag = x + y;
 
     while (running())
     {
-        INVARIANT(running());
+        DBC_INVARIANT(running());
 
         bar();
 
-        INVARIANT(running());
+        DBC_INVARIANT(running());
     }
 
-    ENSURE(flag >= 0);
+    DBC_ENSURE(flag >= 0);
 }
 
 int main() {
@@ -81,6 +81,22 @@ int main() {
 More [examples](https://github.com/SoultatosStefanos/dbc/tree/master/examples) 
 are available.
 
+
+## Making the DBC assertions Prettier
+
+The DBC assertion macros utilize the 'DBC_' prefix in order to avoid naming conflicts with other 
+projects. That doesn't mean you're stuck with it, though. If you would like to use different 
+identifiers (require, ensure, invariant, perhaps), you can simply do: 
+
+~~~~~~~~~~cpp
+
+#define require     DBC_REQUIRE
+#define ensure      DBC_ENSURE
+#define invariant   DBC_INVARIANT
+
+~~~~~~~~~~
+
+> **_NOTE:_**  Do <strong>NOT</strong> use #define require(args) DBC_REQUIRE(args)
 
 ### Copyright and Licensing
 

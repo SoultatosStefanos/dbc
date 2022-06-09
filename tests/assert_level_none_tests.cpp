@@ -49,24 +49,24 @@ TEST_F(Given_a_set_handler, Precondition_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    REQUIRE(true);
-    REQUIRE(false, "");
+    DBC_REQUIRE(true);
+    DBC_REQUIRE(false, "");
 }
 
 TEST_F(Given_a_set_handler, Postcondition_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    ENSURE(true);
-    ENSURE(false, "");
+    DBC_ENSURE(true);
+    DBC_ENSURE(false, "");
 }
 
 TEST_F(Given_a_set_handler, Invariant_asserts_never_fire)
 {
     EXPECT_CALL(handler, Call(testing::_)).Times(0);
 
-    INVARIANT(true);
-    INVARIANT(false, "");
+    DBC_INVARIANT(true);
+    DBC_INVARIANT(false, "");
 }
 
 } // namespace

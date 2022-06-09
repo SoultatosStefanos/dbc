@@ -37,10 +37,10 @@ namespace
 //
 int sum_non_negative(int a, int b)
 {
-    REQUIRE(a >= 0);
-    REQUIRE(b >= 0);
+    DBC_REQUIRE(a >= 0);
+    DBC_REQUIRE(b >= 0);
     auto sum = a + b;
-    ENSURE(sum >= 0);
+    DBC_ENSURE(sum >= 0);
     return sum;
 }
 

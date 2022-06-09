@@ -8,10 +8,10 @@ DBC comes with certain compilation options to configure its assertions accross t
 All assertions have no runtime effect. Precondtion, postcondition and invariants checks are turned to noops.
 \end{DoxyParagraph}
 \begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+PRECONDITIONS}
-Only precondition checks are monitored. Hence, the REQUIRE checker is the only checker that is not turned to a noop.
+Only precondition checks are monitored. Hence, the DBC\+\_\+\+REQUIRE checker is the only checker that is not turned to a noop.
 \end{DoxyParagraph}
 \begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+POSTCONDITIONS}
-Both preconditions and postconditions, validated with the REQUIRE and ENSURE macros, are monitored. Invariant checks are turned to noops.
+Both preconditions and postconditions, validated with the DBC\+\_\+\+REQUIRE and DBC\+\_\+\+ENSURE macros, are monitored. Invariant checks are turned to noops.
 \end{DoxyParagraph}
 \begin{DoxyParagraph}{DBC\+\_\+\+ASSERT\+\_\+\+LEVEL\+\_\+\+INVARIANTS}
 All assertions are monitored.

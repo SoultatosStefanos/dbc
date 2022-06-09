@@ -33,12 +33,12 @@
 
 auto read_int(std::istream& in) -> int
 {
-    REQUIRE(in.good(), "Invalid input stream!");
+    DBC_REQUIRE(in.good(), "Invalid input stream!");
 
     auto i{0};
     in >> i;
 
-    ENSURE(in.good());
+    DBC_ENSURE(in.good());
     return i;
 }
 

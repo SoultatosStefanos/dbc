@@ -50,9 +50,9 @@ public:
 
     auto get(const Tag& tag) const -> const Resource&
     {
-        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
-        REQUIRE(contains(tag), "Did not find tag: " + std::to_string(tag));
-        ENSURE(registry.at(tag));
+        DBC_INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
+        DBC_REQUIRE(contains(tag), "Did not find tag: " + std::to_string(tag));
+        DBC_ENSURE(registry.at(tag));
         return *registry.at(tag);
     }
 
@@ -63,11 +63,11 @@ public:
 
     void insert(const Tag& tag)
     {
-        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
-        REQUIRE(!contains(tag));
+        DBC_INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
+        DBC_REQUIRE(!contains(tag));
         registry[tag] = factory(tag);
-        ENSURE(contains(tag));
-        INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
+        DBC_ENSURE(contains(tag));
+        DBC_INVARIANT(!has_duplicate<Tag>(std::begin(registry), std::end(registry)));
     }
 
 private:

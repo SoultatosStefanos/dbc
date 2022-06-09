@@ -38,19 +38,19 @@ class x
 public:
     auto var() const -> int
     {
-        INVARIANT(v > 0);
+        DBC_INVARIANT(v > 0);
         return v;
     }
 
     void set_var(int _v)
     {
-        INVARIANT(v > 0);
-        REQUIRE(_v > 0); // same as
+        DBC_INVARIANT(v > 0);
+        DBC_REQUIRE(_v > 0); // same as
 
         v = _v;
 
-        ENSURE(v == _v); // same as
-        INVARIANT(v > 0);
+        DBC_ENSURE(v == _v); // same as
+        DBC_INVARIANT(v > 0);
     }
 
 private:
