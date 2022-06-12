@@ -357,7 +357,7 @@ DBC_API inline void set_violation_handler(const violation_handler& handler) noex
  * @ {
  *
  * DBC comes with certain compilation options to configure its assertions accross the different
- * contracts.
+ * contracts. On default, the assertions have no runtime effect.
  *
  * @par DBC_ASSERT_LEVEL_NONE
  *  All assertions have no runtime effect. Precondtion, postcondition and invariants checks are
@@ -444,6 +444,17 @@ DBC_API inline void set_violation_handler(const violation_handler& handler) noex
 
 #define DBC_INVARIANT1(expr) DBC_ASSERT_IMPL(dbc::contract::invariant, expr, "")
 #define DBC_INVARIANT2(expr, msg) DBC_ASSERT_IMPL(dbc::contract::invariant, expr, msg)
+
+#else
+
+#define DBC_REQUIRE1(expr)
+#define DBC_REQUIRE2(expr, msg)
+
+#define DBC_ENSURE1(expr)
+#define DBC_ENSURE2(expr, msg)
+
+#define DBC_INVARIANT1(expr)
+#define DBC_INVARIANT2(expr, msg)
 
 #endif
 
