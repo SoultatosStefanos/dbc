@@ -6,18 +6,18 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(dbc CXX)
 
-if (MSVC)
+if(MSVC)
   add_compile_options(/W4 /WX)
 else()
   add_compile_options(-Wall -Wextra)
 endif()
 
-add_library(${PROJECT_NAME} )
+add_library(${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
-set(SUBDIRECTORIES  include src external tests)
+set(SUBDIRECTORIES include src tests)
 
 foreach(VAR ${SUBDIRECTORIES})
-	add_subdirectory(${VAR})
+  add_subdirectory(${VAR})
 endforeach()

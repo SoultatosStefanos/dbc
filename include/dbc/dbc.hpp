@@ -279,8 +279,8 @@ DBC_API using violation_handler = std::function<void(const violation_context&)>;
 DBC_API class contract_violation : public std::logic_error
 {
 public:
-    explicit contract_violation(const violation_context& context)
-        : logic_error{context.message.data()}, m_context{context}
+    explicit contract_violation(violation_context context)
+        : logic_error{context.message.data()}, m_context{std::move(context)}
     {}
 
     /**
